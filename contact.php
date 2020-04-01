@@ -12,7 +12,7 @@ if (isset($_POST['contact'])) {
         echo "Error database connection";
         die();
     } else {
-        $sql = "insert into contact(email,name,subject,message) values('$email','$name','$subj',$mesg');";
+        $sql = "insert into contact (email,name,subject,message) values('$email','$name','$subj','$mesg')";
         $statement = $db->prepare($sql);
         $result = $statement->execute(array('email' => $email, 'name' => $name, 'subject' => $subj, 'message' => $mesg));
 

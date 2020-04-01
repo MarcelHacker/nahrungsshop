@@ -61,7 +61,7 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $statement = $db->prepare("SELECT * FROM users WHERE email = :email and password = :password");
+    $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
     $result = $statement->execute(array('email' => $email, 'password' => $password));
     $user = $statement->fetch();
 
@@ -69,9 +69,9 @@ if (isset($_POST['login'])) {
     if ($user !== false && password_verify($password, $user['password'])) {
         $_SESSION['userId'] = $user['id'];
         $cookie_name = "userId";
-        echo "Erfolg";
-        setcookie("userId", $id, time() + (86400 * 30), "/");
 
+        setcookie("userId", $id, time() + (86400 * 30), "/");
+        echo "Erfolg";
         echo "<label>Login erfolgreich! </label>";
 
         sleep(1.5);    //1,5 warten
