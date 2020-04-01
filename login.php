@@ -39,7 +39,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
                 <li><a href="logout.php">Logout</a></li>
         </div>
         </div>
-    <?php
+<?php
     } else {
         $db = getDB();
         if (!$db) {
@@ -50,6 +50,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
             //<?= $cartItems 
             echo "You are allready loged in";
         }
+        mysqli_close($db);
     }
 }
 include_once("template/loginForm.php");
@@ -60,8 +61,8 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
-    $result = $statement->execute(array('email' => $email));
+    $statement = $db->prepare("SELECT * FROM users WHERE email = :email and password = :password");
+    $result = $statement->execute(array('email' => $email, 'password' => $password));
     $user = $statement->fetch();
 
     //Überprüfung des Passworts
@@ -70,9 +71,9 @@ if (isset($_POST['login'])) {
         $cookie_name = "userId";
         echo "Erfolg";
         setcookie("userId", $id, time() + (86400 * 30), "/");
-    ?>
-        <label>Login erfolgreich! </label>
-<?php
+
+        echo "<label>Login erfolgreich! </label>";
+
         sleep(1.5);    //1,5 warten
         if ($userId == "Admin" or $userId == "admin") {
             header("Location: admin_startseite.php");

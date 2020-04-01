@@ -125,7 +125,7 @@ if (isset($_POST['register'])) {
             echo "Error database connection";
             die();
         } else {
-            $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
+            $statement = $db->prepare("SELECT * FROM users WHERE email = :email;");
             $result = $statement->execute(array('email' => $email));
             $email = $statement->fetch();
 

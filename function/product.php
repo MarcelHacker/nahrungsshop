@@ -32,4 +32,3 @@ function getProducts($sql)
   }
   return $products;
 }
-?>
