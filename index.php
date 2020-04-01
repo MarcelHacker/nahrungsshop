@@ -9,19 +9,16 @@ $cookie_name="userid";      // user id
 if(!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
-    <div>
-      <h1><span class="badge badge-secondary-" >Brain Food</span></h1>
-    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
      <li class="nav-item">
         <a class="nav-link active" href="index.php">Home</a>
       </li>
       <li class="nav-item">
-                <a class="nav-link" href="products.php">Products</a>';
+                <a class="nav-link" href="products.php">Products</a>
       </li>
       <li class="nav-item">
-                <a class="nav-link" href="about.php">About</a>';
+                <a class="nav-link" href="about.php">About</a>
       </li>
       <li class="nav-item">
                 <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Sign In</a>
@@ -47,9 +44,6 @@ else
         $res=mysqli_query($db,"select id from user where id='$cookie_name';");
         $userid=mysqli_fetch_array($res,MYSQLI_ASSOC);
 ?>
-    <div>
-      <h1><span class="badge badge-secondary-" >Brain Food</span></h1>
-    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
      <li class="nav-item">
@@ -72,7 +66,15 @@ else
     </div>
         <ul class="navbar-nav ml-auto">
            <li class="nav-item">
-                Cart (<?= $cartItems ?>)
+                Cart ()
             </li>
        </ul>
   </nav>
+<?php
+//<?= $cartItems 
+    }
+}
+?>
+        <script src="assets/js/bootstrap.min.js"></script>
+    </body>
+</html> 

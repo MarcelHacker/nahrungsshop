@@ -2,9 +2,9 @@
 
 function getAllProducts()
 {
-  $sql ="SELECT id,titel,descr,price
+  $sql ="SELECT id,title,description,price
   FROM products";
-
+  
   $result = getDB()->query($sql);
   if(!$result)
   {
