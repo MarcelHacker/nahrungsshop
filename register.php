@@ -1,22 +1,20 @@
 <?php
+include_once("template/header.php");
 
 $cookie_name="userid";      // user id
 if(!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
-    <div>
-      <h1><span class="badge badge-secondary-" >Brain Food</span></h1>
-    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
      <li class="nav-item">
         <a class="nav-link" href="index.php">Home</a>
       </li>
       <li class="nav-item">
-                <a class="nav-link" href="products.php">Products</a>';
+                <a class="nav-link" href="products.php">Products</a>
       </li>
       <li class="nav-item">
-                <a class="nav-link" href="about.php">About</a>';
+                <a class="nav-link" href="about.php">About</a>
       </li>
       <li class="nav-item">
                 <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Sign In</a>
@@ -42,22 +40,19 @@ else
         $res=mysqli_query($db,"select id from user where id='$cookie_name';");
         $userid=mysqli_fetch_array($res,MYSQLI_ASSOC);
 ?>
-    <div>
-      <h1><span class="badge badge-secondary-" >Brain Food</span></h1>
-    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
      <li class="nav-item">
         <a class="nav-link" href="index.php">Home</a>
       </li>
       <li class="nav-item">
-                <a class="nav-link" href="products.php">Products</a>';
+                <a class="nav-link" href="products.php">Products</a>
       </li>
       <li class="nav-item">
-                <a class="nav-link" href="about.php">About</a>';
+                <a class="nav-link" href="about.php">About</a>
       </li>
       <li class="nav-item">
-                <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Sign In</a>
+                <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
       </li>
     </ul>
       <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">
@@ -66,10 +61,83 @@ else
       </form>
     </div>
   </nav>
+  <!--cart insert-->
 
+  <?php
+    }
+    echo "You are already logged in";
+	sleep (1.5);	//1,5 warten
+	header("Location: index.php");
+}
+?>
+<form action="register.php" method="POST">
+  <div class="container" style="background-color: #e3f2fd;">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputFisrtname4">Firstname</label>
+            <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Max">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="lastname">Lastname</label>
+            <input type="text" class="form-control"  name="lastname" id="lastname" placeholder="Mustermann">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="confrimPassword">Confirm Password</label>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="birthdate">Birthdate</label>
+            <input type="date" class="form-control" name="birthdate" id="birthdate" placeholder="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputAddress2">Address</label>
+            <input type="text" class="form-control" id="adress" placeholder="Hufeisengasse">
+        </div>
+        <div class="form-group col-md-1">
+            <label for="houseNumber">Housenumber</label>
+            <input type="number" class="form-control" name="adress" id="houseNumber" placeholder="1">
+        </div>
+      </div>
+    
+    <div class="form-row">
+      <div class="form-group col-md-6">
+          <label for="city">City</label>
+          <input type="text" class="form-control" name="city" id="city" placeholder="Guntersdorf">
+      </div>
+      <div class="form-group col-md-4">
+          <label for="country">State</label>
+          <select name="country" id="country" class="form-control">
+              <option selected>Choose...</option>
+              <option value="austria">Austria</option>
+              <option value="united kingdom">United Kingdom</option>
+              <option value="china">China</option>
+      </select>
+      </div>
+      <div class="form-group col-md-2">
+          <label for="postCode">Zip</label>
+          <input type="number" class="form-control" name="postCode" id="postCode" placeholder="1234">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="checkRobot">
+            <label class="form-check-label" for="checkRobot">
+                I am not a robot
+            </label>
+          </div>
+      </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+    </div>
+  </form>
 <?php
-$db = getDB();
- 
 if(isset($_GET['register'])) 
 {
     $error = false;
@@ -77,12 +145,12 @@ if(isset($_GET['register']))
     $lastname=$_POST["lastname"];
     $email=$_POST["email"];
     $adress=$_POST["adress"];
-    $houseNumber=$_POST["houseNumber"];
+    $housenumber=$_POST["housenumber"];
     $city=$_POST["city"];
     $country=$_POST["country"];
     $password=$_POST["password"];
-    $confirmPassword=$_POST["confirmPassword"];
-    $postCode=$_POST["postCode"];
+    $confirmpassword=$_POST["confirmpassword"];
+    $postcode=$_POST["postcode"];
     $birthdate=$_POST["birthdate"];
   
     // Validate Data
@@ -106,7 +174,7 @@ if(isset($_GET['register']))
         echo 'Bitte ein Passwort angeben<br>';
         $error = true;
     }
-    if($password != $confirmPassword) 
+    if($password != $confirmpassword) 
     {
         echo 'Die Passwörter müssen übereinstimmen<br>';
         $error = true;
@@ -126,7 +194,7 @@ if(isset($_GET['register']))
         echo 'Choose country<br>';
         $error = true;
     }
-    if(!$postCode)
+    if(!$postcode)
     {
         echo 'Wrong post code<br>';
         $error = true;
@@ -134,7 +202,8 @@ if(isset($_GET['register']))
   
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if(!$error) 
-    { 
+    {
+        $db= getDB(); 
         $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
         $result = $statement->execute(array('email' => $email));
         $email = $statement->fetch();
@@ -151,14 +220,21 @@ if(isset($_GET['register']))
     {    
        //$passwort_hash = password_hash($password, PASSWORD_DEFAULT);
         
-        $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,adress,houseNumber,city,country,password,postCode,
-        birthdate) VALUES (:firstname, :lastname, :email, :adress, :houseNumber, :city, :country, :password, :postCode, :birthdate)");
+        $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,adress,housenumber,city,country,password,postcode,
+        birthdate) VALUES (:firstname, :lastname, :email, :adress, :housenumber, :city, :country, :password, :postcode, :birthdate)");
         $result = $statement->execute(array('firstname' => $firstname,'lastname' => $lastname,'email' => $email,'adress' => $adress,
-        'houseNumber' => $houseNumber, 'city' => $city, 'country' => $country, 'password' => $password, 'postCode' => $postCode, 'birthdate' => $birthdate));
+        'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $password, 'postcode' => $postcode, 'birthdate' => $birthdate));
         
         if($result) 
-        {        
+        {     
+            $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
+            $result = $statement->execute(array('email' => $email));
+            $userid = $statement->fetch();   
             echo 'Du wurdest erfolgreich registriert';
+            
+            setcookie("userid", $userid);
+			sleep (1.5);	//1,5 warten
+			header("Location: index.php"); 
         } 
         else 
         {
@@ -167,5 +243,8 @@ if(isset($_GET['register']))
     } 
 }
 ?>
+        <script src="assets/js/bootstrap.min.js"></script>
+    </body>
+</html>
 
    

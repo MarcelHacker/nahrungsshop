@@ -5,7 +5,7 @@ ini_set('display_errors','On');
 
 include_once("template/header.php");
 
-$cookie_name="userid";      // user id
+$cookie_name="userId";      // user Id
 if(!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
@@ -42,7 +42,7 @@ else
     else
     {
         $res=mysqli_query($db,"select id from user where id='$cookie_name';");
-        $userid=mysqli_fetch_array($res,MYSQLI_ASSOC);
+        $userId=mysqli_fetch_array($res,MYSQLI_ASSOC);
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
