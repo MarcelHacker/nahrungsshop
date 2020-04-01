@@ -91,7 +91,7 @@ else
         </div>
         <div class="form-group col-md-6">
             <label for="confrimPassword">Confirm Password</label>
-            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+            <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password">
         </div>
         <div class="form-group col-md-6">
             <label for="birthdate">Birthdate</label>
@@ -99,11 +99,11 @@ else
         </div>
         <div class="form-group col-md-6">
             <label for="inputAddress2">Address</label>
-            <input type="text" class="form-control" id="adress" placeholder="Hufeisengasse">
+            <input type="text" class="form-control" name="adress" id="adress" placeholder="Hufeisengasse">
         </div>
         <div class="form-group col-md-1">
             <label for="houseNumber">Housenumber</label>
-            <input type="number" class="form-control" name="adress" id="houseNumber" placeholder="1">
+            <input type="number" class="form-control" name="housenumber" id="housenumber" placeholder="1">
         </div>
       </div>
     
@@ -123,7 +123,7 @@ else
       </div>
       <div class="form-group col-md-2">
           <label for="postCode">Zip</label>
-          <input type="number" class="form-control" name="postCode" id="postCode" placeholder="1234">
+          <input type="number" class="form-control" name="postcode" id="postcode" placeholder="1234">
       </div>
     </div>
     <div class="form-group">
@@ -134,11 +134,11 @@ else
             </label>
           </div>
       </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <button type="submit"  name="register" class="btn btn-primary">Sign Up</button>
     </div>
   </form>
 <?php
-if(isset($_GET['register'])) 
+if(isset($_POST['register'])) 
 {
     $error = false;
     $firstname=$_POST["firstname"];
@@ -186,7 +186,7 @@ if(isset($_GET['register']))
     }
     if(!$city)
     {
-        echo 'City is falsen<br>';
+        echo 'City is false<br>';
         $error = true;
     }
     if(!$country)
@@ -231,7 +231,7 @@ if(isset($_GET['register']))
             $result = $statement->execute(array('email' => $email));
             $userid = $statement->fetch();   
             echo 'Du wurdest erfolgreich registriert';
-            
+
             setcookie("userid", $userid);
 			sleep (1.5);	//1,5 warten
 			header("Location: index.php"); 

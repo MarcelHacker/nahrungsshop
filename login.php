@@ -129,21 +129,27 @@ if(isset($_POST['login']))
     if ($user !== false && password_verify($password, $user['password'])) 
     {
         $_SESSION['userId'] = $user['id'];
-        die('Login erfolgreich');
+        $cookie_name="userId";
         echo "Erfolg";
+        setcookie("userId",$id, time() + (86400 * 30), "/");
+?>
+    <label>Login erfolgreich! </label>
+<?php
+        sleep (1.5);	//1,5 warten
+        if($userId=="Admin" or $userId=="admin")
+        {
+            header("Location: admin_startseite.php");
+        }
+        else
+        {
+            header("Location: index.php");
+        }
     } 
     else 
     {
-        $errorMessage = "E-Mail oder Passwort war ungültig<br>";
-        echo "Eroor";
+        echo "E-Mail oder Passwort war ungültig<br>";
     }
-}
-?>
-<?php 
-if(isset($errorMessage)) 
-{
-    echo $errorMessage;
-}
+} 
 ?>
         <script src="assets/js/bootstrap.min.js"></script>
     </body>
