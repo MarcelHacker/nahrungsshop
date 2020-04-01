@@ -72,10 +72,10 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
   <div class="row row-cols-1 row-cols-md-2">
     <div class="card mb-4">
       <div class="row no-gutters">
-        <div class="col-md-5">
-          <img src="https://placekitten.com/200/300" class="card-img" alt="image">
+        <div class="col-md-13">
+          <img src="https://i.dietdoctor.com/wp-content/uploads/2018/08/GettyImages-876656828.jpg?auto=compress%2Cformat&w=800&h=533&fit=crop" class="card-img" alt="image">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-13">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
