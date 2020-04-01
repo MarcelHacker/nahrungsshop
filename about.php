@@ -77,8 +77,10 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
         </div>
         <div class="col-md-13">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <h5 class="card-title">Healthy Eating</h5>
+            <p class="card-text">Eating a healthy diet is not about strict limitations, staying unrealistically thin,
+              or depriving yourself of the foods you love.
+              Rather, it’s about feeling great, having more energy, improving your health, and boosting your mood.</p>
           </div>
         </div>
       </div>
