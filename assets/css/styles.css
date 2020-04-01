@@ -4,6 +4,13 @@ body {
   font-size: 0.9em;
 }
 
+footer {
+  position: fixed;
+  height: 100px;
+  bottom: 0;
+  width: 100%;
+}
+
 #shopping-cart {
   margin: 40px;
 }
