@@ -67,10 +67,52 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     //<?= $cartItems 
   }
 }
-include_once("template/footer.php");
 ?>
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-2">
+    <div class="card mb-4">
+      <div class="row no-gutters">
+        <div class="col-md-5">
+          <img src="https://placekitten.com/200/300" class="card-img" alt="image">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form action="contact.php" method="POST">
+    <div class="container">
+      <h2><span class="badge badge-secondary-">Contact Us</span></h2>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Email address</label>
+        <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Name</label>
+        <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Max Mustermann">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Subject</label>
+        <input type="text" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="product request">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Message</label>
+        <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+      <div>
+        <button type="submit" name="contact" class="btn btn-info"> Send </button>
+      </div>
+    </div>
+  </form>
+  <?php
+  include_once("template/footer.php");
+  ?>
 
-<script src="assets/js/bootstrap.min.js"></script>
-</body>
+  <script src="assets/js/bootstrap.min.js"></script>
+  </body>
 
-</html>
+  </html>

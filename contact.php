@@ -1,18 +1,32 @@
 <?php
+include_once("template/header.php");
 
-extract($_REQUEST);
-if (isset($sub)) {
+if (isset($_POST['contact'])) {
     $email = $_POST['email'];
     $name = $_POST['name'];
     $subj = $_POST['subject'];
     $mesg = $_POST['message'];
 
-    $sql = "insert into contact values('$email','$name','$subj',$mesg')";
-
-    if (mysqli_query($conn, $sql)) {
-        echo "<font>Message sent successfully</font>";
+    $db = getDB();
+    if (!$db) {
+        echo "Error database connection";
+        die();
     } else {
-        echo "Error";
+        $sql = "insert into contact values('$email','$name','$subj',$mesg')";
+        $statement = $db->prepare($sql);
+        $result = $statement->execute(array('email' => $email, 'name' => $name, 'subject' => $subj, 'message' => $mesg));
+        if (!$result == false) {
+            echo "<font>Message sent successfully</font>";
+        } else {
+            echo "Error";
+        }
     }
 }
-include_once("template/footer.php");
+?>
+<div class="fixed-bottom">
+    <?= include_once("template/footer.php"); ?>
+</div>
+<script src="assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>

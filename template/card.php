@@ -1,6 +1,6 @@
 <div class="container">
     <div class="card">
-        <div class="card-title"><?= $product['title'] ?></div>
+        <div class="card-title"><?= $product['title'] ?> Produkt ID= <?= $product['id'] ?></div>
         <img src=" <?= $product['source'] ?> " class="card-img-top" alt="produkt">
         <div class="card-body">
             <?= $product['description'] ?>

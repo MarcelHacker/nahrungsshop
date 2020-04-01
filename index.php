@@ -70,6 +70,11 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
   }
 }
 ?>
+
+
+
+
+
 <?php include_once("template/footer.php"); ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

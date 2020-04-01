@@ -80,6 +80,7 @@ if (isset($_GET["search"])) {
     echo "Es wurden folgende Produkte gefunden";
   }
   ?>
+
   <header>
     <section class="container" id="products">
       <div class="row">
@@ -90,6 +91,7 @@ if (isset($_GET["search"])) {
         <?php endforeach; ?>
       </div>
   </header>
+
 <?php
 }
 include_once("template/footer.php");
