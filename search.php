@@ -2,17 +2,13 @@
 include_once("includes.php");
 
 $userId = getCurrentUserId();
-$cartItems = countProductsInCart($userId); 
+//$cartItems = countProductsInCart($userId); 
 
-function getPage()
-{
-    return "";
-} 
-include_once("templates/navbar.php");
+
 
 $search = $_GET["search"];
 $sql = "SELECT id,title,description,price FROM products
-        where title like $search";   
+        where title like '$search';";   
 $products = getProducts($sql);
 
 if(!$products)
@@ -31,7 +27,7 @@ else
                 <div class="row">
                         <?php foreach($products as $product):?>
                 <div class="col">
-                        <?php include("templates/card.php") ?>
+                        <?php include("template/card.php") ?>
                  </div>
                         <?php endforeach;?>
                 </div>

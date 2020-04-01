@@ -229,10 +229,10 @@ if(isset($_POST['register']))
         {     
             $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
             $result = $statement->execute(array('email' => $email));
-            $userid = $statement->fetch();   
+            $userId = $statement->fetch();   
             echo 'Du wurdest erfolgreich registriert';
 
-            setcookie("userid", $userid);
+            setcookie("userId", $userId);
 			sleep (1.5);	//1,5 warten
 			header("Location: index.php"); 
         } 
