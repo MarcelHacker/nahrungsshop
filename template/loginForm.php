@@ -15,7 +15,7 @@
                     Remember me
                 </label>
             </div>
-            <button type="submit" name="login" class="btn btn-primary">Sign In</button>
+            <button type="submit" name="login" id="login" class="btn btn-primary">Sign In</button>
         </form>
         <div class="dropdown">
             <a class="dropdown-item" href="register.php">New around here? Sign up</a>

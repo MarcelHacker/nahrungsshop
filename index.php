@@ -45,10 +45,10 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
           <a class="nav-link active" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="products.php">Products</a>';
+          <a class="nav-link" href="products.php">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="about.php">About</a>';
+          <a class="nav-link" href="about.php">About</a>
         </li>
         <li class="nav-item">
           <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
@@ -71,6 +71,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
 }
 include_once("template/home.php");
 include_once("template/footer.php");
+setcookie("userId", "", time() - (86400 * 30), "/");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

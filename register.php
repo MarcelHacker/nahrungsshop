@@ -125,7 +125,7 @@ if (isset($_POST['register'])) {
             echo "Error database connection";
             die();
         } else {
-            $statement = $db->prepare("SELECT * FROM users WHERE email = :email;");
+            $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
             $result = $statement->execute(array('email' => $email));
             $email = $statement->fetch();
 
@@ -141,14 +141,14 @@ if (isset($_POST['register'])) {
         //$passwort_hash = password_hash($password, PASSWORD_DEFAULT);
 
         $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,adress,housenumber,city,country,password,postcode,
-        birthdate) VALUES (:firstname, :lastname, :email, :adress, :housenumber, :city, :country, :password, :postcode, :birthdate)");
+        birthdate) VALUES ('$firstname', '$lastname', '$email', '$adress', '$housenumber', '$city', '$country', '$password', '$postcode', '$birthdate');");
         $result = $statement->execute(array(
             'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'adress' => $adress,
             'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $password, 'postcode' => $postcode, 'birthdate' => $birthdate
         ));
 
         if ($result) {
-            $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
+            $statement = $db->prepare("SELECT id FROM users WHERE email = '$email'");
             $result = $statement->execute(array('email' => $email));
             $userId = $statement->fetch();
             echo 'Du wurdest erfolgreich registriert';

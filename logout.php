@@ -3,7 +3,7 @@ session_unset();
 session_destroy();
 include_once("template/header.php");
 
-header("Location: index.php?logout=true");
+header("Location: index.php");
 
 $cookie_name = "userid";      // user id
 if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
@@ -67,19 +67,19 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          Cart (<?= $cartItems ?>)
+          Cart ()
         </li>
       </ul>
     </nav>
-    <script src="assets/js/bootstrap.min.js"></script>
-    </body>
-
-    </html>
 <?php
+    // $cartItems
   }
 }
 include_once("template/footer.php");
-setcookie("userId", "", time() - (86400 * 30), "/");
-sleep(1.5); //1,5s warten
-header("Location: index.php");
+sleep(2); //1,5s warten
+header("Location: logout.php");
 ?>
+<script src="assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>

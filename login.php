@@ -39,47 +39,73 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
                 <li><a href="logout.php">Logout</a></li>
         </div>
         </div>
-<?php
+    <?php
     } else {
         $db = getDB();
         if (!$db) {
             die("Error");
         } else {
-            $res = mysqli_query($db, "select id from user where id='$cookie_name';");
-            $userId = mysqli_fetch_array($res, MYSQLI_ASSOC);
+            $sql = "select id from user where id='$cookie_name';";
+            $res = mysqli_query($db, $sql);
+            $userId = mysqli_fetch_array($res);
             //<?= $cartItems 
-            echo "You are allready loged in";
+            echo "You are already logged in";
         }
-        mysqli_close($db);
     }
+    ?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="products.php">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.php">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn mr-sm-4 btn-outline-dark active" href="login.php">Sign In</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">
+            <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
+        </form>
+        </div>
+    </nav>
+<?php
 }
 include_once("template/loginForm.php");
 
 $db = getDB();
+if (!$db) {
+    echo "Error database connection";
+    die();
+}
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
-    $result = $statement->execute(array('email' => $email, 'password' => $password));
+    $result = $statement->execute(array('email' => $email));
     $user = $statement->fetch();
 
     //Überprüfung des Passworts
-    if ($user !== false && password_verify($password, $user['password'])) {
+    if (!$user == false && ($password == $user['password'])) {
         $_SESSION['userId'] = $user['id'];
         $cookie_name = "userId";
 
-        setcookie("userId", $id, time() + (86400 * 30), "/");
-        echo "Erfolg";
+        setcookie("userId", $user['id'], time() + (86400 * 30), "/");
         echo "<label>Login erfolgreich! </label>";
 
-        sleep(1.5);    //1,5 warten
+        /*sleep(3);    //1,5 warten
         if ($userId == "Admin" or $userId == "admin") {
             header("Location: admin_startseite.php");
         } else {
             header("Location: index.php");
-        }
+        }*/
     } else {
         echo "E-Mail oder Passwort war ungültig<br>";
     }
