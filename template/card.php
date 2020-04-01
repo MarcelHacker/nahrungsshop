@@ -1,3 +1,5 @@
+    
+<div class="container">
     <div class="card">
          <div class="card-title"><?= $product['title']?></div>
                 <img src=" <?= $product['source']?> " class="card-img-top" alt="produkt">
@@ -11,3 +13,4 @@
                 <a href="index.php/cart/add/<?= $product['id']?>" class="btn btn-success btn-sm">Add to cart</a>
         </div>
     </div>
+</div>
