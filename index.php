@@ -69,13 +69,9 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     //<?= $cartItems 
   }
 }
+include_once("template/home.php");
+include_once("template/footer.php");
 ?>
-
-
-
-
-
-<?php include_once("template/footer.php"); ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
 
