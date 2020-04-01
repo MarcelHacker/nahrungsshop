@@ -64,75 +64,8 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     sleep(1.5);    //1,5 warten
     header("Location: index.php");
 }
-?>
-<form action="register.php" method="POST">
-    <div class="container" style="background-color: #e3f2fd;">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputFisrtname4">Firstname</label>
-                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Max">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="lastname">Lastname</label>
-                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Mustermann">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="confrimPassword">Confirm Password</label>
-                <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="birthdate">Birthdate</label>
-                <input type="date" class="form-control" name="birthdate" id="birthdate" placeholder="">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputAddress2">Address</label>
-                <input type="text" class="form-control" name="adress" id="adress" placeholder="Hufeisengasse">
-            </div>
-            <div class="form-group col-md-1">
-                <label for="houseNumber">Housenumber</label>
-                <input type="number" class="form-control" name="housenumber" id="housenumber" placeholder="1">
-            </div>
-        </div>
+include_once("template/registerForm.php");
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="city">City</label>
-                <input type="text" class="form-control" name="city" id="city" placeholder="Guntersdorf">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="country">State</label>
-                <select name="country" id="country" class="form-control">
-                    <option selected>Choose...</option>
-                    <option value="austria">Austria</option>
-                    <option value="united kingdom">United Kingdom</option>
-                    <option value="china">China</option>
-                </select>
-            </div>
-            <div class="form-group col-md-2">
-                <label for="postCode">Zip</label>
-                <input type="number" class="form-control" name="postcode" id="postcode" placeholder="1234">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="checkRobot">
-                <label class="form-check-label" for="checkRobot">
-                    I am not a robot
-                </label>
-            </div>
-        </div>
-        <button type="submit" name="register" class="btn btn-primary">Sign Up</button>
-    </div>
-</form>
-<?php
 if (isset($_POST['register'])) {
     $error = false;
     $firstname = $_POST["firstname"];
@@ -188,13 +121,18 @@ if (isset($_POST['register'])) {
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if (!$error) {
         $db = getDB();
-        $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
-        $result = $statement->execute(array('email' => $email));
-        $email = $statement->fetch();
+        if (!$db) {
+            echo "Error database connection";
+            die();
+        } else {
+            $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
+            $result = $statement->execute(array('email' => $email));
+            $email = $statement->fetch();
 
-        if ($email !== false) {
-            echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
-            $error = true;
+            if ($email !== false) {
+                echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
+                $error = true;
+            }
         }
     }
 

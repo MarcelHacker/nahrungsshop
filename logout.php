@@ -79,7 +79,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
   }
 }
 include_once("template/footer.php");
-setcookie("userid", "", time() - (86400 * 30), "/");
+setcookie("userId", "", time() - (86400 * 30), "/");
 sleep(1.5); //1,5s warten
 header("Location: index.php");
 ?>

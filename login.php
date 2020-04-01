@@ -39,7 +39,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
                 <li><a href="logout.php">Logout</a></li>
         </div>
         </div>
-        <?php
+    <?php
     } else {
         $db = getDB();
         if (!$db) {
@@ -47,66 +47,13 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
         } else {
             $res = mysqli_query($db, "select id from user where id='$cookie_name';");
             $userId = mysqli_fetch_array($res, MYSQLI_ASSOC);
-        ?>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="products.php">Products</a>';
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">About</a>';
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">
-                    <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
-                </form>
-                </div>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        Cart ()
-                    </li>
-                </ul>
-            </nav>
-<?php
             //<?= $cartItems 
             echo "You are allready loged in";
         }
     }
 }
-?>
-<div class="container" style="background-color: #e3f2fd;">
-    <div class="dropdown">
-        <form class="px-4 py-3" action="login.php" method="POST">
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                <label class="form-check-label" for="dropdownCheck">
-                    Remember me
-                </label>
-            </div>
-            <button type="submit" name="login" class="btn btn-primary">Sign In</button>
-        </form>
-        <div class="dropdown">
-            <a class="dropdown-item" href="register.php">New around here? Sign up</a>
-            <a class="dropdown-item" href="passwordForgotten.php">Forgot password?</a>
-        </div>
-    </div>
-</div>
-<?php
+include_once("template/loginForm.php");
+
 $db = getDB();
 
 if (isset($_POST['login'])) {
@@ -123,7 +70,7 @@ if (isset($_POST['login'])) {
         $cookie_name = "userId";
         echo "Erfolg";
         setcookie("userId", $id, time() + (86400 * 30), "/");
-?>
+    ?>
         <label>Login erfolgreich! </label>
 <?php
         sleep(1.5);    //1,5 warten
