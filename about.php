@@ -3,7 +3,7 @@ include_once("template/header.php");
 //$userId = getCurrentUserId();
 //$cartItems = countProductsInCart($userId); 
 
-$cookie_name = "userid";      // user id
+$cookie_name = "userId";      // user id
 if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
@@ -93,7 +93,9 @@ include_once("template/aboutCard.php");
     </div>
   </div>
 </form>
-<?= include_once("template/footer.php"); ?>
+<div class="">
+  <?= include_once("template/footer.php"); ?>
+</div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
 

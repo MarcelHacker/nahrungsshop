@@ -1,7 +1,7 @@
 <?php
 include_once("template/header.php");
 
-$cookie_name = "userid";      // user id
+$cookie_name = "userId";      // user id
 if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
@@ -64,14 +64,14 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     sleep(1.5);    //1,5 warten
     header("Location: index.php");
 }
-include_once("template/registerForm.php");
+$showFormular = true;
 
 if (isset($_POST['register'])) {
     $error = false;
     $firstname = $_POST["firstname"];
     $lastname = $_POST["lastname"];
     $email = $_POST["email"];
-    $adress = $_POST["adress"];
+    $address = $_POST["address"];
     $housenumber = $_POST["housenumber"];
     $city = $_POST["city"];
     $country = $_POST["country"];
@@ -103,6 +103,10 @@ if (isset($_POST['register'])) {
     }
     if (!$birthdate) {
         echo 'Birthdate is false<br>';
+        $error = true;
+    }
+    if (!$address) {
+        echo 'adress is false<br>';
         $error = true;
     }
     if (!$city) {
@@ -139,27 +143,38 @@ if (isset($_POST['register'])) {
     //Keine Fehler, wir können den Nutzer registrieren
     if (!$error) {
         //$passwort_hash = password_hash($password, PASSWORD_DEFAULT);
-
-        $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,adress,housenumber,city,country,password,postcode,
-        birthdate) VALUES ('$firstname', '$lastname', '$email', '$adress', '$housenumber', '$city', '$country', '$password', '$postcode', '$birthdate');");
-        $result = $statement->execute(array(
-            'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'adress' => $adress,
-            'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $password, 'postcode' => $postcode, 'birthdate' => $birthdate
-        ));
-
-        if ($result) {
-            $statement = $db->prepare("SELECT id FROM users WHERE email = '$email'");
-            $result = $statement->execute(array('email' => $email));
-            $userId = $statement->fetch();
-            echo 'Du wurdest erfolgreich registriert';
-
-            setcookie("userId", $userId);
-            sleep(1.5);    //1,5 warten
-            header("Location: index.php");
+        $db = getDB();
+        if (!$db) {
+            echo "Error database connection";
+            die();
         } else {
-            echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+
+            $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
+        birthdate) VALUES (:firstname, :lastname, :email, :address, :housenumber, :city, :country, :password, :postcode, :birthdate)");
+            $result = $statement->execute(array(
+                'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
+                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $password, 'postcode' => $postcode, 'birthdate' => $birthdate
+
+            ));
+
+
+            if ($result) {
+                $statement = $db->prepare("SELECT id FROM users WHERE email = '$email'");
+                $result = $statement->execute(array('email' => $email));
+                $userId = $statement->fetch();
+                echo 'Du wurdest erfolgreich registriert';
+                $showFormular = false;
+                //setcookie("userId", $userId);
+                sleep(1, 5);    //1,5 warten
+                header("Location: index.php");
+            } else {
+                echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+            }
         }
     }
+}
+if ($showFormular == true) {
+    include_once("template/registerForm.php");
 }
 include_once("template/footer.php");
 ?>

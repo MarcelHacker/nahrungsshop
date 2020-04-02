@@ -27,7 +27,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="inputAddress2">Address</label>
-                <input type="text" class="form-control" name="adress" id="adress" placeholder="Hufeisengasse">
+                <input type="text" class="form-control" name="address" id="address" placeholder="Hufeisengasse">
             </div>
             <div class="form-group col-md-1">
                 <label for="houseNumber">Housenumber</label>
@@ -62,6 +62,6 @@
                 </label>
             </div>
         </div>
-        <button type="submit" name="register" class="btn btn-primary">Sign Up</button>
+        <button type="submit" name="register" id="register" class="btn btn-primary">Sign Up</button>
     </div>
 </form>

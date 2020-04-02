@@ -92,12 +92,22 @@ if (isset($_POST['login'])) {
     $result = $statement->execute(array('email' => $email));
     $user = $statement->fetch();
 
+    if (!$user) {
+        echo "<label>Kein User mit der Email registriert </label>";
+    }
+    if (strlen($password) == 0) {
+        echo "<label>Pasword eingeben!</label>";
+    }
+    if (!$password == $user['password']) {
+        echo "<label>Falsches Password! </label>";
+    }
     //Überprüfung des Passworts
     if (!$user == false && ($password == $user['password'])) {
         $_SESSION['userId'] = $user['id'];
         $cookie_name = "userId";
+        $_COOKIE['userId'] = $user['i'];
 
-        setcookie("userId", $user['id'], time() + (86400 * 30), "/");
+        //setcookie("userId", $user['id'], time() + (86400 * 30), "/");
         echo "<label>Login erfolgreich! </label>";
 
         /*sleep(3);    //1,5 warten
