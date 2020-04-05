@@ -1,8 +1,8 @@
 <?php
+session_start();
 include_once("template/header.php");
 
-$cookie_name = "userId";      // user id
-if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,8 +32,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     if (!$db) {
         die("Error");
     } else {
-        $res = mysqli_query($db, "select id from user where id='$cookie_name';");
-        $userid = mysqli_fetch_array($res, MYSQLI_ASSOC);
+
     ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
@@ -93,6 +92,10 @@ if (isset($_POST['register'])) {
         echo 'Wrong lastname<br>';
         $error = true;
     }
+    if (strlen($email) == 0) {
+        echo "Bitte Email eingeben<br>";
+        $error = true;
+    }
     if (strlen($password) == 0) {
         echo 'Bitte ein Passwort angeben<br>';
         $error = true;
@@ -131,9 +134,9 @@ if (isset($_POST['register'])) {
         } else {
             $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
             $result = $statement->execute(array('email' => $email));
-            $email = $statement->fetch();   // Email schon vorhanden?
+            $user = $statement->fetch();   // Email schon vorhanden?
 
-            if ($email !== false) {
+            if ($user !== false) {
                 echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
                 $error = true;
             }
@@ -142,7 +145,6 @@ if (isset($_POST['register'])) {
 
     //Keine Fehler, wir können den Nutzer registrieren
     if (!$error) {
-        //$passwort_hash = password_hash($password, PASSWORD_DEFAULT);
         $db = getDB();
         if (!$db) {
             echo "Error database connection";
@@ -150,26 +152,24 @@ if (isset($_POST['register'])) {
         } else {
 
             $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
-            birthdate) VALUES (:firstname, :lastname, :email, :address, :housenumber, :city, :country, :password, :postcode, :birthdate)");
+            birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)");
 
             $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
 
             $result = $statement->execute(array(
                 'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
                 'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
-
             ));
+            echo "$email<br>";
 
 
             if ($result) {
-                $statement = $db->prepare("SELECT id FROM users WHERE email = '$email'");
+                $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
                 $result = $statement->execute(array('email' => $email));
                 $userId = $statement->fetch();
                 echo 'Du wurdest erfolgreich registriert';
                 $showFormular = false;
-                //setcookie("userId", $userId);
-                sleep(1, 5);    //1,5 warten
-                header("Location: index.php");
+                //header("Location: index.php");
             } else {
                 echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
             }

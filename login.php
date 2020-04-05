@@ -1,8 +1,8 @@
 <?php
+session_start();
 include_once("template/header.php");
 
-$cookie_name = "userId";      // user Id
-if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,7 +28,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     </nav>
     <?php
 } else {
-    if ($_COOKIE[$cookie_name] == "Admin" or $_COOKIE[$cookie_name] == "admin") {
+    if ($_SESSION['userId'] == "0" or $_SESSION['userId'] == "0") {
     ?>
         <div class="collapse navbar-collapse menubar">
             <ul class="nav navbar-nav navbar-right">
@@ -43,13 +43,19 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     } else {
         $db = getDB();
         if (!$db) {
-            die("Error");
+            echo "Error database connection";
+            die();
         } else {
-            $sql = "select id from user where id='$cookie_name';";
-            $res = mysqli_query($db, $sql);
-            $userId = mysqli_fetch_array($res);
+
+            $statement = $db->prepare("SELECT * FROM users WHERE id = :userId");
+            $result = $statement->execute(array('userId' => $_SESSION['userId']));
+            $user = $statement->fetch();    // User schon vorhanden?
+            if (!$user) {
+                echo "Error User Id";
+            } else {
+                echo "You are already logged in";
+            }
             //<?= $cartItems 
-            echo "You are already logged in";
         }
     }
     ?>
