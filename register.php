@@ -131,7 +131,7 @@ if (isset($_POST['register'])) {
         } else {
             $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
             $result = $statement->execute(array('email' => $email));
-            $email = $statement->fetch();
+            $email = $statement->fetch();   // Email schon vorhanden?
 
             if ($email !== false) {
                 echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
@@ -150,10 +150,13 @@ if (isset($_POST['register'])) {
         } else {
 
             $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
-        birthdate) VALUES (:firstname, :lastname, :email, :address, :housenumber, :city, :country, :password, :postcode, :birthdate)");
+            birthdate) VALUES (:firstname, :lastname, :email, :address, :housenumber, :city, :country, :password, :postcode, :birthdate)");
+
+            $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
+
             $result = $statement->execute(array(
                 'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
-                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $password, 'postcode' => $postcode, 'birthdate' => $birthdate
+                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
 
             ));
 

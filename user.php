@@ -1,14 +1,18 @@
 <?php
 session_start();
-include_once("template/header.php");
-if (!isset($_SESSION['userId'])) {
-    die('Bitte zuerst <a href="login.php">einloggen</a>');
+
+if (!isset($_SESSION['userId'])) {      // nicht eigeloggt
+    header("Loctaion: index.php");
+    exit;                               //verhindert laden der Seite
 }
 
+include_once("template/header.php");
 //Abfrage der Nutzer ID vom Login
 $userId = $_SESSION['userId'];
 
 echo "Hallo User: " . $userId;
+
+include_once("template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

@@ -90,32 +90,29 @@ if (isset($_POST['login'])) {
 
     $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
     $result = $statement->execute(array('email' => $email));
-    $user = $statement->fetch();
+    $user = $statement->fetch();    // User schon vorhanden?
 
     if (!$user) {
         echo "<label>Kein User mit der Email registriert </label>";
     }
+
     if (strlen($password) == 0) {
         echo "<label>Pasword eingeben!</label>";
+    } else {
+        $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
     }
-    if (!$password == $user['password']) {
+
+    if (!$hash == $user['password']) {
         echo "<label>Falsches Password! </label>";
     }
+
     //Überprüfung des Passworts
-    if (!$user == false && ($password == $user['password'])) {
+    if (!$user == false && $hash == $user['password']) {
+        session_start();
         $_SESSION['userId'] = $user['id'];
-        $cookie_name = "userId";
-        $_COOKIE['userId'] = $user['i'];
 
-        //setcookie("userId", $user['id'], time() + (86400 * 30), "/");
         echo "<label>Login erfolgreich! </label>";
-
-        /*sleep(3);    //1,5 warten
-        if ($userId == "Admin" or $userId == "admin") {
-            header("Location: admin_startseite.php");
-        } else {
-            header("Location: index.php");
-        }*/
+        header(" Location: user.php");
     } else {
         echo "E-Mail oder Passwort war ungültig<br>";
     }
