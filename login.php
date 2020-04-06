@@ -91,6 +91,7 @@ if (!$db) {
     die();
 }
 if (isset($_POST['login'])) {
+    $error = false;
     $email = $_POST['email'];
     $password = $_POST['password'];
 
