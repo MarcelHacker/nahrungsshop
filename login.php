@@ -127,8 +127,10 @@ if (isset($_POST['login'])) {
         echo "E-Mail oder Passwort war ungültig<br>";
     }
 }
-include_once("template/footer.php");
 ?>
+<div class="fixed-bottom">
+    <?= include_once("template/footer.php"); ?>
+</div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
 

@@ -1,10 +1,10 @@
 <?php
+session_start();
 include_once("template/header.php");
 //$userId = getCurrentUserId();
 //$cartItems = countProductsInCart($userId); 
 
-$cookie_name = "userId";      // user id
-if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,8 +34,8 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
   if (!$db) {
     die("Error");
   } else {
-    $res = mysqli_query($db, "select id from user where id='$cookie_name';");
-    $userid = mysqli_fetch_array($res, MYSQLI_ASSOC);
+    //$res = mysqli_query($db, "select id from user where id='$cookie_name';");
+    //$userid = mysqli_fetch_array($res, MYSQLI_ASSOC);
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <ul class="nav nav-tabs">

@@ -1,9 +1,8 @@
 <?php
+session_start();
 include_once("template/header.php");
 
-
-$cookie_name = "userId";      // user id
-if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
