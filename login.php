@@ -53,7 +53,8 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             if (!$user) {
                 echo "Error User Id";
             } else {
-                echo "You are already logged in";
+                echo "You are already logged in<br>";
+                echo $user['id'];
             }
             //<?= $cartItems 
         }
