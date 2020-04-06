@@ -90,36 +90,39 @@ if (!$db) {
     echo "Error database connection";
     die();
 }
-
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
     $result = $statement->execute(array('email' => $email));
-    $user = $statement->fetch();    // User schon vorhanden?
+    $user = $statement->fetch();    // Alle User mit der Email
+
+    $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
 
     if (!$user) {
-        echo "<label>Kein User mit der Email registriert </label>";
+        echo "<label>Kein User mit der Email registriert </label><br>";
+        $error = true;
     }
 
     if (strlen($password) == 0) {
-        echo "<label>Pasword eingeben!</label>";
-    } else {
-        $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
+        echo "<label>Pasword eingeben!</label><br>";
+        $error = true;
     }
 
     if (!$hash == $user['password']) {
-        echo "<label>Falsches Password! </label>";
+        echo "<label>Falsches Password! </label><br>";
+        $error = true;
     }
 
-    //Überprüfung des Passworts
-    if (!$user == false && $hash == $user['password']) {
-        session_start();
-        $_SESSION['userId'] = $user['id'];
+    echo $user['id'] . "<br>";
 
-        echo "<label>Login erfolgreich! </label>";
-        header(" Location: user.php");
+    //Überprüfung des Passworts
+    if ($error == false) {
+        $_SESSION['userId'] = $user['id'];
+        echo "<label>Login erfolgreich! </label><br>";
+        sleep(1, 5);
+        header("Location: user.php");
     } else {
         echo "E-Mail oder Passwort war ungültig<br>";
     }
