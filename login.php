@@ -116,7 +116,7 @@ if (isset($_POST['login'])) {
         $error = true;
     }
 
-    echo $user['id'] . "<br>";
+    echo "User Id = ". $user['id'] . "<br>";
 
     //Überprüfung des Passworts
     if ($error == false) {

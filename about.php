@@ -43,10 +43,10 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="products.php">Products</a>';
+          <a class="nav-link" href="products.php">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="about.php">About</a>';
+          <a class="nav-link active" href="about.php">About</a>
         </li>
         <li class="nav-item">
           <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>

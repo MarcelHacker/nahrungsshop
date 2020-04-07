@@ -1,11 +1,11 @@
 <?php
+session_start();
 include_once("template/header.php");
 
 //$userId = getCurrentUserId();
 //$cartItems = countProductsInCart($userId); 
 
-$cookie_name = "userId";      // user Id
-if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,8 +35,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
   if (!$db) {
     die("Error");
   } else {
-    $res = mysqli_query($db, "select id from user where id='$cookie_name';");
-    $userId = mysqli_fetch_array($res, MYSQLI_ASSOC);
+
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <ul class="nav nav-tabs">
@@ -44,16 +43,16 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="products.php">Products</a>';
+          <a class="nav-link" href="products.php">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="about.php">About</a>';
+          <a class="nav-link" href="about.php">About</a>
         </li>
         <li class="nav-item">
           <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">
+      <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
         <input class="form-control mr-sm-1" type="search" name="search_term" id="search_term" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0 active" type="submit" name="search" id="search">Search</button>
       </form>
@@ -68,24 +67,26 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
     //<?= $cartItems 
   }
 }
-if (isset($_GET["search"])) {
-  $search = $_GET["search_term"];
+
+if (isset($_POST["search"])) {
+  $search = $_POST["search_term"];
+
   $sql = "SELECT * FROM products
         where title like '$search';";
   $products = getProducts($sql);
 
   if (!$products) {
-    echo "Keine Produkte gefunden";
+    echo "Keine Produkte gefunden<br>";
   } else {
-    echo "Es wurden folgende Produkte gefunden";
+    echo "Es wurden folgende Produkte gefunden:<br>";
   }
   ?>
 
   <header>
-    <section class="container" id="products">
-      <div class="row">
+    <section class="container px-lg-5" id="search_products">
+      <div class="row mx-lg-n5" style="width: 30rem;">
         <?php foreach ($products as $product) : ?>
-          <div class="col">
+          <div class="col py-3 px-lg-5">
             <?php include("template/card.php") ?>
           </div>
         <?php endforeach; ?>

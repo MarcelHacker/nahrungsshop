@@ -1,10 +1,10 @@
 <?php
+session_start();
 include_once("template/header.php");
 //$userId = getCurrentUserId();
 //$cartItems = countProductsInCart($userId); 
 
-$cookie_name = "userid";      // user id
-if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,8 +34,7 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
   if (!$db) {
     die("Error");
   } else {
-    $res = mysqli_query($db, "select id from user where id='$cookie_name';");
-    $userid = mysqli_fetch_array($res, MYSQLI_ASSOC);
+
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <ul class="nav nav-tabs">
@@ -43,10 +42,10 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="products.php">Products</a>';
+          <a class="nav-link active" href="products.php">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="about.php">About</a>';
+          <a class="nav-link" href="about.php">About</a>
         </li>
         <li class="nav-item">
           <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
@@ -64,14 +63,13 @@ if (!isset($_COOKIE[$cookie_name])) //wenn nicht eingeloggt User.php nicht anzei
       </ul>
     </nav>
 <?php
-    //<?= $cartItems 
   }
 }
 $products = getAllProducts();
 ?>
 <header>
   <section class="container" id="products">
-    <div class="row">
+    <div class="row" style="width: 45rem;">
       <?php foreach ($products as $product) : ?>
         <div class="col">
           <?php include("template/card.php") ?>
