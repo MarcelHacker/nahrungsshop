@@ -7,7 +7,7 @@ include_once("template/header.php");
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="index.php">Home</a>
+            <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="products.php">Products</a>
@@ -25,7 +25,7 @@ include_once("template/header.php");
     </form>
     </div>
 </nav>
-<label>Sucessfully logged out!</label>
+<br><label>Sucessfully logged out!</label></br>
 <div class='fixed-bottom'>
     <?= include_once("template/footer.php"); ?>
 </div>
