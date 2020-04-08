@@ -63,7 +63,31 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
         </li>
       </ul>
     </nav>
+    <?php
+  }
+}
+if (isset($_GET["add"])) {
+  if (!isset($_SESSION['userId'])) {
+    echo "<label>Please login</label><br>";
+  } else {
+    if (!empty($_GET["add"])) {
+      $productId = $_GET["add"];
+      addProductToCart($userId, $productId);
+    } else {
+    ?>
+      <p>No product asked</p>
+    <?php
+    }
+    ?>
+    <p>No product asked</p>
 <?php
+  }
+}
+if (isset($_GET["details"])) {
+  if (!empty($_GET["details"])) {
+    $productId = $_GET["details"];
+    //TODO product details modal
+    echo "hallo";
   }
 }
 $products = getAllProducts();

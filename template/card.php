@@ -8,11 +8,11 @@
             <?= $product['price'] ?> €
         </div>
         <div class="card-footer">
-            <form action="cart.php" method="POST">
-                <a href="cart.php?id=<?= $product['id'] ?>" class="btn btn-primary btn-sm">Details</a>
+            <form action="products.php" method="GET">
+                <a href="products.php?details=<?= $product['id'] ?>" class="btn btn-primary btn-sm">Details</a>
             </form>
-            <form action="cart.php" method="POST">
-                <a href="cart.php?id=<?= $product['id'] ?>" class="btn btn-success btn-sm">Add to cart</a>
+            <form action="products.php" method="GET">
+                <a href="products.php?add=<?= $product['id'] ?>" class="btn btn-success btn-sm">Add to cart</a>
             </form>
         </div>
     </div>
