@@ -116,14 +116,13 @@ if (isset($_POST['login'])) {
         $error = true;
     }
 
-    echo "User Id = ". $user['id'] . "<br>";
+    echo "User Id = " . $user['id'] . "<br>";
 
     //Überprüfung des Passworts
     if ($error == false) {
         $_SESSION['userId'] = $user['id'];
         echo "<label>Login erfolgreich! </label><br>";
-        sleep(1, 5);
-        header("Location: user.php");
+        //header("Location: user.php");
     } else {
         echo "E-Mail oder Passwort war ungültig<br>";
     }

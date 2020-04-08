@@ -1,5 +1,5 @@
 <?php
-function addProductToCart(int $userId, int $productId)
+function addProductToCart(int $userId, int $productId)  // Add product to cart
 {
   $sql = "INSERT INTO cart SET user_id = :userId,product_Id = :productId";
   $statement = getDB()->prepare($sql);
@@ -10,7 +10,7 @@ function addProductToCart(int $userId, int $productId)
   ]);
 }
 
-function countProductsInCart(int $userId)
+function countProductsInCart(int $userId)  // Count products in cart
 {
   $sql = "SELECT COUNT(id) FROM cart WHERE user_id =" . $userId;
   $cartResults = getDB()->query($sql);

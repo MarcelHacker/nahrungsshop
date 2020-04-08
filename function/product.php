@@ -1,34 +1,30 @@
 <?php
 
-function getAllProducts()
+function getAllProducts() // For all products in database
 {
-  $sql ="SELECT *
+  $sql = "SELECT *
   FROM products";
 
   $result = getDB()->query($sql);
-  if(!$result)
-  {
+  if (!$result) {
     return [];
   }
   $products = [];
-  while($row = $result->fetch())
-  {
-    $products[]=$row;
+  while ($row = $result->fetch()) {
+    $products[] = $row;
   }
   return $products;
 }
 
-function getProducts($sql)
+function getProducts($sql)  // For specific product in database
 {
   $result = getDB()->query($sql);
-  if(!$result)
-  {
+  if (!$result) {
     return [];
   }
   $products = [];
-  while($row = $result->fetch())
-  {
-    $products[]=$row;
+  while ($row = $result->fetch()) {
+    $products[] = $row;
   }
   return $products;
 }

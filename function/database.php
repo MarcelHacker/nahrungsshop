@@ -7,7 +7,7 @@ function getDB()  // Database connection
   {
     return $db;
   }
-  require_once("config/database.php");
+  require_once("config/database.php");  // For directives
   $dsn = sprintf("mysql:host=%s;dbname=%s;charset=%s",DB_HOST,DB_DATABASE,DB_CHARSET);
   $db = new PDO($dsn,DB_USERNAME,DB_PASSWORD);
   return $db;
@@ -21,4 +21,3 @@ function printDBErrorMessage()  // For error messaging
   }
   return '';
 }
-?>

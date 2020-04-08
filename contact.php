@@ -62,7 +62,6 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             </ul>
         </nav>
 <?php
-        //<?= $cartItems 
     }
 }
 

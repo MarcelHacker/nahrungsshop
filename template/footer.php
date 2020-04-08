@@ -117,9 +117,9 @@
                 <p>
                     <i class="fas fa-envelope mr-3"></i> info@example.com</p>
                 <p>
-                    <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+                    <i class="fas fa-phone mr-3"></i> + 43 234 567 88</p>
                 <p>
-                    <i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+                    <i class="fas fa-print mr-3"></i> + 43 234 567 89</p>
 
             </div>
             <!-- Grid column -->
