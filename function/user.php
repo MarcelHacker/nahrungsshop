@@ -1,7 +1,8 @@
 <?php
-function getUser($sql)
+
+function getCurrentUser(int $userId)
 {
-    //$sql = "SELECT * FROM users";
+    $sql = "SELECT * FROM users where id = '$userId";
 
     $result = getDB()->query($sql);
     if (!$result) {
@@ -13,4 +14,3 @@ function getUser($sql)
     }
     return $user;
 }
-?>

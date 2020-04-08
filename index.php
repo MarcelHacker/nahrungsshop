@@ -36,10 +36,8 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
   if (!$db) {
     die("Error database connection");
   } else {
-
-    $statement = $db->prepare("SELECT * FROM users WHERE id = :userId");    // User mit id abfragen
-    $result = $statement->execute(array('userId' => $_SESSION['userId']));  // Mithilfe der Sessionvariable
-    $user = $statement->fetch();    // User vorhanden?
+    $userId = $_SESSION['userId'];
+    $user = getCurrentUser($userId);
     if (!$user) {                   // Falsche User Id ?
       echo "Error User";
     } else {
