@@ -1,7 +1,7 @@
 <?php
 include_once("function/database.php");
 include_once("function/product.php");
-//include_once("function/user.php");
+include_once("function/user.php");
 include_once("function/cart.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -13,8 +13,8 @@ include_once("function/cart.php");
   <meta name="description" content="" />
   <meta name="keywords" content="" />
   <meta name="robots" content="index,follow" />
-  <link rel="stylesheet" type="text/css" href="/assets/css/styles.css" />
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets\css\styles.css" />
+  <link rel="stylesheet" href="assets\css\bootstrap.min.css" />
 </head>
 
 <body>

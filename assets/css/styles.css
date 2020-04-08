@@ -144,3 +144,21 @@ footer {
   clear: both;
   margin: 38px 0px;
 }
+
+#cartItems .cartItem {
+  border-bottom: 1px solid #ddd;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+#cartItems .cartItemHeader {
+  border-bottom: 1px solid #ddd;
+}
+
+#cartItems .cartItem .productPicture {
+  width: 100%;
+  height: auto;
+}
+#cartItems .price {
+  font-weight: bold;
+  color: red;
+}
