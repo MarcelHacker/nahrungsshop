@@ -72,7 +72,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
                 <a class="nav-link" href="about.php">About</a>
             </li>
             <li class="nav-item">
-                <a class="btn mr-sm-4 btn-outline-dark active" href="login.php">Sign In</a>
+                <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Logout</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">

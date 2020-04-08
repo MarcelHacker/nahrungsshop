@@ -87,7 +87,7 @@ if (isset($_GET["details"])) {
   if (!empty($_GET["details"])) {
     $productId = $_GET["details"];
     //TODO product details modal
-    echo "hallo";
+    echo "hallo infos";
   }
 }
 $products = getAllProducts();
