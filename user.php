@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['userId'])) {      // nicht eigeloggt
-    header("Loctaion: index.php");
-    exit;                               //verhindert laden der Seite
+if (!isset($_SESSION['userId'])) {      // Not logged in?
+    header("Loctaion: index.php");      // Go to index
+    exit;                               // Prevents loading when poor connection
 }
 
 include_once("template/header.php");
