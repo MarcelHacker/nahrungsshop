@@ -30,11 +30,12 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
   </nav>
   <?php
 } else {
-  $db = getDB();
-  if (!$db) {
-    die("Error");
+  $userId = $_SESSION['userId'];
+  $user = getCurrentUser($userId);
+  if (!$user) {
+    echo "Error user<br>";
   } else {
-
+    $cartItems = countProductsInCart($userId);
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <ul class="nav nav-tabs">
@@ -58,7 +59,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          Cart ()
+          Cart (<?= $cartItems ?>)
         </li>
       </ul>
     </nav>
