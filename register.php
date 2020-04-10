@@ -20,8 +20,8 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
                 <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Sign In</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">
-            <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
+            <input class="form-control mr-sm-1" type="search" placeholder="Search" id="search_term" name="search_term" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
         </form>
         </div>
@@ -51,8 +51,8 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
                     <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="search.php" method="GET">
-                <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
+                <input class="form-control mr-sm-1" type="search" placeholder="Search" id="search_term" name="search_term" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
             </form>
             </div>
