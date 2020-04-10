@@ -2,15 +2,27 @@
 
 function getCurrentUser(int $userId)
 {
-    $sql = "SELECT * FROM users where id = '$userId";
-
-    $result = getDB()->query($sql);
-    if (!$result) {
-        return [];
+    $db = getDB();
+    if (!$db) {
+        die();
+    } else {
+        $statement = $db->prepare("SELECT * FROM users WHERE id = :userId");
+        $result = $statement->execute(array('userId' => $userId));
+        $user = $statement->fetch();    // User schon vorhanden?
     }
-    $user = [];
-    while ($row = $result->fetch()) {
-        $user[] = $row;
+    return $user;
+}
+
+function getUserWithEmail(string $email)
+{
+    $db = getDB();
+    if (!$db) {
+        die();
+    } else {
+
+        $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
+        $result = $statement->execute(array('email' => $email));
+        $user = $statement->fetch();    // Alle User mit der Email
     }
     return $user;
 }
