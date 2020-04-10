@@ -9,7 +9,7 @@
         </div>
         <div class="card-footer">
             <form action="products.php" method="GET">
-                <a href="products.php?details=<?= $product['id'] ?>" class="btn btn-primary btn-sm">Details</a>
+                <a href="products.php?details=<?= $product['id'] ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#productDetails">Details</a>
             </form>
             <form action="products.php" method="GET">
                 <a href="products.php?add=<?= $product['id'] ?>" class="btn btn-success btn-sm">Add to cart</a>

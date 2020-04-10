@@ -135,37 +135,37 @@ if (isset($_POST['register'])) {
             $error = true;
         }
     }
-}
 
-//Keine Fehler, wir können den Nutzer registrieren
-if (!$error) {
-    $db = getDB();
-    if (!$db) {
-        echo "Error database connection";
-        die();
-    } else {
+    //Keine Fehler, wir können den Nutzer registrieren
+    if (!$error) {
+        $db = getDB();
+        if (!$db) {
+            echo "Error database connection";
+            die();
+        } else {
 
-        $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
+            $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
             birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)");
 
-        $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
+            $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
 
-        $result = $statement->execute(array(
-            'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
-            'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
-        ));
-        echo "$email<br>";
+            $result = $statement->execute(array(
+                'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
+                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
+            ));
+            echo "$email<br>";
 
 
-        if ($result) {
-            $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
-            $result = $statement->execute(array('email' => $email));
-            $userId = $statement->fetch();
-            echo 'Du wurdest erfolgreich registriert';
-            $showFormular = false;
-            //header("Location: index.php");
-        } else {
-            echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+            if ($result) {
+                $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
+                $result = $statement->execute(array('email' => $email));
+                $userId = $statement->fetch();
+                echo 'Du wurdest erfolgreich registriert';
+                $showFormular = false;
+                //header("Location: index.php");
+            } else {
+                echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+            }
         }
     }
 }

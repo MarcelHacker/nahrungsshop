@@ -1,8 +1,6 @@
 <?php
 session_start();
 include_once("template/header.php");
-//$userId = getCurrentUserId();
-//$cartItems = countProductsInCart($userId); 
 
 if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -63,10 +61,11 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
         </li>
       </ul>
     </nav>
-    <?php
+<?php
   }
 }
-if (isset($_GET["add"])) {
+
+if (isset($_GET["add"])) {    // Add product to cart
   if (!isset($_SESSION['userId'])) {
     echo "<label>Please login</label><br>";
   } else {
@@ -74,20 +73,25 @@ if (isset($_GET["add"])) {
       $productId = $_GET["add"];
       addProductToCart($userId, $productId);
     } else {
-    ?>
-      <p>No product asked</p>
-    <?php
+      echo "<p>No product asked</p>";
     }
-    ?>
-    <p>No product asked</p>
-<?php
+    echo "<p>No product asked</p>";
   }
 }
-if (isset($_GET["details"])) {
+if (isset($_GET["details"])) {  // See product details
   if (!empty($_GET["details"])) {
     $productId = $_GET["details"];
+    $sql = "SELECT * FROM products WHERE id = '$productId'";
+    $product = getProducts($sql);
+
+    if (!$product) {
+      echo "Error product details <br>";
+    } else {
+      include_once("template/productDetails.php");
+      echo "hallo infos";
+    }
     //TODO product details modal
-    echo "hallo infos";
+
   }
 }
 $products = getAllProducts();
