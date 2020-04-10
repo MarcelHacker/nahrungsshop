@@ -72,6 +72,7 @@ if (isset($_GET["add"])) {    // Add product to cart
     if (!empty($_GET["add"])) {
       $productId = $_GET["add"];
       addProductToCart($userId, $productId);
+      
     } else {
       echo "<p>No product asked</p>";
     }

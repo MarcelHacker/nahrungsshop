@@ -49,7 +49,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             echo "You are already logged in<br>";
             echo $user['id'];
         }
-        //<?= $cartItems 
+        $cartItems = countProductsInCart($userId);
 
     ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -74,6 +74,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             </div>
         </nav>
     <?php
+        // cart insert
     }
 }
 include_once("template/loginForm.php");

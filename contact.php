@@ -33,7 +33,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
     if (!$user) {
         echo "Error User Id <br>";
     } else {
-        //cart Item
+        $cartItems = countProductsInCart($userId);
     ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
@@ -57,7 +57,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             </div>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    Cart ()
+                    Cart (<?= $cartItems ?>)
                 </li>
             </ul>
         </nav>
