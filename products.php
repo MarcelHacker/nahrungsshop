@@ -61,10 +61,10 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
         </li>
       </ul>
     </nav>
-<?php
+  <?php
   }
 }
-
+$showProducts = true;
 if (isset($_GET["add"])) {    // Add product to cart
   if (!isset($_SESSION['userId'])) {
     echo "<label>Please login</label><br>";
@@ -81,32 +81,39 @@ if (isset($_GET["add"])) {    // Add product to cart
 if (isset($_GET["details"])) {  // See product details
   if (!empty($_GET["details"])) {
     $productId = $_GET["details"];
-    $sql = "SELECT * FROM products WHERE id = '$productId'";
+
+    echo $productId;
+    $sql = "SELECT * FROM products WHERE id = $productId";
     $product = getProducts($sql);
 
     if (!$product) {
       echo "Error product details <br>";
     } else {
-      include_once("template/productDetails.php");
-      echo "hallo infos";
+      include("template/productDetails.php");
     }
-    //TODO product details modal
-
+    $showProducts = false;
   }
 }
-$products = getAllProducts();
+if ($showProducts == true) {
+  $products = getAllProducts();
+  ?>
+  <header>
+    <section class="container" id="products">
+      <div class="row" style="width: 45rem;">
+        <?php foreach ($products as $product) : ?>
+          <div class="col">
+            <?php include("template/card.php") ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
+  </header>
+<?php
+}
 ?>
-<header>
-  <section class="container" id="products">
-    <div class="row" style="width: 45rem;">
-      <?php foreach ($products as $product) : ?>
-        <div class="col">
-          <?php include("template/card.php") ?>
-        </div>
-      <?php endforeach; ?>
-    </div>
-</header>
-<?php include_once("template/footer.php"); ?>
+<div class="">
+  <?=
+    include_once("template/footer.php"); ?>
+</div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
 
