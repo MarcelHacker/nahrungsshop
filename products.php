@@ -33,7 +33,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
   $userId = $_SESSION['userId'];
   $user = getCurrentUser($userId);
   if (!$user) {
-    echo "Error user<br>";
+    echo "Error user Id <br>";
   } else {
     $cartItems = countProductsInCart($userId);
   ?>

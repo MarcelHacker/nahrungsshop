@@ -73,7 +73,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             </form>
             </div>
         </nav>
-        <?php
+    <?php
     }
 }
 include_once("template/loginForm.php");
@@ -86,53 +86,52 @@ if (isset($_POST['login'])) {
 
     $user = getUserWithEmail($email);
 
-        $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
+    $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
 
-        if (!$user) {
-            echo "<label>Kein User mit der Email registriert </label><br>";
-            $error = true;
-        }
+    if (!$user) {
+        echo "<label>Kein User mit der Email registriert </label><br>";
+        $error = true;
+    }
 
-        if (strlen($password) == 0) {
-            echo "<label>Pasword eingeben!</label><br>";
-            $error = true;
-        }
+    if (strlen($password) == 0) {
+        echo "<label>Pasword eingeben!</label><br>";
+        $error = true;
+    }
 
-        if (!$hash == $user['password']) {
-            echo "<label>Falsches Password! </label><br>";
-            $error = true;
-        }
+    if (!$hash == $user['password']) {
+        echo "<label>Falsches Password! </label><br>";
+        $error = true;
+    }
 
-        echo "User Id = " . $user['id'] . "<br>";
+    echo "User Id = " . $user['id'] . "<br>";
 
-        //Überprüfung des Passworts
-        if ($error == false) {
-            $_SESSION['userId'] = $user['id'];
-            echo "<label>Login erfolgreich! </label><br>";
-        ?>
-            <div class="modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Login</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Sucessfully logged in!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button href="login.php" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button href="index.php" type="button" class="btn btn-primary">Home</button>
-                        </div>
+    //Überprüfung des Passworts
+    if ($error == false) {
+        $_SESSION['userId'] = $user['id'];
+        echo "<label>Login erfolgreich! </label><br>";
+    ?>
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sucessfully logged in!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button href="login.php" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button href="index.php" type="button" class="btn btn-primary">Home</button>
                     </div>
                 </div>
             </div>
+        </div>
 <?php
-        } else {
-            echo "E-Mail oder Passwort war ungültig<br>";
-        }
+    } else {
+        echo "E-Mail oder Passwort war ungültig<br>";
     }
 }
 ?>

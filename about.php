@@ -33,7 +33,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
   if (!$user) {
     echo "Error User<br>";
   } else {
-
+    // cart Item
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <ul class="nav nav-tabs">

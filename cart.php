@@ -10,9 +10,10 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 } else {
     $userId = $_SESSION['userId'];
     $user = getCurrentUser($userId);    // User vorhanden?
-    if (!$user) {                   // Falsche User Id ?
+    if (!$user) {                     // Falsche User Id ?
         echo "Error User";
     } else {
+        // cart Item
 ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
@@ -41,7 +42,6 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
             </ul>
         </nav>
 <?php
-
     }
 }
 

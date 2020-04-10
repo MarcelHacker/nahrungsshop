@@ -18,6 +18,6 @@
     </div>
     </div>
     <div class="row">
-        <a href="#" class="btn btn-primary col-12">Checkout</a>
+        <a href="checkout.php" class="btn btn-primary col-12">Checkout</a>
     </div>
 </section>

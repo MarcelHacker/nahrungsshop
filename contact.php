@@ -28,12 +28,12 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
     </nav>
     <?php
 } else {
-    $db = getDB();
-    if (!$db) {
-        die("Error");
+    $userId = $_SESSION['userId'];
+    $user = getCurrentUser($userId);
+    if (!$user) {
+        echo "Error User Id <br>";
     } else {
-        $res = mysqli_query($db, "select id from user where id='$cookie_name';");
-        $userid = mysqli_fetch_array($res, MYSQLI_ASSOC);
+        //cart Item
     ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
@@ -81,9 +81,9 @@ if (isset($_POST['contact'])) {
         $result = $statement->execute(array('email' => $email, 'name' => $name, 'subject' => $subj, 'message' => $mesg));
 
         if (!$result == false) {
-            echo "<font>Message sent successfully</font>";
+            echo "<font> Message sent successfully </font>";
         } else {
-            echo "<font>Error contact message</font>";
+            echo "<font> Error contact message </font>";
         }
     }
 }
