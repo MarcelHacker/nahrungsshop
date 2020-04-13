@@ -57,7 +57,9 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          Cart (<?= $cartItems ?>)
+          <i class="fas fa-shopping-cart">
+            <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+          </i>
         </li>
       </ul>
     </nav>
@@ -66,31 +68,36 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
   }
 }
 include_once("template/aboutCard.php");
+$showFormular = true;
+
+if (isset($_POST['contact'])) {
+  $email = $_POST['email'];
+  $name = $_POST['name'];
+  $subj = $_POST['subject'];
+  $mesg = $_POST['message'];
+
+  $db = getDB();
+  if (!$db) {
+    echo "Error database connection <br>";
+    die();
+  } else {
+    $sql = "insert into contact (email,name,subject,message) values('$email','$name','$subj','$mesg')";
+    $statement = $db->prepare($sql);
+    $result = $statement->execute(array('email' => $email, 'name' => $name, 'subject' => $subj, 'message' => $mesg));
+
+    if (!$result == false) {
+      echo "<font> Message sent successfully </font>";
+      $showFormular = false;
+    } else {
+      echo "<font> Error contact message </font>";
+    }
+  }
+}
+if ($showFormular = true) {
+  include_once("template/contactForm.php");
+}
 ?>
-<form action="contact.php" method="POST">
-  <div class="container">
-    <h2><span class="badge badge-secondary-">Contact Us</span></h2>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Email address</label>
-      <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Name</label>
-      <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Max Mustermann">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Subject</label>
-      <input type="text" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="product request">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlTextarea1">Message</label>
-      <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
-    <div>
-      <button type="submit" name="contact" class="btn btn-info"> Send </button>
-    </div>
-  </div>
-</form>
+
 <div class="">
   <?= include_once("template/footer.php"); ?>
 </div>

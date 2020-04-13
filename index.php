@@ -60,7 +60,9 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          Cart (<?= $cartItems ?>)
+          <i class="fas fa-shopping-cart">
+            <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+          </i>
         </li>
       </ul>
     </nav>

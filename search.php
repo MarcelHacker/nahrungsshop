@@ -57,7 +57,9 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          Cart (<?= $cartItems ?>)
+          <i class="fas fa-shopping-cart">
+            <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+          </i>
         </li>
       </ul>
     </nav>
@@ -74,9 +76,9 @@ if (isset($_POST["search"])) {
   $products = getProducts($sql);
 
   if (!$products) {
-    echo "Keine Produkte gefunden<br>";
+    echo "No products found<br>";
   } else {
-    echo "Es wurden folgende Produkte gefunden:<br>";
+    echo "Following products were found:<br>";
   ?>
     <header>
       <section class="container px-lg-5" id="search_products">

@@ -72,13 +72,19 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
             </form>
             </div>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <i class="fas fa-shopping-cart">
+                        <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+                    </i>
+                </li>
+            </ul>
         </nav>
-    <?php
+<?php
         // cart insert
     }
 }
-include_once("template/loginForm.php");
-
+$showFormular = true;
 
 if (isset($_POST['login'])) {
     $error = false;
@@ -110,30 +116,13 @@ if (isset($_POST['login'])) {
     if ($error == false) {
         $_SESSION['userId'] = $user['id'];
         echo "<label>Login erfolgreich! </label><br>";
-    ?>
-        <div class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Login</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Sucessfully logged in!</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button href="login.php" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button href="index.php" type="button" class="btn btn-primary">Home</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-<?php
+        $showFormular = false;
     } else {
         echo "E-Mail oder Passwort war ungültig<br>";
     }
+}
+if ($showFormular == true) {
+    include_once("template/loginForm.php");
 }
 ?>
 <div class="fixed-bottom">

@@ -56,6 +56,14 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
             </form>
             </div>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <i class="fas fa-shopping-cart">
+                        <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+                    </i>
+                </li>
+            </ul>
         </nav>
         <!--cart insert-->
 

@@ -1,6 +1,6 @@
 <form action="register.php" method="POST">
     <div class="container" style="background-color: #e3f2fd;">
-        <div class="form-row">
+        <div class="form-row p-2">
             <div class="form-group col-md-6">
                 <label for="inputFisrtname4">Firstname</label>
                 <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Max">
@@ -62,6 +62,6 @@
                 </label>
             </div>
         </div>
-        <button type="submit" name="register" id="register" class="btn btn-primary">Sign Up</button>
+        <button type="submit" name="register" id="register" class="btn btn-primary p-2">Sign Up</button>
     </div>
 </form>

@@ -8,7 +8,6 @@ function addProductToCart(int $userId, int $productId)  // Add product to cart
     ':userId' =>  $userId,
     ':productId' => $productId
   ]);
-
   return $result;
 }
 

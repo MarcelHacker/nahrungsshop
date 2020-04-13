@@ -57,7 +57,9 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          Cart (<?= $cartItems ?>)
+          <i class="fas fa-shopping-cart">
+            <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+          </i>
         </li>
       </ul>
     </nav>
@@ -72,7 +74,6 @@ if (isset($_GET["add"])) {    // Add product to cart
     if (!empty($_GET["add"])) {
       $productId = $_GET["add"];
       addProductToCart($userId, $productId);
-      
     } else {
       echo "<p>No product asked</p>";
     }
