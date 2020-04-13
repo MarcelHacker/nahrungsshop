@@ -44,7 +44,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
 <?php
     }
 }
-
+include_once("template/cardPage.php");
 include_once("template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>

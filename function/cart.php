@@ -4,10 +4,12 @@ function addProductToCart(int $userId, int $productId)  // Add product to cart
   $sql = "INSERT INTO cart SET user_id = :userId, product_Id = :productId";
   $statement = getDB()->prepare($sql);
 
-  $statement->execute([
+  $result = $statement->execute([
     ':userId' =>  $userId,
     ':productId' => $productId
   ]);
+
+  return $result;
 }
 
 function countProductsInCart(int $userId)  // Count products in cart
