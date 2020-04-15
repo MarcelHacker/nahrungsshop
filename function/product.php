@@ -28,3 +28,20 @@ function getProducts($sql)  // For specific product in database
   }
   return $products;
 }
+
+function getProductCategorie()
+{
+  $sql = "SELECT *
+          FROM categories
+          JOIN products ON(categories.cat_id = products.cat_id)
+          WHERE cat_id = product.cat_id";
+  $result = getDB()->query($sql);
+  if (!$result) {
+    return [];
+  }
+  $product = [];
+  while ($row = $result->fetch()) {
+    $product[] = $row;
+  }
+  return $product;
+}

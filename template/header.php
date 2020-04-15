@@ -13,7 +13,7 @@ include_once("function/cart.php");
   <meta name="description" content="foodshop" />
   <meta name="keywords" content="webshop" />
   <meta name="robots" content="index,follow" />
-  <link rel="stylesheet" type="text/css" href="\assets\css\styles.css" />
+  <link rel="stylesheet" type="text/css" href="/assets\css\styles.css" />
   <link rel="stylesheet" type="text/css" href="assets\css\bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="assets\fontawesome\css\all.css" /> <!-- For icons -->
 </head>
