@@ -14,7 +14,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     if (!$user) {                     // Falsche User Id ?
         echo "Error User Id <br>";
     } else {
-        $cartItems = countProductsInCart($userId);
+        $countCartItems = countProductsInCart($userId);
 ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
@@ -39,15 +39,18 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <i class="fas fa-shopping-cart">
-                        <a href="cart.php">Cart (<?= $cartItems ?>)</a>
+                        <a href="cart.php">Cart (<?= $countCartItems ?>)</a>
                     </i>
                 </li>
             </ul>
         </nav>
 <?php
+        $cartItems = getCartItemsForUserId($userId);
+        $cartSum = getCartSumForUserId($userId);
+        include_once("template/cartPage.php");
     }
 }
-include_once("template/cardPage.php");
+
 include_once("template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>

@@ -2,7 +2,7 @@
 session_start();
 include_once("template/header.php");
 
-if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,7 +31,7 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
     $userId = $_SESSION['userId'];
     $user = getCurrentUser($userId);
     if (!$user) {
-        echo "Error user <br>";
+        echo "Error User Id<br>";
         die();
     } else {
         $cartItems = countProductsInCart($userId);
@@ -65,8 +65,6 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
                 </li>
             </ul>
         </nav>
-        <!--cart insert-->
-
 <?php
         echo "You are already logged in";
         sleep(1.5);    //1,5 warten
@@ -138,7 +136,7 @@ if (isset($_POST['register'])) {
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if (!$error) {
         $user = getUserWithEmail($email);
-        if (!$user) {
+        if ($user) {
             echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
             $error = true;
         }
@@ -161,14 +159,16 @@ if (isset($_POST['register'])) {
                 'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
                 'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
             ));
-            echo "$email<br>";
+
 
 
             if ($result) {
                 $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
                 $result = $statement->execute(array('email' => $email));
                 $userId = $statement->fetch();
-                echo 'Du wurdest erfolgreich registriert';
+                $_SESSION['userId'] = $userId;   // Sets User Id
+                echo "<label>$email</label></br>";
+                echo "Registered sucessfully!<br>";
                 $showFormular = false;
                 //header("Location: index.php");
             } else {

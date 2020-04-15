@@ -78,7 +78,6 @@ if (isset($_GET["add"])) {    // Add product to cart
     } else {
       echo "<p>No product asked</p>";
     }
-    echo "<p>No product asked</p>";
   }
 }
 
@@ -86,7 +85,7 @@ if (isset($_GET["details"])) {  // See product details
   if (!empty($_GET["details"])) {
     $productId = $_GET["details"];
 
-    echo $productId;
+    echo $productId"<br>";
     $sql = "SELECT * FROM products WHERE id = $productId";
     $product = getProducts($sql);
 

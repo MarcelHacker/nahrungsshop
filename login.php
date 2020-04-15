@@ -81,7 +81,6 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
             </ul>
         </nav>
 <?php
-        // cart insert
     }
 }
 $showFormular = true;
