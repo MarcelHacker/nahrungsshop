@@ -90,7 +90,7 @@ if (isset($_GET["details"])) {  // See product details
     $product = getProducts($sql);
 
     if (!$product) {
-      echo "Error product details <br>";
+      echo "Error product Id <br>";
     } else {
       include("template/productDetails.php");
     }

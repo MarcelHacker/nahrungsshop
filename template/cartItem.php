@@ -1,5 +1,5 @@
 <div class="col-3">
-    <img class="productPicture" src="https://placekitten.com/286/180">
+    <img class="productPicture" src="<?= $cartItem['source'] ?>">
 </div>
 <div class="col-7">
     <div><?= $cartItem['title'] ?></div>
