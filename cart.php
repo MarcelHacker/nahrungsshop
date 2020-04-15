@@ -2,11 +2,12 @@
 session_start();
 include_once("template/header.php");
 
-if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
-    echo "Please login for your cart<br>";
-    time_sleep_until(3);
+    echo "<label>Please login for your cart</label><br>";
+    sleep(1);
     header("Location: login.php");
+    exit;
 } else {
     $userId = $_SESSION['userId'];
     $user = getCurrentUser($userId);    // User vorhanden?

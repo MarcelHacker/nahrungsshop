@@ -26,3 +26,8 @@ function getUserWithEmail(string $email)
     }
     return $user;
 }
+
+function isLoggedIn(): bool     // Checking if user is logged in
+{
+    return isset($_SESSION['userId']);
+}

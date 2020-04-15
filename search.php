@@ -2,7 +2,7 @@
 session_start();
 include_once("template/header.php");
 
-if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">

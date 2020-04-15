@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['userId'])) {      // Not logged in?
+if (!isLoggedIn()) {      // Not logged in?
     header("Loctaion: index.php");      // Go to index
     exit;                               // Prevents loading when poor connection
 }

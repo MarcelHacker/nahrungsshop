@@ -138,7 +138,7 @@ if (isset($_POST['register'])) {
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if (!$error) {
         $user = getUserWithEmail($email);
-        if ($user !== false) {
+        if (!$user) {
             echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
             $error = true;
         }
@@ -148,7 +148,7 @@ if (isset($_POST['register'])) {
     if (!$error) {
         $db = getDB();
         if (!$db) {
-            echo "Error database connection";
+            echo "Error database connection<br>";
             die();
         } else {
 

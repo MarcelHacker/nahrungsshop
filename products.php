@@ -2,7 +2,7 @@
 session_start();
 include_once("template/header.php");
 
-if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -67,8 +67,9 @@ if (!isset($_SESSION['userId'])) //wenn nicht eingeloggt User.php nicht anzeigen
   }
 }
 $showProducts = true;
+
 if (isset($_GET["add"])) {    // Add product to cart
-  if (!isset($_SESSION['userId'])) {
+  if (!isLoggedIn()) {
     echo "<label>Please login</label><br>";
   } else {
     if (!empty($_GET["add"])) {
@@ -80,6 +81,7 @@ if (isset($_GET["add"])) {    // Add product to cart
     echo "<p>No product asked</p>";
   }
 }
+
 if (isset($_GET["details"])) {  // See product details
   if (!empty($_GET["details"])) {
     $productId = $_GET["details"];
@@ -113,8 +115,7 @@ if ($showProducts == true) {
 }
 ?>
 <div class="">
-  <?=
-    include_once("template/footer.php"); ?>
+  <?= include_once("template/footer.php"); ?>
 </div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
