@@ -1,11 +1,16 @@
 <section class="container" id="cartItems">
-    <div clas="row">
+    <div class="row">
         <h2>Cart</h2>
     </div>
     <div class="row cartItemHeader">
-        <div class="col-12 text-right">
-            Price
+        <div class="col-12">
+            <div class="text-right">
+                Price
+            </div>
         </div>
+
+    </div>
+
     </div>
     <?php foreach ($cartItems as $cartItem) : ?>
         <div class="row cartItem">
