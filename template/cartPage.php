@@ -8,7 +8,6 @@
                 Price
             </div>
         </div>
-
     </div>
 
     </div>

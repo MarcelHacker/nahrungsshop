@@ -2,7 +2,7 @@
 
 function getAllProducts() // For all products in database
 {
-  $sql = "SELECT *
+  $sql = "SELECT id,title,description,price,cat_id,source
   FROM products";
 
   $result = getDB()->query($sql);

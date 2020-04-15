@@ -3,7 +3,7 @@
         <div class="card mb-5">
             <div class="row no-gutters">
                 <div class="col-md-14">
-                    <img src="https://i.dietdoctor.com/wp-content/uploads/2018/08/GettyImages-876656828.jpg?auto=compress%2Cformat&w=800&h=533&fit=crop" class="card-img" alt="image">
+                    <img src="assets\img\about\healthy.png" class="card-img" alt="image">
                 </div>
                 <div class="col-md-14">
                     <div class="card-body">
