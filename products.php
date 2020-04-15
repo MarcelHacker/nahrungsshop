@@ -75,6 +75,7 @@ if (isset($_GET["add"])) {    // Add product to cart
     if (!empty($_GET["add"])) {
       $productId = $_GET["add"];
       addProductToCart($userId, $productId);
+      echo "Product sucessfull added!<br>";
     } else {
       echo "<p>No product asked</p>";
     }
@@ -85,16 +86,22 @@ if (isset($_GET["details"])) {  // See product details
   if (!empty($_GET["details"])) {
     $productId = $_GET["details"];
 
-    echo $productId;
-    $sql = "SELECT * FROM products WHERE id = $productId";
-    $product = getProducts($sql);
-
-    if (!$product) {
-      echo "Error product Id <br>";
+    $db = getDB();
+    if (!$db) {
+      echo "Error database connection <br>";
+      die();
     } else {
-      include("template/productDetails.php");
+      $statement = $db->prepare("SELECT * FROM products WHERE id = :productId");
+      $result = $statement->execute(array('productId' => $productId));
+      $product = $statement->fetch();    // User schon vorhanden?
+
+      if (!$product) {
+        echo "Error product Id <br>";
+      } else {
+        include("template/productDetails.php");
+      }
+      $showProducts = false;
     }
-    $showProducts = false;
   }
 }
 if ($showProducts == true) {

@@ -27,7 +27,7 @@ function countProductsInCart(int $userId)  // Count products in cart
 
 function getCartItemsForUserId(int $userId): array // 
 {
-  $sql = "SELECT product_id,title,description,price
+  $sql = "SELECT *
           FROM cart
           JOIN products ON(cart.product_id = products.id)
           WHERE user_id = " . $userId;
