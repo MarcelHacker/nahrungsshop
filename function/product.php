@@ -32,9 +32,9 @@ function getProducts($sql)  // For specific product in database
 function getProductCategorie() //TODO categorie for product 
 {
   $sql = "SELECT *
-          FROM categories
-          JOIN products ON(categories.cat_id = products.cat_id)
-          WHERE cat_id = product.cat_id";
+          FROM products
+          JOIN categories ON(categories.cat_id = products.cat_id)";
+  //WHERE cat_id = product.cat_id";   // Inner join
   $result = getDB()->query($sql);
   if (!$result) {
     return [];
