@@ -1,5 +1,5 @@
 <?php
-
+//id,title,description,price,cat_id,source
 function getAllProducts() // For all products in database
 {
   $sql = "SELECT id,title,description,price,cat_id,source
@@ -29,19 +29,20 @@ function getProducts($sql)  // For specific product in database
   return $products;
 }
 
-function getProductCategorie() //TODO categorie for product 
+function getProductCategorie($productId) //TODO categorie for product 
 {
   $sql = "SELECT *
-          FROM products
-          JOIN categories ON(categories.cat_id = products.cat_id)";
-  //WHERE cat_id = product.cat_id";   // Inner join
+  FROM products
+  JOIN categories ON products.cat_id = categories.cat_id
+  WHERE products.id = $productId";
+
   $result = getDB()->query($sql);
   if (!$result) {
     return [];
   }
-  $product = [];
+  $productCategorie = [];
   while ($row = $result->fetch()) {
-    $product[] = $row;
+    $productCategorie[] = $row;
   }
-  return $product;
+  return $productCategorie;
 }

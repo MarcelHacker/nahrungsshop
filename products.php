@@ -110,11 +110,17 @@ if ($showProducts == true) {
   <header>
     <section class="container" id="products">
       <div class="row" style="width: 45rem;">
-        <?php foreach ($products as $product) : ?>
-          <div class="col">
-            <?php include("template/card.php") ?>
-          </div>
-        <?php endforeach; ?>
+        <?php foreach ($products as $product) :
+          $productCategorie = getProductCategorie($product['id']);
+          foreach ($productCategorie as $categorie) :
+
+        ?>
+            <div class="col">
+              <?php
+              include("template/card.php") ?>
+            </div>
+        <?php endforeach;
+        endforeach; ?>
       </div>
   </header>
 <?php

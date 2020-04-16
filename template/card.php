@@ -5,6 +5,8 @@
         <div class="card-body">
             <?= $product['description'] ?>
             <hr>
+            <?= $categorie['title'] ?>
+            <hr>
             <?= $product['price'] ?> €
         </div>
         <div class="card-footer">
