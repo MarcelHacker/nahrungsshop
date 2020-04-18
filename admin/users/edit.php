@@ -71,10 +71,22 @@ function getUserWithEmail(string $email)
         <?php
         if (isset($_GET["del"])) {
             if (!empty($_GET["del"])) {
-                $stmt = $mysql->prepare("DELETE FROM users WHERE ID = :id");
-                $stmt->execute(array(":id" => $_GET["del"]));
+                $userId = $_GET["del"];
 
-                echo "<p>User successfully deleted</p>";
+                $db = getDB();
+                if (!$db) {
+                    echo "Error database connection<br>";
+                    die();
+                } else {
+                    $sql = "DELETE FROM users WHERE id = :userid";
+                    $statement = $db->prepare($sql);
+                    $result = $statement->execute(array('userid' => $userId));
+                    if ($result) {
+                        echo "<p>User successfully deleted</p>";
+                    } else {
+                        echo "<p>Error remove user</p>";
+                    }
+                }
             }
         }
 
@@ -277,7 +289,7 @@ function getUserWithEmail(string $email)
                     $stmt = $db->prepare("SELECT * FROM users WHERE id = :userid");
                     $stmt->execute(array(":userid" => $userid));
                     $row = $stmt->fetch();
-                    if ($showUserForm = true) {
+                    if ($showUserForm == true) {
                 ?>
                         <form action="edit.php?id=<?php echo $_GET["id"] ?>" method="POST">
                             <div class="form-group col-md-6">
