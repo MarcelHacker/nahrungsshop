@@ -113,7 +113,6 @@ if ($showProducts == true) {
         <?php foreach ($products as $product) :
           $productCategorie = getProductCategorie($product['id']);
           foreach ($productCategorie as $categorie) :
-
         ?>
             <div class="col">
               <?php

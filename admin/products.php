@@ -99,7 +99,7 @@ function getDB()  // Database connection
                         <td><?php echo $row["created"] ?></td>
                         <td><?php echo $row["modified"] ?></td>
                         <td><?php echo $row["source"] ?></td>
-                        <td><a href="products/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-edit"></i></a><a href="products/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-user-minus"></i></a></td>
+                        <td><a href="products/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-pen"></i></i></a><a href="products/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
             <?php
                 }
