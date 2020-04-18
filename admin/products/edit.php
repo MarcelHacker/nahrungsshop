@@ -133,12 +133,12 @@ function getProductWithTitle(string $title)
             //Keine Fehler, wir können den Nutzer registrieren
             if (!$error) {
                 $sql = "INSERT INTO products (title,description,price,cat_id,created,source) 
-                        VALUES (:title,:description,:price,:cat_id,:created,:source)";
+                        VALUES (:title,:description,:price,:cat_id,CURRENT_TIMESTAMP(),:source)";
                 $statement = $db->prepare($sql);
 
                 $result = $statement->execute(array(
                     'title' => $title, 'description' => $description, 'price' => $price, 'cat_id' => $cat_id,
-                    'created' => CURRENT_TIMESTAMP(), 'source' => $source
+                    'source' => $source
                 ));
 
                 if ($result) {
@@ -159,55 +159,45 @@ function getProductWithTitle(string $title)
     ?>
             <form action="edit.php?add" method="POST">
                 <div class="form-group col-md-6">
-                    <label for="inputFisrtname4">Firstname</label>
-                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Max" require>
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="" require>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="lastname">Lastname</label>
-                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Mustermann" require>
+                    <label for="descr">Description</label>
+                    <input type="text" class="form-control" name="description" id="description" placeholder="" require>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" require>
+                    <label for="price">Price €</label>
+                    <input type="number" class="form-control" name="price" id="price" placeholder="" require></input>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" require>
+                    <label for="source">Source</label>
+                    <input type="text" class="form-control" name="source" id="source" placeholder="" require>
                 </div>
-                <div class="form-group col-md-6">
-                    <label for="birthdate">Birthdate</label>
-                    <input type="date" class="form-control" name="birthdate" id="birthdate" placeholder="" require>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputAddress2">Address</label>
-                    <input type="text" class="form-control" name="address" id="address" placeholder="Hufeisengasse" require>
-                </div>
-                <div class="form-group col-md-1">
-                    <label for="houseNumber">Housenumber</label>
-                    <input type="number" class="form-control" name="housenumber" id="housenumber" placeholder="1" require>
-                </div>
-                </div>
+                <div class="container">
+                    <label for="cat_id">Categorie</label>
+                    <select class="custom-select" name="cat_id" id="cat_id" aria-label="Example select with button addon">
+                        <?php
+                        $sql = "SELECT *
+                            FROM categories";
 
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="city">City</label>
-                        <input type="text" class="form-control" name="city" id="city" placeholder="Guntersdorf" require>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="country">State</label>
-                        <select name="country" id="country" class="form-control" require>
-                            <option selected>Choose...</option>
-                            <option value="austria">Austria</option>
-                            <option value="united kingdom">United Kingdom</option>
-                            <option value="china">China</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="postCode">Zip</label>
-                        <input type="number" class="form-control" name="postcode" id="postcode" placeholder="1234" require>
-                    </div>
+                        $result = $db->query($sql);
+                        if (!$result) {
+                            return [];
+                        }
+                        $categories = [];
+                        while ($row = $result->fetch()) {
+                            $categories[] = $row;
+                        }
+                        foreach ($categories as $categorie) :
+                        ?>
+                            <option value="<?= $categorie['cat_id'] ?>"><?= $categorie['title'] ?> </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-                <button name="add" type="submit">Create</button>
+                <div class="input-group-append p-2">
+                    <button class="btn btn-outline-secondary" name="add" type="sumbit">Create</button>
+                </div>
             </form>
             <?php
         }
@@ -298,13 +288,8 @@ function getProductWithTitle(string $title)
             //edit.php?id
             ?>
             <p>No product selected</p>
-        <?php
-        }
-    } else {
-        //edit.php
-        ?>
-        <p>No product selected</p>
     <?php
+        }
     }
     ?>
 </body>
