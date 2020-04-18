@@ -10,7 +10,6 @@ if ($_SESSION['userId'] != 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tables</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
 </head>
 
 <body>
@@ -28,114 +27,130 @@ if ($_SESSION['userId'] != 0) {
             <a class="nav-link" href="../logout.php">Logout</a>
         </li>
     </ul>
-    <table>
+    <table class="table">
         <label>Cart</label>
-        <tr>
-            <th>ID</th>
-            <th>User_id</th>
-            <th>Product_id</th>
-            <th>Quantity</th>
-            <th>Created</th>
-        </tr>
-
-        <?php
-
-        $stmt = $mysql->prepare("SELECT * FROM cart");
-        $stmt->execute();
-        while ($row = $stmt->fetch()) {
-        ?>
+        <thead>
             <tr>
-                <td><?php echo $row["id"] ?></td>
-                <td><?php echo $row["user_id"] ?></td>
-                <td><?php echo $row["product_id"] ?></td>
-                <td><?php echo $row["quantity"] ?></td>
-                <td><?php echo $row["created"] ?></td>
+                <th scope="col">ID</th>
+                <th scope="col">User_id</th>
+                <th scope="col">Product_id</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Created</th>
             </tr>
-        <?php
-        }
-        ?>
+        </thead>
+        <tbody>
+            <?php
+
+            $stmt = $mysql->prepare("SELECT * FROM cart");
+            $stmt->execute();
+            while ($row = $stmt->fetch()) {
+            ?>
+                <tr>
+                    <th scope="row"><?php echo $row["id"] ?></th>
+                    <td><?php echo $row["user_id"] ?></td>
+                    <td><?php echo $row["product_id"] ?></td>
+                    <td><?php echo $row["quantity"] ?></td>
+                    <td><?php echo $row["created"] ?></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
     </table>
 
-    <table>
-        <label>Orders</label> //TODO table orders
-        <tr>
-            <th>ID</th>
-            <th>User_id</th>
-            <th>Product_id</th>
-            <th>Quantity</th>
-            <th>Created</th>
-        </tr>
-
-        <?php
-
-        $stmt = $mysql->prepare("SELECT * FROM cart");
-        $stmt->execute();
-        while ($row = $stmt->fetch()) {
-        ?>
+    <table class="table"> //TODO table orders
+        <label>Orders</label>
+        <thead>
             <tr>
-                <td><?php echo $row["id"] ?></td>
-                <td><?php echo $row["user_id"] ?></td>
-                <td><?php echo $row["product_id"] ?></td>
-                <td><?php echo $row["quantity"] ?></td>
-                <td><?php echo $row["created"] ?></td>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Message</th>
+                <th scope="col">Created</th>
             </tr>
-        <?php
-        }
-        ?>
+        </thead>
+        <tbody>
+            <?php
+
+            $stmt = $mysql->prepare("SELECT * FROM orders");
+            $stmt->execute();
+            while ($row = $stmt->fetch()) {
+            ?>
+                <tr>
+                    <th scope="row"><?php echo $row["id"] ?></th>
+                    <td><?php echo $row["email"] ?></td>
+                    <td><?php echo $row["name"] ?></td>
+                    <td><?php echo $row["subject"] ?></td>
+                    <td><?php echo $row["message"] ?></td>
+                    <td><?php echo $row["created"] ?></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
     </table>
 
-    <table>
+    <table class="table">
         <label>Contact</label>
-        <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Subject</th>
-            <th>Message</th>
-            <th>Created</th>
-        </tr>
-
-        <?php
-
-        $stmt = $mysql->prepare("SELECT * FROM contact");
-        $stmt->execute();
-        while ($row = $stmt->fetch()) {
-        ?>
+        <thead>
             <tr>
-                <td><?php echo $row["id"] ?></td>
-                <td><?php echo $row["email"] ?></td>
-                <td><?php echo $row["name"] ?></td>
-                <td><?php echo $row["subject"] ?></td>
-                <td><?php echo $row["message"] ?></td>
-                <td><?php echo $row["created"] ?></td>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Message</th>
+                <th scope="col">Created</th>
             </tr>
-        <?php
-        }
-        ?>
+        </thead>
+        <tbody>
+            <?php
+
+            $stmt = $mysql->prepare("SELECT * FROM contact");
+            $stmt->execute();
+            while ($row = $stmt->fetch()) {
+            ?>
+                <tr>
+                    <th scope="row"><?php echo $row["id"] ?></th>
+                    <td><?php echo $row["email"] ?></td>
+                    <td><?php echo $row["name"] ?></td>
+                    <td><?php echo $row["subject"] ?></td>
+                    <td><?php echo $row["message"] ?></td>
+                    <td><?php echo $row["created"] ?></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
     </table>
 
-    <table>
+    <table class="table">
         <label>Categories</label>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Created</th>
-            <th>Modified</th>
-        </tr>
-
-        <?php
-
-        $stmt = $mysql->prepare("SELECT * FROM categories");
-        $stmt->execute();
-        while ($row = $stmt->fetch()) {
-        ?>
+        <thead>
             <tr>
-                <td><?php echo $row["id"] ?></td>
-                <td><?php echo $row["title"] ?></td>
-                <td><?php echo $row["created"] ?></td>
-                <td><?php echo $row["modified"] ?></td>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Created</th>
+                <th scope="col">Modified</th>
             </tr>
-        <?php
-        }
-        ?>
-    </table>
+        </thead>
+        <tbody>
+            <?php
+
+            $stmt = $mysql->prepare("SELECT * FROM categories");
+            $stmt->execute();
+            while ($row = $stmt->fetch()) {
+            ?>
+                <tr>
+                    <th scope="row"><?php echo $row["id"] ?></th>
+                    <td><?php echo $row["title"] ?></td>
+                    <td><?php echo $row["created"] ?></td>
+                    <td><?php echo $row["modified"] ?></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
+</body>
+
+</html>

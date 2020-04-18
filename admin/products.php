@@ -28,38 +28,41 @@ if ($_SESSION['userId'] != 0) {
             <a class="nav-link" href="../logout.php">Logout</a>
         </li>
     </ul>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Cat_id</th>
-            <th>Created</th>
-            <th>Modified</th>
-            <th>Source</th>
-        </tr>
-
-        <?php
-
-        $stmt = $mysql->prepare("SELECT * FROM products");
-        $stmt->execute();
-        while ($row = $stmt->fetch()) {
-        ?>
+    <table class="table">
+        <thead>
             <tr>
-                <td><?php echo $row["id"] ?></td>
-                <td><?php echo $row["title"] ?></td>
-                <td><?php echo $row["description"] ?></td>
-                <td><?php echo $row["price"] ?></td>
-                <td><?php echo $row["cat_id"] ?></td>
-                <td><?php echo $row["created"] ?></td>
-                <td><?php echo $row["modified"] ?></td>
-                <td><?php echo $row["source"] ?></td>
-                <td><a href="products/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-edit"></i></a><a href="products/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-user-minus"></i></a></td>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Cat_id</th>
+                <th scope="col">Created</th>
+                <th scope="col">Modified</th>
+                <th scope="col">Source</th>
             </tr>
-        <?php
-        }
-        ?>
+        </thead>
+        <tbody>
+            <?php
+
+            $stmt = $mysql->prepare("SELECT * FROM products");
+            $stmt->execute();
+            while ($row = $stmt->fetch()) {
+            ?>
+                <tr>
+                    <th scope="row"><?php echo $row["id"] ?></th>
+                    <td><?php echo $row["title"] ?></td>
+                    <td><?php echo $row["description"] ?></td>
+                    <td><?php echo $row["price"] ?> €</td>
+                    <td><?php echo $row["cat_id"] ?></td>
+                    <td><?php echo $row["created"] ?></td>
+                    <td><?php echo $row["modified"] ?></td>
+                    <td><?php echo $row["source"] ?></td>
+                    <td><a href="products/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-edit"></i></a><a href="products/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-user-minus"></i></a></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
     </table>
 </body>
 
