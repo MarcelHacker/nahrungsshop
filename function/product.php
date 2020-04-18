@@ -46,3 +46,17 @@ function getProductCategorie($productId) //TODO categorie for product
   }
   return $productCategorie;
 }
+
+function getProductWithTitle(string $title)
+{
+  $db = getDB();
+  if (!$db) {
+    die();
+  } else {
+
+    $statement = $db->prepare("SELECT * FROM products WHERE title = :title");
+    $statement->execute(array('title' => $title));
+    $product = $statement->fetch();
+  }
+  return $product;
+}

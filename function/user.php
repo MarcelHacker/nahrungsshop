@@ -7,7 +7,7 @@ function getCurrentUser(int $userId)
         die();
     } else {
         $statement = $db->prepare("SELECT * FROM users WHERE id = :userId");
-        $result = $statement->execute(array('userId' => $userId));
+        $statement->execute(array('userId' => $userId));
         $user = $statement->fetch();    // User schon vorhanden?
     }
     return $user;

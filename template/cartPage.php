@@ -11,14 +11,17 @@
     </div>
 
     </div>
-    <?php foreach ($cartItems as $cartItem) : ?>
-        <div class="row cartItem">
-            <?php include("cartItem.php"); ?>
-        </div>
-    <?php endforeach; ?>
+    <?php foreach ($cartItems as $cartItem) :
+        $categories = getProductCategorie($cartItem['product_id']);
+        foreach ($categories as $categorie) : ?>
+            <div class="row cartItem">
+                <?php include("cartItem.php"); ?>
+            </div>
+    <?php endforeach;
+    endforeach ?>
     <div class="row">
         <div class="col-12 text-right">
-            Total (<?= $countCartItems ?> Products): <span class="price"><?= number_format($cartSum, 2, ",", " ") ?> €</div>
+            Total (<?= $countCartItems ?> Products): <span class="price" style="color :red"><?= number_format($cartSum, 2, ",", " ") ?> €</div>
     </div>
     </div>
     <div class="row">

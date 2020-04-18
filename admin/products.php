@@ -1,24 +1,11 @@
 <?php
 session_start();
-define('DB_DATABASE', 'brainfooddb');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_HOST', '127.0.0.1');
-define('DB_CHARSET', 'utf8');
-/*if ($_SESSION['userId'] != 0) {
+include_once("../../template/header.php");
+/*if (isloggedin() != 0) {
     header("Location: ../admin.php");
     exit;
 } */
-function getDB()  // Database connection
-{
-    static $db;
-    if ($db instanceof PDO) {
-        return $db;
-    }
-    $dsn = sprintf("mysql:host=%s;dbname=%s;charset=%s", DB_HOST, DB_DATABASE, DB_CHARSET);
-    $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
-    return $db;
-} ?>
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 

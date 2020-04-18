@@ -13,6 +13,18 @@ function addProductToCart(int $userId, int $productId)  // Add product to cart
   ]);
   return $result;
 }
+function deleteProductFromCart(int $userId, int $productId)  // Delete product from cart
+{
+  $sql = "DELETE FROM cart
+          WHERE user_id = :userId AND product_id = :productId";
+  $statement = getDB()->prepare($sql);
+
+  $result = $statement->execute([
+    ':userId' =>  $userId,
+    ':productId' => $productId
+  ]);
+  return $result;
+}
 
 function countProductsInCart(int $userId)  // Count products in cart
 {
@@ -30,7 +42,7 @@ function getCartItemsForUserId(int $userId): array //
   $sql = "SELECT *
           FROM cart
           JOIN products ON(cart.product_id = products.id)
-          WHERE user_id = " . $userId;
+          WHERE user_id = $userId";
   $results = getDb()->query($sql);
   if ($results === false) {
     return [];

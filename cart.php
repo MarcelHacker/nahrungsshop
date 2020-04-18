@@ -51,6 +51,32 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     }
 }
 
+if (isset($_GET["plus"])) {
+    if (!empty($_GET["plus"])) {
+        $userId = $_SESSION["userId"];
+        $productId = $_GET["plus"];
+        $result = addProductToCart($userId, $productId);
+        if (!$result) {
+            echo "Error add product<br>";
+        }
+    } else {
+        echo "No product selected<br>";
+    }
+}
+if (isset($_GET["del"])) {
+    if (!empty($_GET["del"])) {
+        $userId = $_SESSION["userId"];
+        $productId = $_GET["del"];
+
+        $result = deleteProductFromCart($userId, $productId);
+        if (!$result) {
+            echo "Error delete product<br>";
+        }
+    } else {
+        echo "No product selected<br>";
+    }
+}
+
 include_once("template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
