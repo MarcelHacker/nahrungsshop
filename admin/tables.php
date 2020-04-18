@@ -52,18 +52,6 @@ function getDB()  // Database connection
             </li>
         </ul>
     </nav>
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="all" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
-            <a class="nav-item nav-link" id="priceasc" name="submit" href="products.php?priceASC" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false"></a>
-            <a class="nav-item nav-link" id="categorieasc" name="submit" href="products.php?catASC" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false"></a>
-        </div>
-    </nav>
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" href="products.php" id="all" role="tabpanel" aria-labelledby="nav-home-tab"></div>
-        <div class="tab-pane fade show active" href="products.php?priceASC" id="priceasc" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
-        <div class="tab-pane fade show active" id="categorieasc" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
-    </div>
 
     <table class="table">
         <label>Cart</label>
@@ -78,26 +66,26 @@ function getDB()  // Database connection
         </thead>
         <tbody>
             <?php
-             $db = getDB();
-             if (!$db) {
-                 die();
-             } else {
-                 $sql = "SELECT * FROM cart ORDER by id ASC";
-                 $stmt = $db->prepare($sql);
-                 $result = $stmt->execute();
+            $db = getDB();
+            if (!$db) {
+                die();
+            } else {
+                $sql = "SELECT * FROM cart ORDER by id ASC";
+                $stmt = $db->prepare($sql);
+                $result = $stmt->execute();
 
-            while ($row = $stmt->fetch()) {
+                while ($row = $stmt->fetch()) {
             ?>
-                <tr>
-                    <th scope="row"><?php echo $row["id"] ?></th>
-                    <td><?php echo $row["user_id"] ?></td>
-                    <td><?php echo $row["product_id"] ?></td>
-                    <td><?php echo $row["quantity"] ?></td>
-                    <td><?php echo $row["created"] ?></td>
-                </tr>
-            <?php
-            }
-            ?>
+                    <tr>
+                        <th scope="row"><?php echo $row["id"] ?></th>
+                        <td><?php echo $row["user_id"] ?></td>
+                        <td><?php echo $row["product_id"] ?></td>
+                        <td><?php echo $row["quantity"] ?></td>
+                        <td><?php echo $row["created"] ?></td>
+                    </tr>
+                <?php
+                }
+                ?>
         </tbody>
     </table>
 
@@ -119,7 +107,7 @@ function getDB()  // Database connection
                 $stmt = $db->prepare($sql);
                 $result = $stmt->execute();
 
-            while ($row = $stmt->fetch()) {
+                while ($row = $stmt->fetch()) {
             ?>
                 <tr>
                     <th scope="row"><?php echo $row["id"] ?></th>
@@ -130,7 +118,7 @@ function getDB()  // Database connection
                     <td><?php echo $row["created"] ?></td>
                 </tr>
             <?php
-            }
+                }
             ?>
         </tbody>
     </table>
@@ -149,11 +137,11 @@ function getDB()  // Database connection
         </thead>
         <tbody>
             <?php
-                 $sql = "SELECT * FROM contact ORDER by id ASC";
-                 $stmt = $db->prepare($sql);
-                 $result = $stmt->execute();
+                $sql = "SELECT * FROM contact ORDER by id ASC";
+                $stmt = $db->prepare($sql);
+                $result = $stmt->execute();
 
-            while ($row = $stmt->fetch()) {
+                while ($row = $stmt->fetch()) {
             ?>
                 <tr>
                     <th scope="row"><?php echo $row["id"] ?></th>
@@ -164,7 +152,7 @@ function getDB()  // Database connection
                     <td><?php echo $row["created"] ?></td>
                 </tr>
             <?php
-            }
+                }
             ?>
         </tbody>
     </table>
@@ -181,12 +169,12 @@ function getDB()  // Database connection
         </thead>
         <tbody>
             <?php
-           
-                 $sql = "SELECT * FROM categories ORDER by id ASC";
-                 $stmt = $db->prepare($sql);
-                 $result = $stmt->execute();
-           
-            while ($row = $stmt->fetch()) {
+
+                $sql = "SELECT * FROM categories ORDER by id ASC";
+                $stmt = $db->prepare($sql);
+                $result = $stmt->execute();
+
+                while ($row = $stmt->fetch()) {
             ?>
                 <tr>
                     <th scope="row"><?php echo $row["id"] ?></th>
@@ -194,9 +182,10 @@ function getDB()  // Database connection
                     <td><?php echo $row["created"] ?></td>
                     <td><?php echo $row["modified"] ?></td>
                 </tr>
-            <?php
+        <?php
+                }
             }
-            ?>
+        ?>
         </tbody>
 </body>
 

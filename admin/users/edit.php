@@ -1,68 +1,256 @@
 <?php
 session_start();
-include_once("../template/header.php");
-if ($_SESSION['userId'] != 0) {
+define('DB_DATABASE', 'brainfooddb');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_HOST', '127.0.0.1');
+define('DB_CHARSET', 'utf8');
+/*if ($_SESSION['userId'] != 0) {
     header("Location: ../admin.php");
     exit;
+} */
+function getDB()  // Database connection
+{
+    static $db;
+    if ($db instanceof PDO) {
+        return $db;
+    }
+    $dsn = sprintf("mysql:host=%s;dbname=%s;charset=%s", DB_HOST, DB_DATABASE, DB_CHARSET);
+    $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+    return $db;
 } ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benutzer bearbeiten</title>
+    <title>Brain Food - Users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="foodshop" />
+    <meta name="keywords" content="webshop" />
+    <meta name="robots" content="index,follow" />
+    <link rel="stylesheet" type="text/css" href="..\assets\css\bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="..\assets\fontawesome\css\all.css" /> <!-- For icons -->
 </head>
 
 <body>
-    <?php
-    if (isset($_GET["del"])) {
-        if (!empty($_GET["del"])) {
-            $stmt = $mysql->prepare("DELETE FROM users WHERE ID = :id");
-            $stmt->execute(array(":id" => $_GET["del"]));
+    <div>
+        <h1><span class="badge badge-secondary-">Brain Food</span></h1>
+    </div>
+    <nav>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="/index.php">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/products.php">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/tables.php">Tables</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../logout.php">Logout</a>
+            </li>
+        </ul>
+    </nav>
 
-            echo "<p>Der Benutzer wurde gelöscht</p>";
-        }
-    }
-
-    if (isset($_GET["id"])) {
-        if (!empty($_GET["id"])) {
-            require("mysql.php");
-            if (isset($_POST["submit"])) {
-                $stmt = $mysql->prepare("UPDATE users SET USERNAME = :user, EMAIL = :email WHERE ID = :id");
-                $stmt->execute(array(":user" => $_POST["username"], ":email" => $_POST["email"], ":id" => $_GET["id"]));
-
-                echo "<p>Der Benutzer wurde gespeichert.</p>";
-            }
-            $stmt = $mysql->prepare("SELECT * FROM users WHERE ID = :id");
-            $stmt->execute(array(":id" => $_GET["id"]));
-            $row = $stmt->fetch();
-    ?>
-            <form action="edit.php?id=<?php echo $_GET["id"] ?>" method="post">
-                <input type="text" name="firstname" value="<?php echo $row["firstname"] ?>" placeholder="Firstname" require><br>
-                <input type="text" name="lastname" value="<?php echo $row["lastname"] ?>" placeholder="Lastname" require><br>
-                <input type="email" name="email" value="<?php echo $row["email"] ?>" placeholder="example@gmail.com" require><br>
-                <input type="password" name="password" value="<?php echo $row["password"] ?>" placeholder="Password" require><br>
-                <input type="text" name="city" value="<?php echo $row["city"] ?>" placeholder="City" require><br>
-                <input type="numbers" name="postcode" value="<?php echo $row["postcode"] ?>" placeholder="Post Code" require><br>
-                <input type="text" name="address" value="<?php echo $row["address"] ?>" placeholder="Address" require><br>
-                <input type="numbers" name="housenumber" value="<?php echo $row["Housenumber"] ?>" placeholder="Housenumber" require><br>
-                <input type="date" name="birthdate" value="<?php echo $row["birthdate"] ?>" placeholder="Birthdate" require><br>
-                <input type="text" name="country" value="<?php echo $row["country"] ?>" placeholder="Country" require><br>
-                <button name="submit" type="submit">Save</button>
-            </form>
+    <body>
         <?php
-        } else {
-            //edit.php?id
+        if (isset($_GET["del"])) {
+            if (!empty($_GET["del"])) {
+                $stmt = $mysql->prepare("DELETE FROM users WHERE ID = :id");
+                $stmt->execute(array(":id" => $_GET["del"]));
+
+                echo "<p>Der Benutzer wurde gelöscht</p>";
+            }
+        }
+
+        if (isset($_GET["add"])) {
+            if (isset($_POST['add'])) {
+                $error = false;
+                $firstname = $_POST["firstname"];
+                $lastname = $_POST["lastname"];
+                $email = $_POST["email"];
+                $address = $_POST["address"];
+                $housenumber = $_POST["housenumber"];
+                $city = $_POST["city"];
+                $country = $_POST["country"];
+                $password = $_POST["password"];
+                $confirmpassword = $_POST["confirmpassword"];
+                $postcode = $_POST["postcode"];
+                $birthdate = $_POST["birthdate"];
+
+                // Validate Data
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    echo 'Bitte eine gültige E-Mail-Adresse eingeben<br>';
+                    $error = true;
+                }
+                if (!$firstname) {
+                    echo 'Wrong firstname<br>';
+                    $error = true;
+                }
+                if (!$lastname) {
+                    echo 'Wrong lastname<br>';
+                    $error = true;
+                }
+                if (strlen($email) == 0) {
+                    echo "Bitte Email eingeben<br>";
+                    $error = true;
+                }
+                if (strlen($password) == 0) {
+                    echo 'Bitte ein Passwort angeben<br>';
+                    $error = true;
+                }
+                if ($password != $confirmpassword) {
+                    echo 'Die Passwörter müssen übereinstimmen<br>';
+                    $error = true;
+                }
+                if (!$birthdate) {
+                    echo 'Birthdate is false<br>';
+                    $error = true;
+                }
+                if (!$address) {
+                    echo 'adress is false<br>';
+                    $error = true;
+                }
+                if (!$city) {
+                    echo 'City is false<br>';
+                    $error = true;
+                }
+                if (!$country) {
+                    echo 'Choose country<br>';
+                    $error = true;
+                }
+                if (!$postcode) {
+                    echo 'Wrong post code<br>';
+                    $error = true;
+                }
+
+                //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
+                if (!$error) {
+                    $user = getUserWithEmail($email);
+                    if ($user) {
+                        echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
+                        $error = true;
+                    }
+                }
+
+                //Keine Fehler, wir können den Nutzer registrieren
+                if (!$error) {
+                    $db = getDB();
+                    if (!$db) {
+                        echo "Error database connection<br>";
+                        die();
+                    } else {
+
+                        $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
+            birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)");
+
+                        $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
+
+                        $result = $statement->execute(array(
+                            'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
+                            'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
+                        ));
+                    }
+                }
+            }
         ?>
+            <form action="edit.php?add" method="POST">
+                <div class="form-group col-md-6">
+                    <label for="inputFisrtname4">Firstname</label>
+                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Max" require>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastname">Lastname</label>
+                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Mustermann" require>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" require>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" require>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="date" class="form-control" name="birthdate" id="birthdate" placeholder="" require>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputAddress2">Address</label>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Hufeisengasse" require>
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="houseNumber">Housenumber</label>
+                    <input type="number" class="form-control" name="housenumber" id="housenumber" placeholder="1" require>
+                </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" name="city" id="city" placeholder="Guntersdorf" require>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="country">State</label>
+                        <select name="country" id="country" class="form-control" require>
+                            <option selected>Choose...</option>
+                            <option value="austria">Austria</option>
+                            <option value="united kingdom">United Kingdom</option>
+                            <option value="china">China</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="postCode">Zip</label>
+                        <input type="number" class="form-control" name="postcode" id="postcode" placeholder="1234" require>
+                    </div>
+                </div>
+                <button name="submit" type="submit">Create</button>
+            </form>
+            <?php
+
+        }
+
+        if (isset($_GET["id"])) {
+            if (!empty($_GET["id"])) {
+                require("mysql.php");
+                if (isset($_POST["submit"])) {
+                    $stmt = $mysql->prepare("UPDATE users SET USERNAME = :user, EMAIL = :email WHERE ID = :id");
+                    $stmt->execute(array(":user" => $_POST["username"], ":email" => $_POST["email"], ":id" => $_GET["id"]));
+
+                    echo "<p>Der Benutzer wurde gespeichert.</p>";
+                }
+                $stmt = $mysql->prepare("SELECT * FROM users WHERE ID = :id");
+                $stmt->execute(array(":id" => $_GET["id"]));
+                $row = $stmt->fetch();
+            ?>
+                <form action="edit.php?id=<?php echo $_GET["id"] ?>" method="post">
+                    <input type="text" name="firstname" value="<?php echo $row["firstname"] ?>" placeholder="Firstname" require><br>
+                    <input type="text" name="lastname" value="<?php echo $row["lastname"] ?>" placeholder="Lastname" require><br>
+                    <input type="email" name="email" value="<?php echo $row["email"] ?>" placeholder="example@gmail.com" require><br>
+                    <input type="password" name="password" value="<?php echo $row["password"] ?>" placeholder="Password" require><br>
+                    <input type="text" name="city" value="<?php echo $row["city"] ?>" placeholder="City" require><br>
+                    <input type="numbers" name="postcode" value="<?php echo $row["postcode"] ?>" placeholder="Post Code" require><br>
+                    <input type="text" name="address" value="<?php echo $row["address"] ?>" placeholder="Address" require><br>
+                    <input type="numbers" name="housenumber" value="<?php echo $row["Housenumber"] ?>" placeholder="Housenumber" require><br>
+                    <input type="date" name="birthdate" value="<?php echo $row["birthdate"] ?>" placeholder="Birthdate" require><br>
+                    <input type="text" name="country" value="<?php echo $row["country"] ?>" placeholder="Country" require><br>
+                    <button name="submit" type="submit">Save</button>
+                </form>
+            <?php
+            } else {
+                //edit.php?id
+            ?>
+                <p>Kein Benutzer wurde angefragt</p>
+            <?php
+            }
+        } else {
+            //edit.php
+            ?>
             <p>Kein Benutzer wurde angefragt</p>
         <?php
         }
-    } else {
-        //edit.php
         ?>
-        <p>Kein Benutzer wurde angefragt</p>
-    <?php
-    }
-    ?>
-</body>
+    </body>
 
 </html>

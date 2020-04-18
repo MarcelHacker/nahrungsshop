@@ -55,8 +55,9 @@ function getDB()  // Database connection
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="all" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
-            <a class="nav-item nav-link" id="priceasc" name="submit" href="products.php?priceASC" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false"></a>
-            <a class="nav-item nav-link" id="categorieasc" name="submit" href="products.php?catASC" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false"></a>
+            <div class="container col-1 ">
+                <a class="btn btn-success" href="users/edit.php?add" role="button">Add</a>
+            </div>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -114,6 +115,7 @@ function getDB()  // Database connection
             ?>
         </tbody>
     </table>
+
 </body>
 
 </html>
