@@ -20,7 +20,7 @@ if ($_SESSION['userId'] != 0) {
             $stmt = $mysql->prepare("DELETE FROM prdoucts WHERE ID = :id");
             $stmt->execute(array(":id" => $_GET["del"]));
 
-            echo "<p>Der Benutzer wurde gelöscht</p>";
+            echo "<p>Produkt wurde gelöscht</p>";
         }
     }
 
