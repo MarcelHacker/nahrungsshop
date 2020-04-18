@@ -36,32 +36,32 @@ function getDB()  // Database connection
     <div>
         <h1><span class="badge badge-secondary-">Brain Food</span></h1>
     </div>
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link" href="index.php">Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="products.php">Products</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="tables.php">Tables</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="../logout.php">Logout</a>
-        </li>
-    </ul>
     <nav>
-        <form action="products.php" methode="GET">
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="all" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
-                <a class="nav-item nav-link" id="priceasc" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Oder by Price ASC</a>
-                <a class="nav-item nav-link" id="categorieasc" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Oder by Categorie</a>
-            </div>
-        </form>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="products.php">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="tables.php">Tables</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../logout.php">Logout</a>
+            </li>
+        </ul>
+    </nav>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="all" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
+            <a class="nav-item nav-link" id="priceasc" name="submit" href="products.php?priceASC" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false"></a>
+            <a class="nav-item nav-link" id="categorieasc" name="submit" href="products.php?catASC" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false"></a>
+        </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="nav-home-tab"></div>
-        <div class="tab-pane fade show active" id="priceasc" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
+        <div class="tab-pane fade show active" href="products.php" id="all" role="tabpanel" aria-labelledby="nav-home-tab"></div>
+        <div class="tab-pane fade show active" href="products.php?priceASC" id="priceasc" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
         <div class="tab-pane fade show active" id="categorieasc" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
     </div>
     <table class="table">
@@ -83,14 +83,7 @@ function getDB()  // Database connection
             if (!$db) {
                 die();
             } else {
-                if (isset($_POST['priceasc'])) {
-                    $sql = "SELECT * FROM products ORDER by price ASC";
-                    sleep(2);
-                } else if (isset($_POST['categorieasc'])) {
-                    $sql = "SELECT * FROM products ORDER by cat_id ASC";
-                } else {
-                    $sql = "SELECT * FROM products ORDER by id ASC";
-                }
+                $sql = "SELECT * FROM products ORDER by id ASC";
                 $stmt = $db->prepare($sql);
                 $result = $stmt->execute();
 
