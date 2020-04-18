@@ -173,7 +173,7 @@ if (!isLoggedIn()) {
                                 </div>
                             </div>
                             <hr class="mb-4">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Buy</button>
+                            <button class="btn btn-primary btn-lg btn-block" name="order" type="submit">Buy</button>
                         </form>
                     </div>
                 </div>
@@ -189,6 +189,111 @@ if (!isLoggedIn()) {
             </div>
 
     <?php
+    }
+}
+if (isset($_POST["order"])) {
+
+    $error = false;
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $email = $_POST["email"];
+    $address = $_POST["address"];
+    $housenumber = $_POST["housenumber"];
+    $city = $_POST["city"];
+    $country = $_POST["country"];
+    $password = $_POST["password"];
+    $confirmpassword = $_POST["confirmpassword"];
+    $postcode = $_POST["postcode"];
+    $birthdate = $_POST["birthdate"];
+
+    // Validate Data
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo 'Bitte eine gültige E-Mail-Adresse eingeben<br>';
+        $error = true;
+    }
+    if (!$firstname) {
+        echo 'Wrong firstname<br>';
+        $error = true;
+    }
+    if (!$lastname) {
+        echo 'Wrong lastname<br>';
+        $error = true;
+    }
+    if (strlen($email) == 0) {
+        echo "Bitte Email eingeben<br>";
+        $error = true;
+    }
+    if (strlen($password) == 0) {
+        echo 'Bitte ein Passwort angeben<br>';
+        $error = true;
+    }
+    if ($password != $confirmpassword) {
+        echo 'Die Passwörter müssen übereinstimmen<br>';
+        $error = true;
+    }
+    if (!$birthdate) {
+        echo 'Birthdate is false<br>';
+        $error = true;
+    }
+    if (!$address) {
+        echo 'adress is false<br>';
+        $error = true;
+    }
+    if (!$city) {
+        echo 'City is false<br>';
+        $error = true;
+    }
+    if (!$country) {
+        echo 'Choose country<br>';
+        $error = true;
+    }
+    if (!$postcode) {
+        echo 'Wrong post code<br>';
+        $error = true;
+    }
+
+    //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
+    if (!$error) {
+        $user = getUserWithEmail($email);
+        if ($user) {
+            echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
+            $error = true;
+        }
+    }
+
+    //Keine Fehler, wir können den Nutzer registrieren
+    if (!$error) {
+        $db = getDB();
+        if (!$db) {
+            echo "Error database connection<br>";
+            die();
+        } else {
+
+            $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
+            birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)");
+
+            $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
+
+            $result = $statement->execute(array(
+                'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
+                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
+            ));
+
+
+
+            if ($result) {
+                $statement = $db->prepare("SELECT order_no FROM orders WHERE email = :email");
+                $result = $statement->execute(array('email' => $email));
+                $userId = $statement->fetch();
+                $_SESSION['userId'] = $userId;   // Sets User Id
+                echo "<label>$email</label></br>";
+                echo "Registered sucessfully!<br>";
+                $showFormular = false;
+                //header("Location: index.php");
+            } else {
+                echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+            }
+        }
     }
 }
     ?>
