@@ -233,7 +233,6 @@ function getUserWithEmail(string $email)
                 <?php
             }
         }
-
         if (isset($_GET["id"])) {
             $showUserForm = true;
             if (!empty($_GET["id"])) {
@@ -243,7 +242,7 @@ function getUserWithEmail(string $email)
                     echo "Error database connection<br>";
                     die();
                 } else {
-                    if (isset($_POST["submit"])) {
+                    if (isset($_POST["edit"])) {
                         $firstname = $_POST["firstname"];
                         $lastname = $_POST["lastname"];
                         $email = $_POST["email"];
@@ -255,8 +254,8 @@ function getUserWithEmail(string $email)
                         $postcode = $_POST["postcode"];
                         $birthdate = $_POST["birthdate"];
 
-                        $sql = "UPDATE users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
-                                birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate) 
+                        $sql = "UPDATE users SET firstname = :firstname,lastname = :lastname,email = :email,address = :address,housenumber = :housenumber,city = :city,country = :country,password = :password,postcode = :postcode,
+                                birthdate = :birthdate
                                 WHERE id = :userid";
                         $statement = $db->prepare($sql);
 
@@ -267,8 +266,12 @@ function getUserWithEmail(string $email)
                             'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate, 'userid' => $userid
                         ));
 
-                        echo "<p>User successfully updated</p>";
-                        $showUserForm = false;
+                        if ($result) {
+                            echo "<p>User successfully updated</p>";
+                            $showUserForm = false;
+                        } else {
+                            echo "<p>User edit error</p>";
+                        }
                     }
 
                     $stmt = $db->prepare("SELECT * FROM users WHERE id = :userid");
@@ -326,9 +329,8 @@ function getUserWithEmail(string $email)
                                     <input type="number" class="form-control" name="postcode" id="postcode" value="<?php echo $row["postcode"] ?>" placeholder="" require>
                                 </div>
                             </div>
-                            <button name="submit" type="submit">Save</button>
+                            <button name="edit" type="submit">Save</button>
                         </form>
-
                 <?php
                     }
                 }
