@@ -19,8 +19,28 @@ if (!isLoggedIn()) {
 ?>
 
         <body>
-
-    <?php
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.php">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.php">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn mr-sm-4 btn-outline-dark" href="logout.php">Logout</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
+                    <input class="form-control mr-sm-1" type="search" placeholder="Search" id="search_term" name="search_term" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
+                </form>
+                </div>
+            </nav>
+        <?php
     }
 }
 $db = getDB();
@@ -162,7 +182,7 @@ if (isset($_POST["order"])) {
             $sameOrders = "SELECT * orders
                         WHERE order_no = :ord_no";
             $stmt = $db->prepare($sameOrders);
-            $orderWithSameNumber = $statement->execute(array('ord_no' => $orderNumber));
+            $orderWithSameNumber = $stmt->execute(array('ord_no' => $orderNumber));
 
             if ($orderWithSameNumber) {     // Are there same order numbers?
                 while ($orderWithSameNumber['order_no'] == $orderNumber) {
@@ -204,6 +224,10 @@ if (isset($_POST["order"])) {
 }
 if ($showCheckout == true) {
     include_once("template/checkoutPage.php");
+} else {
+        ?>
+
+    <?php
 }
     ?>
 
