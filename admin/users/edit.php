@@ -1,10 +1,17 @@
 <?php
 session_start();
-include_once("../../template/header.php");
-/*if (isloggedin() != 0) {
+include_once("../../function/database.php");
+include_once("../../function/product.php");
+include_once("../../function/user.php");
+include_once("../../function/cart.php");
+
+if (isloggedin() == 0) {
     header("Location: ../../admin.php");
     exit;
-} */
+} else if ($_SESSION['userId'] != 1) {
+    header("Location: ../../admin.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

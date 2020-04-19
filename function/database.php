@@ -1,22 +1,25 @@
 <?php
+define('DB_DATABASE', 'brainfooddb');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_HOST', '127.0.0.1');
+define('DB_CHARSET', 'utf8');
 
 function getDB()  // Database connection
 {
   static $db;
-  if($db instanceof PDO)
-  {
+  if ($db instanceof PDO) {
     return $db;
   }
-  require_once("config/database.php");  // For directives
-  $dsn = sprintf("mysql:host=%s;dbname=%s;charset=%s",DB_HOST,DB_DATABASE,DB_CHARSET);
-  $db = new PDO($dsn,DB_USERNAME,DB_PASSWORD);
+  $dsn = sprintf("mysql:host=%s;dbname=%s;charset=%s", DB_HOST, DB_DATABASE, DB_CHARSET);
+  $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
   return $db;
 }
 
 function printDBErrorMessage()  // For error messaging
 {
   $info = getDB()->errorInfo();
-  if(isset($info[2])){
+  if (isset($info[2])) {
     return $info[2];
   }
   return '';

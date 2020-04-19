@@ -2,7 +2,7 @@
 session_start();
 session_unset();
 session_destroy();
-include_once("template/header.php");
+include_once("./template/header.php");
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
@@ -29,7 +29,7 @@ include_once("template/header.php");
     <label>Sccessfully logged out!</label>
 </div>
 <div class='fixed-bottom'>
-    <?= include_once("template/footer.php"); ?>
+    <?= include_once("./template/footer.php"); ?>
 </div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

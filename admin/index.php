@@ -1,10 +1,17 @@
 <?php
 session_start();
-include_once("../../template/header.php");
-/*if (isloggedin() != 0) {
+include_once("../function/database.php");
+include_once("../function/product.php");
+include_once("../function/user.php");
+include_once("../function/cart.php");
+
+if (!isloggedin()) {
     header("Location: ../admin.php");
     exit;
-} */
+} else if ($_SESSION['userId'] != 1) {
+    header("Location: ../admin.php");
+    exit;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -95,7 +102,7 @@ include_once("../../template/header.php");
                         <td><?php echo $row["created"] ?></td>
                         <td><?php echo $row["modified"] ?></td>
                         <td>
-                            <a href="users/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-edit"></i></a>
+                            <a href="users/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-edit p-2"></i></a>
                             <a href="users/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-user-minus"></i></a>
                         </td>
                     </tr>

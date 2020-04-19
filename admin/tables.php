@@ -1,10 +1,16 @@
 <?php
 session_start();
-include_once("../../template/header.php");
-/*if (isloggedin() != 0) {
+include_once("../function/database.php");
+include_once("../function/product.php");
+include_once("../function/user.php");
+include_once("../function/cart.php");
+if (isloggedin() == 0) {
     header("Location: ../admin.php");
     exit;
-} */
+} else if ($_SESSION['userId'] != 1) {
+    header("Location: ../admin.php");
+    exit;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -23,6 +29,7 @@ include_once("../../template/header.php");
     <div>
         <h1><span class="badge badge-secondary-">Brain Food</span></h1>
     </div>
+
     <nav>
         <ul class="nav justify-content-center">
             <li class="nav-item">
@@ -81,10 +88,10 @@ include_once("../../template/header.php");
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Email</th>
-                <th scope="col">Name</th>
-                <th scope="col">Subject</th>
-                <th scope="col">Message</th>
+                <th scope="col">Oder_no</th>
+                <th scope="col">User_id</th>
+                <th scope="col">Product_id</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">Created</th>
             </tr>
         </thead>
@@ -98,10 +105,10 @@ include_once("../../template/header.php");
             ?>
                 <tr>
                     <th scope="row"><?php echo $row["id"] ?></th>
-                    <td><?php echo $row["email"] ?></td>
-                    <td><?php echo $row["name"] ?></td>
-                    <td><?php echo $row["subject"] ?></td>
-                    <td><?php echo $row["message"] ?></td>
+                    <td><?php echo $row["order_no"] ?></td>
+                    <td><?php echo $row["user_id"] ?></td>
+                    <td><?php echo $row["product_id"] ?></td>
+                    <td><?php echo $row["quantity"] ?></td>
                     <td><?php echo $row["created"] ?></td>
                 </tr>
             <?php

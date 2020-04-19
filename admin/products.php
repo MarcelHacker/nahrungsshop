@@ -1,10 +1,17 @@
 <?php
 session_start();
-include_once("../../template/header.php");
-/*if (isloggedin() != 0) {
+include_once("../function/database.php");
+include_once("../function/product.php");
+include_once("../function/user.php");
+include_once("../function/cart.php");
+
+if (isloggedin() == 0) {
     header("Location: ../admin.php");
     exit;
-} */
+} else if ($_SESSION['userId'] != 1) {
+    header("Location: ../admin.php");
+    exit;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -23,6 +30,7 @@ include_once("../../template/header.php");
     <div>
         <h1><span class="badge badge-secondary-">Brain Food</span></h1>
     </div>
+
     <nav>
         <ul class="nav justify-content-center">
             <li class="nav-item">
@@ -86,7 +94,7 @@ include_once("../../template/header.php");
                         <td><?php echo $row["created"] ?></td>
                         <td><?php echo $row["modified"] ?></td>
                         <td><?php echo $row["source"] ?></td>
-                        <td><a href="products/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-pen"></i></i></a><a href="products/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-trash-alt"></i></a></td>
+                        <td><a href="products/edit.php?id=<?php echo $row["id"] ?>"><i class="fas fa-pen p-2"></i></i></a><a href="products/edit.php?del=<?php echo $row["id"] ?>"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
             <?php
                 }
