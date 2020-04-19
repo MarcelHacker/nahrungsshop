@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once("template/header.php");
+include_once("./template/header.php");
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -32,6 +32,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   $user = getCurrentUser($userId);
   if (!$user) {
     echo "Error user Id <br>";
+    die();
   } else {
     $countCartItems = countProductsInCart($userId);
   ?>
@@ -74,8 +75,12 @@ if (isset($_GET["add"])) {    // Add product to cart
   } else {
     if (!empty($_GET["add"])) {
       $productId = $_GET["add"];
-      addProductToCart($userId, $productId);
-      echo "Product sucessfull added!<br>";
+      $result = addProductToCart($userId, $productId);
+      if (!$result) {
+        echo "Error product adding<br>";
+      } else {
+        header("Location: products.php");
+      }
     } else {
       echo "<p>No product asked</p>";
     }

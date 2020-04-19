@@ -1,11 +1,9 @@
 <?php
 session_start();
-include_once("template/header.php");
+include_once("./template/header.php");
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
-    echo "<label>Please login for your cart</label><br>";
-    sleep(1);
     header("Location: login.php");
     exit;
 } else {
@@ -67,7 +65,6 @@ if (isset($_GET["del"])) {      // Completely deletes a product from cart
     if (!empty($_GET["del"])) {
         $userId = $_SESSION["userId"];
         $productId = $_GET["del"];
-
         $result = deleteProductFromCart($userId, $productId);
         if (!$result) {
             echo "Error delete product<br>";
