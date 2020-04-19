@@ -45,16 +45,16 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
             </ul>
         </nav>
 <?php
-        $cartItems = getCartItemsForUserId($userId);
-        $cartSum = getCartSumForUserId($userId);
-        include_once("template/cartPage.php");
+        $cartItems = getCartItemsForUserId($userId); // All items in cart
+        $cartSum = getCartSumForUserId($userId);     // Total price
+        include_once("template/cartPage.php");       // Cenerates cart page
     }
 }
 
-if (isset($_GET["plus"])) {
+if (isset($_GET["plus"])) {     // Insrease quanity of a product in cart
     if (!empty($_GET["plus"])) {
-        $userId = $_SESSION["userId"];
-        $productId = $_GET["plus"];
+        $userId = $_SESSION["userId"];  // Gets user id
+        $productId = $_GET["plus"];     // Gets product id
         $result = addProductToCart($userId, $productId);
         if (!$result) {
             echo "Error add product<br>";
@@ -63,7 +63,7 @@ if (isset($_GET["plus"])) {
         echo "No product selected<br>";
     }
 }
-if (isset($_GET["del"])) {
+if (isset($_GET["del"])) {      // Completely deletes a product from cart
     if (!empty($_GET["del"])) {
         $userId = $_SESSION["userId"];
         $productId = $_GET["del"];
@@ -76,8 +76,7 @@ if (isset($_GET["del"])) {
         echo "No product selected<br>";
     }
 }
-
-include_once("template/footer.php");
+include_once("template/footer.php"); // Site footer
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

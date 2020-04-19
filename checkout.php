@@ -62,11 +62,11 @@ if (!isLoggedIn()) {
         $postcode = $_POST["postcode"];
 
         // Validate Data
-        if ($email != $user['email']) {
+        if ($email != $user['email']) {     // Need to update email?
             $existingUser = getUserWithEmail($email);
-            if ($existingUser) {
+            if ($existingUser) {    // An other user allready has the same email
                 echo 'Email address allready used<br>';
-            } else {
+            } else {                // Email update possible
                 $sql = "UPDATE users SET email = :email
             WHERE id = :userid";
                 $statement = $db->prepare($sql);
@@ -78,7 +78,7 @@ if (!isLoggedIn()) {
                 }
             }
         }
-        if ($firstname != $user['firstname']) {
+        if ($firstname != $user['firstname']) { // Need to update firstname?
             $sql = "UPDATE users SET firstname = :firstname
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -91,7 +91,7 @@ if (!isLoggedIn()) {
                 echo "firstname updated<br>";
             }
         }
-        if ($lastname != $user['lastname']) {
+        if ($lastname != $user['lastname']) { // Need to update lastname?
             $sql = "UPDATE users SET lastname = :lastname
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -104,7 +104,7 @@ if (!isLoggedIn()) {
                 echo "Lastname updated<br>";
             }
         }
-        if ($address != $user['address']) {
+        if ($address != $user['address']) { // Need to update address?
             $sql = "UPDATE users SET address = :address
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -117,7 +117,7 @@ if (!isLoggedIn()) {
                 echo "Address updated<br>";
             }
         }
-        if ($housenumber != $user['housenumber']) {
+        if ($housenumber != $user['housenumber']) { // Need to update housenumber?
             $sql = "UPDATE users SET housenumber = :housenumber
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -130,7 +130,7 @@ if (!isLoggedIn()) {
                 echo "Housenumber updated<br>";
             }
         }
-        if ($country != $user['country']) {
+        if ($country != $user['country']) { // Need to update country?
             $sql = "UPDATE users SET country = :country
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -143,7 +143,7 @@ if (!isLoggedIn()) {
                 echo "Country updated<br>";
             }
         }
-        if ($city != $user['city']) {
+        if ($city != $user['city']) {   // Need to update city?
             $sql = "UPDATE users SET city = :city
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -156,7 +156,7 @@ if (!isLoggedIn()) {
                 echo "City updated<br>";
             }
         }
-        if ($postcode != $user['postcode']) {
+        if ($postcode != $user['postcode']) {  // Need to update postcode?
             $sql = "UPDATE users SET postcode = :postcode
         WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -184,15 +184,15 @@ if (!isLoggedIn()) {
             } else {    // Items in cart
                 $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
 
-                $sameOrders = "SELECT * orders
-                        WHERE order_no = :ord_no";
+                $sameOrders = "SELECT * orders      
+                        WHERE order_no = :ord_no";  // Check for same order numbers
                 $stmt = $db->prepare($sameOrders);
                 $orderWithSameNumber = $stmt->execute(array('ord_no' => $orderNumber));
 
                 if ($orderWithSameNumber) {     // Are there same order numbers?
                     while ($orderWithSameNumber['order_no'] == $orderNumber) {
                         $orderNumber = $orderNumber + 1;    // Increment for another number
-                    }
+                    } // Now we have a unused ordernumber
                 }
                 // Get items from cart in order
                 $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
@@ -211,12 +211,12 @@ if (!isLoggedIn()) {
                     }
                 }
                 $sql = "SELECT order_no FROM orders 
-                    WHERE order_no = :ordernumber";
+                    WHERE order_no = :ordernumber"; // Check if order is generated
                 $statement = $db->prepare($sql);
                 $ordered = $statement->execute(array(
                     'ordernumber' => $orderNumber
                 ));
-                if ($ordered) {          // Check order number
+                if ($ordered) {          // Check order and order number
                 ?>
                     <div class="alert alert-success" role="alert">
                         <h4 class="alert-heading">Thank you for your order!</h4>
@@ -224,12 +224,12 @@ if (!isLoggedIn()) {
                     </div>
                     <?php
                     $sql = "DELETE FROM cart
-                        WHERE user_id = :userid";
+                        WHERE user_id = :userid";   // Remember to delete ordered items from cart
                     $statement = $db->prepare($sql);
                     $clearCart = $statement->execute(array(
                         'userid' => $user['id']
                     ));
-                    if (!$clearCart) {
+                    if (!$clearCart) {  // Error cart clearing?
                         echo "Error cart clearing<br>";
                     }
                     $showCheckout = false;
@@ -246,9 +246,10 @@ if (!isLoggedIn()) {
     }
     if ($showCheckout == true) {
         include_once("template/checkoutPage.php");
-    } else {
+    } else {    // nav buttons to coninue
         ?>
-
+        <a href="cart.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Back</a>
+        <a href="products.php" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Continoue shopping</a>
     <?php
     }
     ?>

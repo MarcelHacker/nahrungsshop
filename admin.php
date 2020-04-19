@@ -1,11 +1,11 @@
 <?php
-session_start();
-include_once("./template/header.php");
+session_start();                        // For session variable
+include_once("./template/header.php");  // For functions
 
 if (isLoggedIn()) { // Check if an user is already loged in
     if ($_SESSION['userId'] == 1) { // user an admin?
         header("Location: admin/index.php");    // Go to site configuration
-        exit;
+        exit;   // Prevents loading this page
     }
 }
 ?>
