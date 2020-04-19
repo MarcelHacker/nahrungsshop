@@ -40,195 +40,217 @@ if (!isLoggedIn()) {
                 </form>
                 </div>
             </nav>
-        <?php
-    }
-}
-$db = getDB();
-if (!$db) {
-    echo "Error database connection<br>";
-    die();
-}
-$user = getCurrentUser($userId);
-
-if (isset($_POST["order"])) {
-    $error = false;
-    $firstname = $_POST["firstname"];
-    $lastname = $_POST["lastname"];
-    $email = $_POST["email"];
-    $address = $_POST["address"];
-    $housenumber = $_POST["housenumber"];
-    $city = $_POST["city"];
-    $country = $_POST["country"];
-    $postcode = $_POST["postcode"];
-
-    // Validate Data
-    if ($email != $user['email']) {
-        $existingUser = getUserWithEmail($email);
-        if ($existingUser) {
-            echo 'Email address allready used<br>';
-        } else {
-            $sql = "UPDATE users SET email = :email
-            WHERE id = :userid";
-            $statement = $db->prepare($sql);
-
-            $result = $statement->execute(array('email' => $email, 'userid' => $existingUser['id']));
-            if (!$result) {
-                echo "Error update Email address<br>";
-                $error = true;
-            }
+            <?php
         }
     }
-    if ($firstname != $user['firstname']) {
-        $sql = "UPDATE users SET firstname = :firstname
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
-
-        $result = $statement->execute(array('firstname' => $firstname, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update firstname<br>";
-            $error = true;
-        } else {
-            echo "firstname updated<br>";
-        }
+    $db = getDB();
+    if (!$db) {
+        echo "Error database connection<br>";
+        die();
     }
-    if ($lastname != $user['lastname']) {
-        $sql = "UPDATE users SET lastname = :lastname
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
+    $user = getCurrentUser($userId);
 
-        $result = $statement->execute(array('lastname' => $lastname, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update lastname<br>";
-            $error = true;
-        } else {
-            echo "Lastname updated<br>";
-        }
-    }
-    if ($address != $user['address']) {
-        $sql = "UPDATE users SET address = :address
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
+    if (isset($_POST["order"])) {
+        $error = false;
+        $firstname = $_POST["firstname"];
+        $lastname = $_POST["lastname"];
+        $email = $_POST["email"];
+        $address = $_POST["address"];
+        $housenumber = $_POST["housenumber"];
+        $city = $_POST["city"];
+        $country = $_POST["country"];
+        $postcode = $_POST["postcode"];
 
-        $result = $statement->execute(array('address' => $address, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update address<br>";
-            $error = true;
-        } else {
-            echo "Address updated<br>";
-        }
-    }
-    if ($housenumber != $user['housenumber']) {
-        $sql = "UPDATE users SET housenumber = :housenumber
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
-
-        $result = $statement->execute(array('housenumber' => $housenumber, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update housenumber<br>";
-            $error = true;
-        } else {
-            echo "Housenumber updated<br>";
-        }
-    }
-    if ($country != $user['country']) {
-        $sql = "UPDATE users SET country = :country
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
-
-        $result = $statement->execute(array('country' => $country, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update country<br>";
-            $error = true;
-        } else {
-            echo "Country updated<br>";
-        }
-    }
-    if ($city != $user['city']) {
-        $sql = "UPDATE users SET city = :city
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
-
-        $result = $statement->execute(array('city' => $city, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update city<br>";
-            $error = true;
-        } else {
-            echo "City updated<br>";
-        }
-    }
-    if ($postcode != $user['postcode']) {
-        $sql = "UPDATE users SET postcode = :postcode
-        WHERE id = :userid";
-        $statement = $db->prepare($sql);
-
-        $result = $statement->execute(array('postcode' => $postcode, 'userid' => $user['id']));
-        if (!$result) {
-            echo "Error update postcode<br>";
-            $error = true;
-        } else {
-            echo "Postcode updated<br>";
-        }
-    }
-
-    //No error, we can set an order
-    if (!$error) {
-        $found = getCartItemsForUserId($user['id']); // Get all items in cart
-        if (!$found) {              // No items found?
-            echo "Error no products in cart found<br>";
-            die();
-        } else {    // Items in cart
-            $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
-
-            $sameOrders = "SELECT * orders
-                        WHERE order_no = :ord_no";
-            $stmt = $db->prepare($sameOrders);
-            $orderWithSameNumber = $stmt->execute(array('ord_no' => $orderNumber));
-
-            if ($orderWithSameNumber) {     // Are there same order numbers?
-                while ($orderWithSameNumber['order_no'] == $orderNumber) {
-                    $orderNumber = $orderNumber + 1;    // Increment for another number
-                }
-            }
-            // Get items from cart in order
-            $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
-                    VALUES (:order_no,:user_id,:product_id,:quantity)";
-            $statement = $db->prepare($sql);
-
-            foreach ($found as $orders) {         // For all items in cart
-                $result = $statement->execute(array(
-                    'order_no' => $orderNumber, 'user_id' => $orders['user_id'],
-                    'product_id' => $orders['product_id'], 'quantity' => $orders['quantity']
-                ));
-                if ($result) {          // Check for errors and get order number
-                    echo "Product: " . $orders["product_id"] . " ordered<br>";
-                } else {
-                    echo "Error product Id: " . $orders["product_id"] . "from user Id: " . $orders["user_id"] . "<br>";
-                }
-            }
-            $sql = "SELECT order_no FROM orders 
-                    WHERE order_no = :ordernumber";
-            $statement = $db->prepare($sql);
-            $ordered = $statement->execute(array(
-                'ordernumber' => $orderNumber
-            ));
-
-            if ($ordered) {          // Check order number
-                echo "<label>Thank you for your order!</label></br>";
-                echo "<p>Your ordernumber is: #" . $orderNumber . "</p><br>";
-                $showCheckout = false;
+        // Validate Data
+        if ($email != $user['email']) {
+            $existingUser = getUserWithEmail($email);
+            if ($existingUser) {
+                echo 'Email address allready used<br>';
             } else {
-                echo 'Excuse me, something went wrong<br>';
+                $sql = "UPDATE users SET email = :email
+            WHERE id = :userid";
+                $statement = $db->prepare($sql);
+
+                $result = $statement->execute(array('email' => $email, 'userid' => $existingUser['id']));
+                if (!$result) {
+                    echo "Error update Email address<br>";
+                    $error = true;
+                }
+            }
+        }
+        if ($firstname != $user['firstname']) {
+            $sql = "UPDATE users SET firstname = :firstname
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('firstname' => $firstname, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update firstname<br>";
+                $error = true;
+            } else {
+                echo "firstname updated<br>";
+            }
+        }
+        if ($lastname != $user['lastname']) {
+            $sql = "UPDATE users SET lastname = :lastname
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('lastname' => $lastname, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update lastname<br>";
+                $error = true;
+            } else {
+                echo "Lastname updated<br>";
+            }
+        }
+        if ($address != $user['address']) {
+            $sql = "UPDATE users SET address = :address
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('address' => $address, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update address<br>";
+                $error = true;
+            } else {
+                echo "Address updated<br>";
+            }
+        }
+        if ($housenumber != $user['housenumber']) {
+            $sql = "UPDATE users SET housenumber = :housenumber
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('housenumber' => $housenumber, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update housenumber<br>";
+                $error = true;
+            } else {
+                echo "Housenumber updated<br>";
+            }
+        }
+        if ($country != $user['country']) {
+            $sql = "UPDATE users SET country = :country
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('country' => $country, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update country<br>";
+                $error = true;
+            } else {
+                echo "Country updated<br>";
+            }
+        }
+        if ($city != $user['city']) {
+            $sql = "UPDATE users SET city = :city
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('city' => $city, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update city<br>";
+                $error = true;
+            } else {
+                echo "City updated<br>";
+            }
+        }
+        if ($postcode != $user['postcode']) {
+            $sql = "UPDATE users SET postcode = :postcode
+        WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $result = $statement->execute(array('postcode' => $postcode, 'userid' => $user['id']));
+            if (!$result) {
+                echo "Error update postcode<br>";
+                $error = true;
+            } else {
+                echo "Postcode updated<br>";
+            }
+        }
+
+        //No error, we can set an order
+        if (!$error) {
+            $found = getCartItemsForUserId($user['id']); // Get all items in cart
+            if (!$found) {              // No items found?
+            ?>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">No products in cart found.</h4>
+                    <p>Add products to your cart</p>
+                </div>
+                <?php
+                die();
+            } else {    // Items in cart
+                $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
+
+                $sameOrders = "SELECT * orders
+                        WHERE order_no = :ord_no";
+                $stmt = $db->prepare($sameOrders);
+                $orderWithSameNumber = $stmt->execute(array('ord_no' => $orderNumber));
+
+                if ($orderWithSameNumber) {     // Are there same order numbers?
+                    while ($orderWithSameNumber['order_no'] == $orderNumber) {
+                        $orderNumber = $orderNumber + 1;    // Increment for another number
+                    }
+                }
+                // Get items from cart in order
+                $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
+                    VALUES (:order_no,:user_id,:product_id,:quantity)";
+                $statement = $db->prepare($sql);
+
+                foreach ($found as $orders) {         // For all items in cart
+                    $result = $statement->execute(array(
+                        'order_no' => $orderNumber, 'user_id' => $orders['user_id'],
+                        'product_id' => $orders['product_id'], 'quantity' => $orders['quantity']
+                    ));
+                    if ($result) {          // Check for errors and get order number
+                        echo "Product: " . $orders["product_id"] . " ordered<br>";
+                    } else {
+                        echo "Error product Id: " . $orders["product_id"] . "from user Id: " . $orders["user_id"] . "<br>";
+                    }
+                }
+                $sql = "SELECT order_no FROM orders 
+                    WHERE order_no = :ordernumber";
+                $statement = $db->prepare($sql);
+                $ordered = $statement->execute(array(
+                    'ordernumber' => $orderNumber
+                ));
+                if ($ordered) {          // Check order number
+                ?>
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Thank you for your order!</h4>
+                        <p>Your ordernumber is: #<?= $orderNumber ?></p>
+                    </div>
+                    <?php
+                    $sql = "DELETE FROM cart
+                        WHERE user_id = :userid";
+                    $statement = $db->prepare($sql);
+                    $clearCart = $statement->execute(array(
+                        'userid' => $user['id']
+                    ));
+                    if (!$clearCart) {
+                        echo "Error cart clearing<br>";
+                    }
+                    $showCheckout = false;
+                } else {
+                    ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Excuse me, something went wrong with your order.</h4>
+                        <p>Try it again</p>
+                    </div>
+        <?php
+                }
             }
         }
     }
-}
-if ($showCheckout == true) {
-    include_once("template/checkoutPage.php");
-} else {
+    if ($showCheckout == true) {
+        include_once("template/checkoutPage.php");
+    } else {
         ?>
 
     <?php
-}
+    }
     ?>
 
     <!-- Bootstrap core JavaScript
