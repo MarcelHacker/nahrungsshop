@@ -34,7 +34,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
         echo "Error User Id";   // No user with this id registered
         die();
     }
-    $countCartItems = countProductsInCart($userId); // Cart items from user
+    $countCartItems = countProductsInCart($userId); // Amount of cart items from user
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="nav nav-tabs">
@@ -64,7 +64,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
             </li>
         </ul>
     </nav>
-    <?php
+<?php
 }
 $showFormular = true;
 
@@ -94,12 +94,10 @@ if (isset($_POST['login'])) {   // User loging in?
 
     if (!$error) { // Now we can log in user
         $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
-    ?>
-        <div class="alert alert-info" role="alert">
-            <h4 class="alert-heading">Successfully logged out!</h4>
-        </div>
-<?php
-        $showFormular = false;  // Hide login form
+        $showFormular = false;
+        sleep(0.5);   // waits 0,5 seconds
+        header("Location: index.php"); // Got to home
+        exit;   // Prevents loading page
     } else {
         echo "Email or password is wrong<br>";
     }

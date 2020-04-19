@@ -82,11 +82,14 @@ if (isset($_POST["search"])) {
     <header>
       <section class="container px-lg-5" id="search_products">
         <div class="row mx-lg-n5" style="width: 30rem;">
-          <?php foreach ($products as $product) : ?>
-            <div class="col py-3 px-lg-5">
-              <?php include("template/card.php") ?>
-            </div>
-          <?php endforeach; ?>
+          <?php foreach ($products as $product) :
+            $productCategorie = getProductCategorie($product['id']);
+            foreach ($productCategorie as $categorie) : ?>
+              <div class="col py-3 px-lg-5">
+                <?php include("template/card.php") ?>
+              </div>
+          <?php endforeach;
+          endforeach; ?>
         </div>
     </header>
 <?php
