@@ -1,7 +1,7 @@
-<div class="container p-3">
-    <div class="card p-1">
+<div class="container-lg p-3">
+    <div class="card">
         <div class="card-title"><?= $product['title'] ?> Produkt ID= <?= $product['id'] ?></div>
-        <img src=" <?= $product['source'] ?> " class="card-img-top" alt="produkt">
+        <img src=" <?= $product['source'] ?> " class="card-img-top sm" alt="produkt">
         <div class="card-body">
             <?= $product['description'] ?>
             <hr>
