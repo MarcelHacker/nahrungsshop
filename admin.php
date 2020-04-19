@@ -2,9 +2,9 @@
 session_start();
 include_once("./template/header.php");
 
-if (isLoggedIn()) {
-    if ($_SESSION['userId'] == 1) {
-        header("Location: admin/index.php");
+if (isLoggedIn()) { // Check if an user is already loged in
+    if ($_SESSION['userId'] == 1) { // user an admin?
+        header("Location: admin/index.php");    // Go to site configuration
         exit;
     }
 }
@@ -32,36 +32,34 @@ if (isLoggedIn()) {
 </nav>
 <?php
 
-if (isset($_POST['admin'])) {
+if (isset($_POST['admin'])) {   // For admin login
     $error = false;
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $user = getUserWithEmail($email);
+    $user = getUserWithEmail($email);   // user as admin registered?
 
-    $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
+    $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt the password
 
-    if (!$user) {
+    if (!$user) {   // No user registered?
         echo "<p color='red'>No user registered</p><br>";
         $error = true;
     }
 
-    if (strlen($password) == 0) {
+    if (strlen($password) == 0) { // Passoword typed in?
         echo "<p color='red'>Type in an password</p><br>";
         $error = true;
     }
 
-    if (!$hash == $user['password']) {
+    if (!$hash == $user['password']) { // Correct password?
         echo "<p color='red'>Wrong password</p><br>";
         $error = true;
     }
 
-    echo "User Id = " . $user['id'] . "<br>";
-
-    //Überprüfung des Passworts
+    // Check if user is an admin
     if (!$error) {
-        if ($user['id'] == 1) {
+        if ($user['id'] == 1) { // Check if admin would log in
             $_SESSION['userId'] = $user['id'];
-            header("location: admin/index.php");
+            header("location: admin/index.php");   // Go to site configuration
         } else {
             echo "<p color='red'>You are not an admin</p><br>";
         }

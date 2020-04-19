@@ -96,8 +96,7 @@ if ($showFormular = true) {
   include_once("template/contactForm.php");
 }
 ?>
-
-<div class="">
+<div class="sm">
   <?= include_once("template/footer.php"); ?>
 </div>
 <script src="assets/js/bootstrap.min.js"></script>
