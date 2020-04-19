@@ -71,7 +71,7 @@ if (isset($_POST["search"])) {
   $search = $_POST["search_term"];
 
   $sql = "SELECT * FROM products
-        where title like '$search';";
+          WHERE title like '$search'";
   $products = getProducts($sql);
 
   if (!$products) {
