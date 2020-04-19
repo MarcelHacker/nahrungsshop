@@ -48,7 +48,7 @@ if (!isloggedin()) {
     </nav>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="all" name="submit" href="products.php" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
+            <a class="nav-item nav-link active" id="all" name="submit" href="index.php" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
             <div class="container col-1 ">
                 <a class="btn btn-success" href="users/edit.php?add" role="button">Add</a>
             </div>

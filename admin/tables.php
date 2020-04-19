@@ -170,7 +170,7 @@ if (isloggedin() == 0) {
             <div class="border border-info">
                 <?php
 
-                    $sql = "SELECT * FROM categories ORDER by id ASC";
+                    $sql = "SELECT * FROM categories";
                     $stmt = $db->prepare($sql);
                     $result = $stmt->execute();
 

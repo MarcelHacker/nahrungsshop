@@ -57,7 +57,7 @@ if (isloggedin() == 0) {
         if (!empty($_GET["del"])) {
             $productId = $_GET["del"];
 
-            $sql = "DELETE FROM prdoucts WHERE id = :productid";
+            $sql = "DELETE FROM products WHERE id = :productid";
             $stmt = $db->prepare($sql);
             $result = $stmt->execute(array(":productid" => $productId));
             if ($result) {
@@ -146,9 +146,9 @@ if (isloggedin() == 0) {
                     <label for="descr">Description</label>
                     <input type="text" class="form-control" name="description" id="description" placeholder="" require>
                 </div>
-                <div class="form-group col-md-6">
+                <div class=" col-md-6">
                     <label for="price">Price €</label>
-                    <input type="number" class="form-control" name="price" id="price" placeholder="" require></input>
+                    <input type="decimal" class="form-control" name="price" id="price" placeholder="" require></input>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="source">Source</label>
