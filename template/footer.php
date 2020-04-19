@@ -69,16 +69,10 @@
                 <h6 class="text-uppercase font-weight-bold">Products</h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 <p>
-                    <a href="#!">Vegetables</a>
+                    <a href="products.php">Vegetables</a>
                 </p>
                 <p>
-                    <a href="#!">Fruits</a>
-                </p>
-                <p>
-                    <a href="#!">Weed</a>
-                </p>
-                <p>
-                    <a href="#!">Mushrooms</a>
+                    <a href="products.php">Fruits</a>
                 </p>
 
             </div>
@@ -91,14 +85,9 @@
                 <h6 class="text-uppercase font-weight-bold">Useful links</h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 <p>
-                    <a href="contact.php">Contact</a>
+                    <a href="about.php">Contact</a>
                 </p>
-                <p>
-                    <a href="#!">Become an Affiliate</a>
-                </p>
-                <p>
-                    <a href="#!">Shipping Rates</a>
-                </p>
+
                 <p>
                     <a href="#!">Help</a>
                 </p>
@@ -115,7 +104,7 @@
                 <p>
                     <i class="fas fa-home mr-3"></i> Autria, HL 2020, AT</p>
                 <p>
-                    <i class="fas fa-envelope mr-3"></i> info@example.com</p>
+                    <i class="fas fa-envelope mr-3"></i> info@brainfood.com</p>
                 <p>
                     <i class="fas fa-phone mr-3"></i> + 43 234 567 88</p>
                 <p>
