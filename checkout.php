@@ -313,27 +313,27 @@ if (isset($_POST["order"])) {
 
     //No error, we can set an order
     if (!$error) {
-        $found = getCartItemsForUserId($user['id']);
-        if (!$found) {          // Get all items in cart
+        $found = getCartItemsForUserId($user['id']); // Get all items in cart
+        if (!$found) {              // No items found?
             echo "Error no products in cart found<br>";
             die();
-        } else {
-            $orderNumber = rand(1, 999999999);  // random number
+        } else {    // Items in cart
+            $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
+
             $sameOrders = "SELECT * orders
                         WHERE order_no = :ord_no";
             $stmt = $db->prepare($sameOrders);
             $orderWithSameNumber = $statement->execute(array('ord_no' => $orderNumber));
 
-            while ($orderWithSameNumber['order_no'] == $orderNumber) {
-                $orderNumber = $orderNumber + 1;    // Increment for another number
+            if ($orderWithSameNumber) {     // Are there same order numbers?
+                while ($orderWithSameNumber['order_no'] == $orderNumber) {
+                    $orderNumber = $orderNumber + 1;    // Increment for another number
+                }
             }
-
 
             $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
                     VALUES (:order_no,:user_id,:product_id,:quantity)";
             $statement = $db->prepare($sql);
-
-            $orderNumber = rand(1, 9999999999); // rand() get random integer between min and max
 
             foreach ($found as $orders) {         // Order all items in cart
                 $result = $statement->execute(array(
