@@ -99,8 +99,8 @@ if (isset($_GET["details"])) {  // See product details
         echo "Error product Id <br>";
       } else {
         $productCategorie = getProductCategorie($product['id']);
-        foreach ($productCategorie as $categorie) {  // Because no error with array
-          include_once("template/productDetails.php");  // once because, only details on one product
+        foreach ($productCategorie as $categorie) {       // Expects an array
+          include_once("template/productDetails.php");    // once because, only details on one product
         }
       }
       $showProducts = false;
@@ -112,7 +112,7 @@ if ($showProducts == true) {
   ?>
   <header>
     <section class="container" id="products">
-      <div class="row" style="width: 45rem;">
+      <div class="row" style="width: 55rem;">
         <?php foreach ($products as $product) :
           $productCategorie = getProductCategorie($product['id']);
           foreach ($productCategorie as $categorie) :

@@ -11,8 +11,8 @@
         </div>
         <div class="card-footer">
             <form action="products.php" method="GET">
-                <a href="products.php?details=<?= $product['id'] ?>" class="btn btn-primary btn-sm p-1">Details</a>
-                <a href="products.php?add=<?= $product['id'] ?>" class="btn btn-success btn-sm p-1">Add to cart</a>
+                <a href="products.php?details=<?= $product['id'] ?>" class="btn btn-primary btn-md p-1">Details</a>
+                <a href="products.php?add=<?= $product['id'] ?>" class="btn btn-success btn-md p-2">Add to cart</a>
             </form>
         </div>
     </div>
