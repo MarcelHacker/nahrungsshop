@@ -48,7 +48,7 @@ if (isloggedin() == 0) {
     </nav>
 
     <table class="table">
-        <label>Cart</label>
+        <h3>Cart</h3>
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -59,32 +59,34 @@ if (isloggedin() == 0) {
             </tr>
         </thead>
         <tbody>
-            <?php
-            $db = getDB();
-            if (!$db) {
-                die();
-            } else {
-                $sql = "SELECT * FROM cart ORDER by id ASC";
-                $stmt = $db->prepare($sql);
-                $result = $stmt->execute();
-
-                while ($row = $stmt->fetch()) {
-            ?>
-                    <tr>
-                        <th scope="row"><?php echo $row["id"] ?></th>
-                        <td><?php echo $row["user_id"] ?></td>
-                        <td><?php echo $row["product_id"] ?></td>
-                        <td><?php echo $row["quantity"] ?></td>
-                        <td><?php echo $row["created"] ?></td>
-                    </tr>
+            <div class="border border-primary">
                 <?php
-                }
+                $db = getDB();
+                if (!$db) {
+                    die();
+                } else {
+                    $sql = "SELECT * FROM cart ORDER by id ASC";
+                    $stmt = $db->prepare($sql);
+                    $result = $stmt->execute();
+
+                    while ($row = $stmt->fetch()) {
                 ?>
+                        <tr>
+                            <th scope="row"><?php echo $row["id"] ?></th>
+                            <td><?php echo $row["user_id"] ?></td>
+                            <td><?php echo $row["product_id"] ?></td>
+                            <td><?php echo $row["quantity"] ?></td>
+                            <td><?php echo $row["created"] ?></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+            </div>
         </tbody>
     </table>
 
-    <table class="table"> //TODO table orders
-        <label>Orders</label>
+    <table class="table">
+        <h3>Orders</h3>
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -96,29 +98,31 @@ if (isloggedin() == 0) {
             </tr>
         </thead>
         <tbody>
-            <?php
-                $sql = "SELECT * FROM orders ORDER by id ASC";
-                $stmt = $db->prepare($sql);
-                $result = $stmt->execute();
+            <div class="border border-secondary">
+                <?php
+                    $sql = "SELECT * FROM orders ORDER by id ASC";
+                    $stmt = $db->prepare($sql);
+                    $result = $stmt->execute();
 
-                while ($row = $stmt->fetch()) {
-            ?>
-                <tr>
-                    <th scope="row"><?php echo $row["id"] ?></th>
-                    <td><?php echo $row["order_no"] ?></td>
-                    <td><?php echo $row["user_id"] ?></td>
-                    <td><?php echo $row["product_id"] ?></td>
-                    <td><?php echo $row["quantity"] ?></td>
-                    <td><?php echo $row["created"] ?></td>
-                </tr>
-            <?php
-                }
-            ?>
+                    while ($row = $stmt->fetch()) {
+                ?>
+                    <tr>
+                        <th scope="row"><?php echo $row["id"] ?></th>
+                        <td><?php echo $row["order_no"] ?></td>
+                        <td><?php echo $row["user_id"] ?></td>
+                        <td><?php echo $row["product_id"] ?></td>
+                        <td><?php echo $row["quantity"] ?></td>
+                        <td><?php echo $row["created"] ?></td>
+                    </tr>
+                <?php
+                    }
+                ?>
+            </div>
         </tbody>
     </table>
 
     <table class="table">
-        <label>Contact</label>
+        <h3>Contact</h3>
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -130,56 +134,58 @@ if (isloggedin() == 0) {
             </tr>
         </thead>
         <tbody>
-            <?php
-                $sql = "SELECT * FROM contact ORDER by id ASC";
-                $stmt = $db->prepare($sql);
-                $result = $stmt->execute();
+            <div class="border border-success">
+                <?php
+                    $sql = "SELECT * FROM contact ORDER by id ASC";
+                    $stmt = $db->prepare($sql);
+                    $result = $stmt->execute();
 
-                while ($row = $stmt->fetch()) {
-            ?>
-                <tr>
-                    <th scope="row"><?php echo $row["id"] ?></th>
-                    <td><?php echo $row["email"] ?></td>
-                    <td><?php echo $row["name"] ?></td>
-                    <td><?php echo $row["subject"] ?></td>
-                    <td><?php echo $row["message"] ?></td>
-                    <td><?php echo $row["created"] ?></td>
-                </tr>
-            <?php
-                }
-            ?>
+                    while ($row = $stmt->fetch()) {
+                ?>
+                    <tr>
+                        <th scope="row"><?php echo $row["id"] ?></th>
+                        <td><?php echo $row["email"] ?></td>
+                        <td><?php echo $row["name"] ?></td>
+                        <td><?php echo $row["subject"] ?></td>
+                        <td><?php echo $row["message"] ?></td>
+                        <td><?php echo $row["created"] ?></td>
+                    </tr>
+                <?php
+                    }
+                ?>
+            </div>
         </tbody>
     </table>
 
     <table class="table">
-        <label>Categories</label>
+        <h3>Categories</h3>
         <thead>
             <tr>
-                <th scope="col">ID</th>
+                <th scope="col">Cat_ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Created</th>
-                <th scope="col">Modified</th>
             </tr>
         </thead>
         <tbody>
+            <div class="border border-info">
+                <?php
+
+                    $sql = "SELECT * FROM categories ORDER by id ASC";
+                    $stmt = $db->prepare($sql);
+                    $result = $stmt->execute();
+
+                    while ($row = $stmt->fetch()) {
+                ?>
+                    <tr>
+                        <th scope="row"><?php echo $row["cat_id"] ?></th>
+                        <td><?php echo $row["title"] ?></td>
+                        <td><?php echo $row["created"] ?></td>
+                    </tr>
             <?php
-
-                $sql = "SELECT * FROM categories ORDER by id ASC";
-                $stmt = $db->prepare($sql);
-                $result = $stmt->execute();
-
-                while ($row = $stmt->fetch()) {
-            ?>
-                <tr>
-                    <th scope="row"><?php echo $row["id"] ?></th>
-                    <td><?php echo $row["title"] ?></td>
-                    <td><?php echo $row["created"] ?></td>
-                    <td><?php echo $row["modified"] ?></td>
-                </tr>
-        <?php
+                    }
                 }
-            }
-        ?>
+            ?>
+            </div>
         </tbody>
 </body>
 
