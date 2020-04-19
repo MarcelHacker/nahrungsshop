@@ -29,7 +29,7 @@ function getProducts($sql)  // For specific product in database
   return $products;
 }
 
-function getProductCategorie($productId) //TODO categorie for product 
+function getProductCategorie($productId)
 {
   $sql = "SELECT *
   FROM products

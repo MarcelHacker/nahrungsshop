@@ -98,7 +98,10 @@ if (isset($_GET["details"])) {  // See product details
       if (!$product) {
         echo "Error product Id <br>";
       } else {
-        include("template/productDetails.php");
+        $productCategorie = getProductCategorie($product['id']);
+        foreach ($productCategorie as $categorie) {  // Because no error with array
+          include_once("template/productDetails.php");  // once because, only details on one product
+        }
       }
       $showProducts = false;
     }
