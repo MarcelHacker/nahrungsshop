@@ -15,7 +15,6 @@ if (!isLoggedIn()) {
         exit;
     } else {
         $countCartItems = countProductsInCart($userId);
-
 ?>
 
         <body>
@@ -41,6 +40,16 @@ if (!isLoggedIn()) {
                 </div>
             </nav>
             <?php
+            $found = getCartItemsForUserId($user['id']); // Get all items in cart
+            if (!$found) {              // No items found?
+            ?>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">No products in cart found.</h4>
+                    <p>Add products to your cart</p>
+                </div>
+            <?php
+                die();
+            }
         }
     }
     $db = getDB();
@@ -172,85 +181,72 @@ if (!isLoggedIn()) {
 
         //No error, we can set an order
         if (!$error) {
-            $found = getCartItemsForUserId($user['id']); // Get all items in cart
-            if (!$found) {              // No items found?
+
+            // Items in cart
+            $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
+
+            $sameOrders = "SELECT * orders      
+                        WHERE order_no = :ord_no";  // Check for same order numbers
+            $stmt = $db->prepare($sameOrders);
+            $orderWithSameNumber = $stmt->execute(array('ord_no' => $orderNumber));
+
+            if ($orderWithSameNumber) {     // Are there same order numbers?
+                while ($orderWithSameNumber['order_no'] == $orderNumber) {
+                    $orderNumber = $orderNumber + 1;    // Increment for another number
+                } // Now we have a unused ordernumber
+            }
+            // Get items from cart in order
+            $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
+                    VALUES (:order_no,:user_id,:product_id,:quantity)";
+            $statement = $db->prepare($sql);
+
+            foreach ($found as $orders) {         // For all items in cart
+                $result = $statement->execute(array(
+                    'order_no' => $orderNumber, 'user_id' => $orders['user_id'],
+                    'product_id' => $orders['product_id'], 'quantity' => $orders['quantity']
+                ));
+                if ($result) {          // Check for errors and get order number
+                    echo "Product: " . $orders["product_id"] . " ordered<br>";
+                } else {
+                    echo "Error product Id: " . $orders["product_id"] . "from user Id: " . $orders["user_id"] . "<br>";
+                }
+            }
+            $sql = "SELECT order_no FROM orders 
+                    WHERE order_no = :ordernumber"; // Check if order is generated
+            $statement = $db->prepare($sql);
+            $ordered = $statement->execute(array(
+                'ordernumber' => $orderNumber
+            ));
+            if ($ordered) {          // Check order and order number
             ?>
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">No products in cart found.</h4>
-                    <p>Add products to your cart</p>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Thank you for your order!</h4>
+                    <p>Your ordernumber is: #<?= $orderNumber ?></p>
                 </div>
                 <?php
-                die();
-            } else {    // Items in cart
-                $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
-
-                $sameOrders = "SELECT * orders      
-                        WHERE order_no = :ord_no";  // Check for same order numbers
-                $stmt = $db->prepare($sameOrders);
-                $orderWithSameNumber = $stmt->execute(array('ord_no' => $orderNumber));
-
-                if ($orderWithSameNumber) {     // Are there same order numbers?
-                    while ($orderWithSameNumber['order_no'] == $orderNumber) {
-                        $orderNumber = $orderNumber + 1;    // Increment for another number
-                    } // Now we have a unused ordernumber
-                }
-                // Get items from cart in order
-                $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
-                    VALUES (:order_no,:user_id,:product_id,:quantity)";
-                $statement = $db->prepare($sql);
-
-                foreach ($found as $orders) {         // For all items in cart
-                    $result = $statement->execute(array(
-                        'order_no' => $orderNumber, 'user_id' => $orders['user_id'],
-                        'product_id' => $orders['product_id'], 'quantity' => $orders['quantity']
-                    ));
-                    if ($result) {          // Check for errors and get order number
-                        echo "Product: " . $orders["product_id"] . " ordered<br>";
-                    } else {
-                        echo "Error product Id: " . $orders["product_id"] . "from user Id: " . $orders["user_id"] . "<br>";
-                    }
-                }
-                $sql = "SELECT order_no FROM orders 
-                    WHERE order_no = :ordernumber"; // Check if order is generated
-                $statement = $db->prepare($sql);
-                $ordered = $statement->execute(array(
-                    'ordernumber' => $orderNumber
-                ));
-                if ($ordered) {          // Check order and order number
-                ?>
-                    <div class="alert alert-success" role="alert">
-                        <h4 class="alert-heading">Thank you for your order!</h4>
-                        <p>Your ordernumber is: #<?= $orderNumber ?></p>
-                    </div>
-                    <?php
-                    $sql = "DELETE FROM cart
+                $sql = "DELETE FROM cart
                         WHERE user_id = :userid";   // Remember to delete ordered items from cart
-                    $statement = $db->prepare($sql);
-                    $clearCart = $statement->execute(array(
-                        'userid' => $user['id']
-                    ));
-                    if (!$clearCart) {  // Error cart clearing?
-                        echo "Error cart clearing<br>";
-                    }
-                    $showCheckout = false;
-                } else {
-                    ?>
-                    <div class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Excuse me, something went wrong with your order.</h4>
-                        <p>Try it again</p>
-                    </div>
-        <?php
+                $statement = $db->prepare($sql);
+                $clearCart = $statement->execute(array(
+                    'userid' => $user['id']
+                ));
+                if (!$clearCart) {  // Error cart clearing?
+                    echo "Error cart clearing<br>";
                 }
+                $showCheckout = false;
+            } else {
+                ?>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Excuse me, something went wrong with your order.</h4>
+                    <p>Try it again</p>
+                </div>
+    <?php
             }
         }
     }
+
     if ($showCheckout == true) {
         include_once("template/checkoutPage.php");
-    } else {    // nav buttons to coninue
-        ?>
-        <a href="cart.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Back</a>
-        <a href="products.php" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Continoue shopping</a>
-    <?php
     }
     ?>
 

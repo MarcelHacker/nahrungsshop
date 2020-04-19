@@ -26,98 +26,82 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
         </form>
         </div>
     </nav>
-    <?php
-} else {
-    if ($_SESSION['userId'] == "0" or $_SESSION['userId'] == "0") {
-    ?>
-        <div class="collapse navbar-collapse menubar">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="admin_startseite.php">Startseite</a></li>
-                <li><a href="admin_config.php">Produktkonfiguration</a></li>
-                </li>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="logout.php">Logout</a></li>
-        </div>
-        </div>
-    <?php
-    } else {
-        $userId = $_SESSION['userId'];
-        $user = getCurrentUser($userId);
-        if (!$user) {
-            echo "Error User Id";
-        } else {
-            echo "You are already logged in<br>";
-            echo $user['id'];
-        }
-        $countCartItems = countProductsInCart($userId);
-
-    ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="products.php">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.php">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Logout</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
-                <input class="form-control mr-sm-1" type="search" placeholder="Search" id="search_term" name="search_term" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
-            </form>
-            </div>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <i class="fas fa-shopping-cart">
-                        <a href="cart.php">Cart (<?= $countCartItems ?>)</a>
-                    </i>
-                </li>
-            </ul>
-        </nav>
 <?php
+} else {
+    $userId = $_SESSION['userId'];  // Check is user id is registered
+    $user = getCurrentUser($userId);
+    if (!$user) {
+        echo "Error User Id";   // No user with this id registered
+        die();
     }
+    $countCartItems = countProductsInCart($userId); // Cart items from user
+?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="products.php">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.php">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn mr-sm-4 btn-outline-dark" href="login.php">Logout</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
+            <input class="form-control mr-sm-1" type="search" placeholder="Search" id="search_term" name="search_term" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" id="search">Search</button>
+        </form>
+        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <i class="fas fa-shopping-cart">
+                    <a href="cart.php">Cart (<?= $countCartItems ?>)</a>
+                </i>
+            </li>
+        </ul>
+    </nav>
+    <?php
 }
 $showFormular = true;
 
-if (isset($_POST['login'])) {
+if (isset($_POST['login'])) {   // User loging in?
     $error = false;
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user = getUserWithEmail($email);
+    $user = getUserWithEmail($email);   // Check if Email already registered
 
-    $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Passoword
+    $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
 
-    if (!$user) {
+    if (!$user) {   // No user with this email?
         echo "<label>Kein User mit der Email registriert </label><br>";
         $error = true;
     }
 
-    if (strlen($password) == 0) {
+    if (strlen($password) == 0) { // Password typed in?
         echo "<label>Pasword eingeben!</label><br>";
         $error = true;
     }
 
-    if (!$hash == $user['password']) {
+    if (!$hash == $user['password']) { // Check is passoword matches
         echo "<label>Falsches Password! </label><br>";
         $error = true;
     }
 
-    echo "User Id = " . $user['id'] . "<br>";
-
-    //Überprüfung des Passworts
-    if ($error == false) {
-        $_SESSION['userId'] = $user['id'];
-        echo "<label>Login erfolgreich! </label><br>";
-        $showFormular = false;
+    if (!$error) { // Now we can log in user
+        $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
+    ?>
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">Successfully logged out!</h4>
+        </div>
+<?php
+        $showFormular = false;  // Hide login form
     } else {
-        echo "E-Mail oder Passwort war ungültig<br>";
+        echo "Email or password is wrong<br>";
     }
 }
 if ($showFormular == true) {

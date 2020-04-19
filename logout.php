@@ -25,8 +25,8 @@ include_once("./template/header.php");
     </form>
     </div>
 </nav>
-<div class="container p-1">
-    <label>Sccessfully logged out!</label>
+<div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">Successfully logged out!</h4>
 </div>
 <div class='fixed-bottom'>
     <?= include_once("./template/footer.php"); ?>
