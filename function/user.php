@@ -21,7 +21,7 @@ function getUserWithEmail(string $email)
     } else {
 
         $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
-        $result = $statement->execute(array('email' => $email));
+        $statement->execute(array('email' => $email));
         $user = $statement->fetch();    // Alle User mit der Email
     }
     return $user;
