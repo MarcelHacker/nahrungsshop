@@ -17,6 +17,7 @@ if (!isLoggedIn()) {
         $countCartItems = countProductsInCart($userId);
 
 ?>
+
         <body>
 
     <?php
@@ -96,7 +97,7 @@ if (isset($_POST["order"])) {
             echo "Address updated<br>";
         }
     }
-    if ($housenumber != $user['housnumber']) {
+    if ($housenumber != $user['housenumber']) {
         $sql = "UPDATE users SET housenumber = :housenumber
         WHERE id = :userid";
         $statement = $db->prepare($sql);
