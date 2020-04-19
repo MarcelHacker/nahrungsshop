@@ -24,7 +24,7 @@ if (!isLoggedIn()) {
                         <ul class="list-group mb-3">
 
                             <?php
-                            //product loop
+                            $cartSum = getCartSumForUserId($userId);
                             $cartItems = getCartItemsForUserId($userId);
                             foreach ($cartItems as $cartItem) :
                             ?>
@@ -38,7 +38,7 @@ if (!isLoggedIn()) {
                             <?php endforeach; ?>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (EURO)</span>
-                                <strong>cardsum €</strong>
+                                <strong><?= number_format($cartSum, 2, ",", " ") ?> €</strong>
                             </li>
                         </ul>
                     </div>
@@ -48,14 +48,14 @@ if (!isLoggedIn()) {
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">First name</label>
-                                    <input type="text" class="form-control" name="firstname" id="firstName" placeholder="" value="" required>
+                                    <input type="text" class="form-control" name="firstname" id="firstName" placeholder="" value="<?= $user["firstname"] ?>" required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName">Last name</label>
-                                    <input type="text" class="form-control" name="lastname" id="lastName" placeholder="" value="" required>
+                                    <input type="text" class="form-control" name="lastname" id="lastName" placeholder="" value="<?= $user["lastname"] ?>" required>
                                     <div class="invalid-feedback">
                                         Valid last name is required.
                                     </div>
@@ -64,49 +64,51 @@ if (!isLoggedIn()) {
 
                             <div class="mb-3">
                                 <label for="email">Email <span class="text-muted"></span></label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com">
+                                <input type="email" class="form-control" name="email" id="email" value="<?= $user["email"] ?>" placeholder="">
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                                <label for="inputAddress2">Address</label>
+                                <input type="text" class="form-control" name="address" id="address" value="<?= $user["address"] ?>" placeholder="" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                            <div class="mb-1 col-2">
+                                <label for="houseNumber">Housenumber</label>
+                                <input type="text" class="form-control" name="housenumber" id="housenumber" value="<?= $user["housenumber"] ?>" placeholder="">
                             </div>
 
-                            <div class="row">
+                            <div class="row p-1">
                                 <div class="col-md-5 mb-3">
                                     <label for="country">Country</label>
                                     <select class="custom-select d-block w-100" id="country" required>
-                                        <option value="">Choose...</option>
-                                        <option>United States</option>
+                                        <option value="<?= $user["country"] ?>"><?= $user["country"] ?></option>
+                                        <option value="austria">Austria</option>
+                                        <option value="united kingdom">United Kingdom</option>
+                                        <option value="china">China</option>
+                                        <option value="united states">United States</option>
+                                        <option value="schwitzerland">Schwitzerland</option>
+                                        <option value="germany">Germany</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         Please select a valid country.
                                     </div>
                                 </div>
+
                                 <div class="col-md-4 mb-3">
-                                    <label for="state">State</label>
-                                    <select class="custom-select d-block w-100" id="state" required>
-                                        <option value="">Choose...</option>
-                                        <option>California</option>
-                                    </select>
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" name="city" id="city" value="<?= $user["city"] ?>" placeholder="Guntersdorf" required>
                                     <div class="invalid-feedback">
-                                        Please provide a valid state.
+                                        Please provide a valid city.
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="zip">Zip</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="" required>
+                                    <input type="text" class="form-control" id="zip" value="<?= $user["postcode"] ?>" placeholder="" required>
                                     <div class="invalid-feedback">
                                         Zip code required.
                                     </div>
@@ -201,10 +203,7 @@ if (isset($_POST["order"])) {
     $housenumber = $_POST["housenumber"];
     $city = $_POST["city"];
     $country = $_POST["country"];
-    $password = $_POST["password"];
-    $confirmpassword = $_POST["confirmpassword"];
     $postcode = $_POST["postcode"];
-    $birthdate = $_POST["birthdate"];
 
     // Validate Data
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

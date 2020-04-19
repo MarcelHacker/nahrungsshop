@@ -47,6 +47,9 @@
                     <option value="austria">Austria</option>
                     <option value="united kingdom">United Kingdom</option>
                     <option value="china">China</option>
+                    <option value="united states">United States</option>
+                    <option value="schwitzerland">Schwitzerland</option>
+                    <option value="germany">Germany</option>
                 </select>
             </div>
             <div class="form-group col-md-2">
