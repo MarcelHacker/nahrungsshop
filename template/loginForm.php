@@ -10,10 +10,10 @@
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                 </div>
-                <div class="form-check">
+                <div class="form-check p-2">
                     <input type="checkbox" class="form-check-input" id="dropdownCheck">
                     <label class="form-check-label" for="dropdownCheck">
-                        Remember me
+                        I am not a robot
                     </label>
                 </div>
                 <button type="submit" name="login" id="login" class="btn btn-primary">Sign In</button>

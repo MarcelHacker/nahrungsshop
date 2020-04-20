@@ -1,6 +1,7 @@
 <?php
 session_start();
-include_once("template/header.php");
+include_once("./template/header.php");
+$showContactFormular = true;
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -67,7 +68,6 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   }
 }
 include_once("template/aboutCard.php");
-$showFormular = true;
 
 if (isset($_POST['contact'])) {
   $email = $_POST['email'];
@@ -85,15 +85,15 @@ if (isset($_POST['contact'])) {
     $result = $statement->execute(array('email' => $email, 'name' => $name, 'subject' => $subj, 'message' => $mesg));
 
     if (!$result == false) {
-      echo "<font> Message sent successfully </font>";
-      $showFormular = false;
+      echo "<font> Message sent successfully </font><br>";
+      $showContactFormular = false;
     } else {
-      echo "<font> Error contact message </font>";
+      echo "<font> Error contact message </font><br>";
     }
   }
 }
-if ($showFormular = true) {
-  include_once("template/contactForm.php");
+if ($showContactFormular == true) {
+  include_once("./template/contactForm.php");
 }
 ?>
 <div class="sm">

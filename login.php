@@ -107,7 +107,7 @@ if ($showFormular == true) {
 }
 ?>
 <div class="fixed-bottom">
-    <?= include_once("template/footer.php"); ?>
+    <?= include_once("./template/footer.php"); ?>
 </div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

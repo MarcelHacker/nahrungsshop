@@ -1,4 +1,4 @@
-<form action="contact.php" method="POST">
+<form action="about.php" method="POST">
   <div class="container">
     <h2><span class="badge badge-secondary-">Contact Us</span></h2>
     <div class="form-group">
