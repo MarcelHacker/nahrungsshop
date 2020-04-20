@@ -1,12 +1,9 @@
 <?php
 
 /**
- * A summary informing the user what the associated element does.
+ * Php file for adding, editing and deleting a user
  *
- * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
- * and to provide some background information or textual references.
- *
- *
+ * Used in the admin config
  * 
  */
 session_start();        // For session variable

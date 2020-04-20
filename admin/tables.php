@@ -1,12 +1,9 @@
 <?php
 
 /**
- * A summary informing the user what the associated element does.
- *
- * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
- * and to provide some background information or textual references.
- *
- *
+ * Php file for listing any other tables from database
+ * 
+ * Used in the admin config
  * 
  */
 session_start();        // For session variable
@@ -69,7 +66,7 @@ if (!isloggedin()) {                    //User not logged in?
         <tbody>
             <div class="border border-primary">
                 <?php
-                $db = getDB();
+                $db = getDB();  // database connection
                 if (!$db) {
                     die();
                 } else {
