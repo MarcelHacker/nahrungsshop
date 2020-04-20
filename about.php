@@ -1,7 +1,16 @@
 <?php
-session_start();
-include_once("./template/header.php");
-$showContactFormular = true;
+
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
+session_start();        // For session variable  
+include_once("./template/header.php");      // For functions
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -68,6 +77,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   }
 }
 include_once("./template/aboutCard.php"); // About picture
+$showContactFormular = true;
 
 if (isset($_POST['contact'])) { // For contact formular
   $email = $_POST['email'];

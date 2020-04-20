@@ -1,11 +1,20 @@
 <?php
-session_start();      // For session variable
-error_reporting(-1);  // Error messages
+
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
+session_start();        // For session variable 
+error_reporting(-1);    // Error messages
 ini_set('display_errors', 'On');
+include_once("./template/header.php");      // For functions
 
-include_once("./template/header.php");  // Include header
-
-if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isLoggedIn()) // User not logged in?
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,7 +42,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 } else {
   $userId = $_SESSION['userId'];  // Gets user id from session variable
   $user = getCurrentUser($userId);
-  if (!$user) {                   // Wrong User Id ?
+  if (!$user) {                   // No user with this id?
     echo "Error User id <br>";
     die();
   } else {

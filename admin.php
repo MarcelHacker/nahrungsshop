@@ -1,6 +1,16 @@
 <?php
-session_start();                        // For session variable
-include_once("./template/header.php");  // For functions
+
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
+session_start();        // For session variable  
+include_once("./template/header.php");      // For functions
 
 if (isLoggedIn()) {     // Check if an user is already loged in
     if ($_SESSION['userId'] == 1) {             // user an admin?

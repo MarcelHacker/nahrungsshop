@@ -1,14 +1,21 @@
 <?php
-session_start();
-include_once("../../function/database.php");
-include_once("../../function/product.php");
-include_once("../../function/user.php");
-include_once("../../function/cart.php");
 
-if (isloggedin() == 0) {
-    header("Location: ../../admin.php");
-    exit;
-} else if ($_SESSION['userId'] != 1) {
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
+session_start();        // For session variable
+include_once("../../function/database.php");    // For functions
+
+if (!isloggedin()) {                    //User not logged in?
+    header("Location: ../../admin.php");    // Go to admin login
+    exit;                           // Prevents loading this page
+} else if ($_SESSION['userId'] != 1) { // Is the user an admin?
     header("Location: ../../admin.php");
     exit;
 }
@@ -47,20 +54,20 @@ if (isloggedin() == 0) {
         </ul>
     </nav>
     <?php
-    $db = getDB();
+    $db = getDB();  // database connection
     if (!$db) {
         echo "Error database connection<br>";
         die();
     }
 
-    if (isset($_GET["del"])) {
+    if (isset($_GET["del"])) {  // Delete a product from table
         if (!empty($_GET["del"])) {
-            $productId = $_GET["del"];
+            $productId = $_GET["del"];  // Which product?
 
             $sql = "DELETE FROM products WHERE id = :productid";
             $stmt = $db->prepare($sql);
             $result = $stmt->execute(array(":productid" => $productId));
-            if ($result) {
+            if ($result) {  // Deleted
                 echo "<p>Product sucessfully deleted</p>";
             } else {
                 echo "<p>Error product remove</p>";
@@ -68,9 +75,9 @@ if (isloggedin() == 0) {
         }
     }
 
-    if (isset($_GET["add"])) {
+    if (isset($_GET["add"])) {  // Add a product to table
         $showProdFormular = true;
-        if (isset($_POST['add'])) {
+        if (isset($_POST['add'])) { // Product formular 
             $error = false;
             $title = $_POST["title"];
             $description = $_POST["description"];
@@ -101,16 +108,16 @@ if (isloggedin() == 0) {
             }
 
 
-            //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
+            //Check if product title is already used
             if (!$error) {
                 $product = getProductWithTitle($title);
-                if ($product) {
+                if ($product) { // Product with same title?
                     echo 'Product already exists<br>';
                     $error = true;
                 }
             }
 
-            //Keine Fehler, wir können den Nutzer registrieren
+            //No error, we can add a product
             if (!$error) {
                 $sql = "INSERT INTO products (title,description,price,cat_id,created,source) 
                         VALUES (:title,:description,:price,:cat_id,CURRENT_TIMESTAMP(),:source)";
@@ -121,12 +128,12 @@ if (isloggedin() == 0) {
                     'source' => $source
                 ));
 
-                if ($result) {
+                if ($result) {  // Check if created with product id 
                     $sql = "SELECT id FROM products WHERE title = :title";
                     $statement = $db->prepare($sql);
                     $statement->execute(array('title' => $title));
                     $productId = $statement->fetch();
-                    if ($productId) {
+                    if ($productId) {   // created
                         echo "Product sucessfully created<br>";
                         $showProdFormular = false;
                     }
@@ -157,7 +164,7 @@ if (isloggedin() == 0) {
                 <div class="container">
                     <label for="cat_id">Categorie</label>
                     <select class="custom-select" name="cat_id" id="cat_id" aria-label="Example select with button addon">
-                        <?php
+                        <?php   // Get categories for products
                         $sql = "SELECT *
                             FROM categories";
 
@@ -183,42 +190,37 @@ if (isloggedin() == 0) {
         }
     }
 
-    if (isset($_GET["id"])) {
+    if (isset($_GET["id"])) {   // Update products 
         $showProductForm = true;
-        if (!empty($_GET["id"])) {
-            $productId = $_GET["id"];
+        if (!empty($_GET["id"])) {      // Edit product
+            $productId = $_GET["id"];   // Which product?
             if (isset($_POST["submit"])) {
                 $title = $_POST["title"];
                 $description = $_POST["description"];
                 $price = $_POST["price"];
                 $cat_id = $_POST["cat_id"];
                 $source = $_POST["source"];
-                echo $title;
-                echo $description;
-                echo $price;
-                echo $cat_id;
-                echo $source;
 
                 $sql = "UPDATE products SET title = :title, description = :description, price = :price, cat_id = :cat_id, source = :source 
                 WHERE id = :productid";
+
                 $stmt = $db->prepare($sql);
                 $result = $stmt->execute(array('title' => $title, 'description' => $description, 'price' => $price, 'cat_id' => $cat_id, 'source' => $source, 'productid' => $productId));
 
-                if ($result) {
+                if ($result) {  // Product updated
                     echo "<p>Product sucessfully updated</p>";
                     $showProductForm = false;
                 } else {
                     echo "<p>Error Product edit</p>";
                 }
             }
-
             $sql = "SELECT * FROM products WHERE id = :productid";
 
             $stmt = $db->prepare($sql);
-            $stmt->execute(array(":productid" => $productId));
+            $stmt->execute(array(":productid" => $productId));  // Current product
             $row = $stmt->fetch();
 
-            if ($showProductForm == true) {
+            if ($showProductForm == true) { // Edit Formular for products
             ?>
                 <form action="edit.php?id=<?php echo $_GET["id"] ?>" method="POST">
                     <div class="form-group col-md-6">
@@ -240,7 +242,7 @@ if (isloggedin() == 0) {
                     <div class="container">
                         <label for="cat_id">Categorie</label>
                         <select class="custom-select" name="cat_id" id="cat_id" aria-label="Example select with button addon">
-                            <?php
+                            <?php   // Get product categories
                             $sql = "SELECT *
                             FROM categories";
 

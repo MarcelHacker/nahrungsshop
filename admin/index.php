@@ -1,14 +1,21 @@
 <?php
-session_start();
-include_once("../function/database.php");
-include_once("../function/product.php");
-include_once("../function/user.php");
-include_once("../function/cart.php");
 
-if (!isloggedin()) {
-    header("Location: ../admin.php");
-    exit;
-} else if ($_SESSION['userId'] != 1) {
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
+session_start();        // For session variable
+include_once("../function/database.php");    // For functions
+
+if (!isloggedin()) {                    //User not logged in?
+    header("Location: ../admin.php");    // Go to admin login
+    exit;                           // Prevents loading this page
+} else if ($_SESSION['userId'] != 1) { // Is the user an admin?
     header("Location: ../admin.php");
     exit;
 }

@@ -1,4 +1,13 @@
 <?php
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
 
 function getCurrentUser(int $userId)    // Get current user with user id
 {

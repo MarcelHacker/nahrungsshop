@@ -1,8 +1,18 @@
 <?php
-session_start();
-include_once("template/header.php");
 
-if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
+/**
+ * A summary informing the user what the associated element does.
+ *
+ * A *description*, that can span multiple lines, to go _in-depth_ into the details of this element
+ * and to provide some background information or textual references.
+ *
+ *
+ * 
+ */
+session_start();        // For session variable  
+include_once("./template/header.php");      // For functions
+
+if (!isLoggedIn()) // User not logged in?
 {
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
