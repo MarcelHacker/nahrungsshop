@@ -66,9 +66,6 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
             </ul>
         </nav>
 <?php
-        echo "You are already logged in";
-        sleep(1.5);    //1,5 warten
-        header("Location: index.php");
     }
 }
 $showFormular = true;
@@ -137,7 +134,7 @@ if (isset($_POST['register'])) {    // Registration for a new user
     if (!$error) {
         $user = getUserWithEmail($email);
         if ($user) {
-            echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
+            echo 'Email address already registered<br>';
             $error = true;
         }
     }

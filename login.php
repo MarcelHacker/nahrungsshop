@@ -74,13 +74,8 @@ if (isset($_POST['login'])) {   // User loging in?
     $password = $_POST['password'];
 
     $user = getUserWithEmail($email);   // Check if Email already registered
-    echo $user['lastname'];
-    echo $user['id'] . "<br>";
 
-    $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
-    echo $hash;
-
-    if (!$user) {   // No user with this email?
+    if (!$user) {           // No user with this email?
         echo "<label>No user with this email registered </label><br>";
         $error = true;
     }
@@ -91,7 +86,7 @@ if (isset($_POST['login'])) {   // User loging in?
     }
 
     if (!password_verify($password, $user['password'])) { // Check is password matches
-        echo "<label>Wrong password </label><br>";
+        echo "<label>Password do not match</label><br>";
         $error = true;
     }
 

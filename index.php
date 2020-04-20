@@ -3,7 +3,7 @@ session_start();
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
-include_once("template/header.php");
+include_once("./template/header.php");
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -34,7 +34,8 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   $userId = $_SESSION['userId'];
   $user = getCurrentUser($userId);
   if (!$user) {                   // Falsche User Id ?
-    echo "Error User";
+    echo "Error User id <br>";
+    die();
   } else {
     $countCartItems = countProductsInCart($userId);
   ?>
@@ -69,8 +70,8 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 <?php
   }
 }
-include_once("template/home.php");
-include_once("template/footer.php");
+include_once("./template/home.php");
+include_once("./template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

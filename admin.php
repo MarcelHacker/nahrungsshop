@@ -2,10 +2,10 @@
 session_start();                        // For session variable
 include_once("./template/header.php");  // For functions
 
-if (isLoggedIn()) { // Check if an user is already loged in
-    if ($_SESSION['userId'] == 1) { // user an admin?
+if (isLoggedIn()) {     // Check if an user is already loged in
+    if ($_SESSION['userId'] == 1) {             // user an admin?
         header("Location: admin/index.php");    // Go to site configuration
-        exit;   // Prevents loading this page
+        exit;           // Prevents loading this page
     }
 }
 ?>
@@ -36,9 +36,8 @@ if (isset($_POST['admin'])) {   // For admin login
     $error = false;
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $user = getUserWithEmail($email);   // user as admin registered?
 
-    $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt the password
+    $user = getUserWithEmail($email);   // user as admin registered?
 
     if (!$user) {   // No user registered?
         echo "<p color='red'>No user registered</p><br>";
@@ -50,7 +49,7 @@ if (isset($_POST['admin'])) {   // For admin login
         $error = true;
     }
 
-    if (!$hash == $user['password']) { // Correct password?
+    if (!password_verify($password, $user['password'])) { // Correct password?
         echo "<p color='red'>Wrong password</p><br>";
         $error = true;
     }
@@ -60,6 +59,7 @@ if (isset($_POST['admin'])) {   // For admin login
         if ($user['id'] == 1) { // Check if admin would log in
             $_SESSION['userId'] = $user['id'];
             header("location: admin/index.php");   // Go to site configuration
+            exit;
         } else {
             echo "<p color='red'>You are not an admin</p><br>";
         }
@@ -77,7 +77,7 @@ if (isset($_POST['admin'])) {   // For admin login
     <fieldset>
         <br>
         <table>
-            <form method="post" action="admin.php">
+            <form method="POST" action="admin.php">
                 <tr>
                     <td>Email:</td>
                     <td><label>

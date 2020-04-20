@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once("template/header.php");
+include_once("./template/header.php");
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -32,6 +32,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   $user = getCurrentUser($userId);
   if (!$user) {
     echo "Error User Id <br>";
+    die();
   } else {
     $countCartItems = countProductsInCart($userId);
   ?>
@@ -86,7 +87,7 @@ if (isset($_POST["search"])) {
             $productCategorie = getProductCategorie($product['id']);
             foreach ($productCategorie as $categorie) : ?>
               <div class="col py-3 px-lg-5">
-                <?php include("template/card.php") ?>
+                <?php include("./template/card.php") ?>
               </div>
           <?php endforeach;
           endforeach; ?>
@@ -95,7 +96,7 @@ if (isset($_POST["search"])) {
 <?php
   }
 }
-include_once("template/footer.php");
+include_once("./template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

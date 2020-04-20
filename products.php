@@ -79,7 +79,7 @@ if (isset($_GET["add"])) {    // Add product to cart
       if (!$result) {
         echo "Error product adding<br>";
       } else {
-        header("Location: products.php");
+        header("Location: products.php"); // Reload the product page
       }
     } else {
       echo "<p>No product asked</p>";
@@ -105,7 +105,7 @@ if (isset($_GET["details"])) {  // See product details
       } else {
         $productCategorie = getProductCategorie($product['id']);
         foreach ($productCategorie as $categorie) {       // Expects an array
-          include_once("template/productDetails.php");    // once because, only details on one product
+          include_once("./template/productDetails.php");    // once because, only details on one product
         }
       }
       $showProducts = false;
@@ -124,7 +124,7 @@ if ($showProducts == true) {
         ?>
             <div class="col">
               <?php
-              include("template/card.php") ?>
+              include("./template/card.php") ?>
             </div>
         <?php endforeach;
         endforeach; ?>

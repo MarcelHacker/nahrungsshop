@@ -57,6 +57,7 @@ if (isset($_GET["plus"])) {     // Insrease quanity of a product in cart
         if (!$result) {
             echo "Error add product<br>";
         }
+        header("Location: cart.php");
     } else {
         echo "No product selected<br>";
     }
@@ -69,6 +70,7 @@ if (isset($_GET["del"])) {      // Completely deletes a product from cart
         if (!$result) {
             echo "Error delete product<br>";
         }
+        header("Location: cart.php");
     } else {
         echo "No product selected<br>";
     }
