@@ -73,7 +73,7 @@ if (isset($_POST['forgotten'])) {   // User loging in?
         $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
 
         $result = $statement->execute(array(
-            'password' => $hash, 'userid' => $userid
+            'password' => $hash, 'userid' => $user['id']
         ));
         if (!$result) {
             echo "Error updating password<br>";
