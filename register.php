@@ -73,7 +73,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 }
 $showFormular = true;
 
-if (isset($_POST['register'])) {
+if (isset($_POST['register'])) {    // Registration for a new user
     $error = false;
     $firstname = $_POST["firstname"];
     $lastname = $_POST["lastname"];
@@ -89,51 +89,51 @@ if (isset($_POST['register'])) {
 
     // Validate Data
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo 'Bitte eine gültige E-Mail-Adresse eingeben<br>';
+        echo 'Please enter a correct email address<br>';
         $error = true;
     }
     if (!$firstname) {
-        echo 'Wrong firstname<br>';
+        echo 'Type in an firstname<br>';
         $error = true;
     }
     if (!$lastname) {
-        echo 'Wrong lastname<br>';
+        echo 'Type in an lastname<br>';
         $error = true;
     }
     if (strlen($email) == 0) {
-        echo "Bitte Email eingeben<br>";
+        echo "Type in an email address<br>";
         $error = true;
     }
     if (strlen($password) == 0) {
-        echo 'Bitte ein Passwort angeben<br>';
+        echo 'Type in a password<br>';
         $error = true;
     }
     if ($password != $confirmpassword) {
-        echo 'Die Passwörter müssen übereinstimmen<br>';
+        echo 'Passwords do not match<br>';
         $error = true;
     }
     if (!$birthdate) {
-        echo 'Birthdate is false<br>';
+        echo 'Type in your birthdate<br>';
         $error = true;
     }
     if (!$address) {
-        echo 'adress is false<br>';
+        echo 'Type in an address<br>';
         $error = true;
     }
     if (!$city) {
-        echo 'City is false<br>';
+        echo 'Type in a city<br>';
         $error = true;
     }
     if (!$country) {
-        echo 'Choose country<br>';
+        echo 'Choose your country<br>';
         $error = true;
     }
     if (!$postcode) {
-        echo 'Wrong post code<br>';
+        echo 'Type in your zip<br>';
         $error = true;
     }
 
-    //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
+    //Check, if email is already registered
     if (!$error) {
         $user = getUserWithEmail($email);
         if ($user) {
@@ -142,16 +142,16 @@ if (isset($_POST['register'])) {
         }
     }
 
-    //Keine Fehler, wir können den Nutzer registrieren
+    // No error, we can register user
     if (!$error) {
-        $db = getDB();
+        $db = getDB();  // Get database connection
         if (!$db) {
             echo "Error database connection<br>";
             die();
         } else {
-
-            $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
-            birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)");
+            $sql = "INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
+            birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)";
+            $statement = $db->prepare($sql);
 
             $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
 
@@ -161,26 +161,24 @@ if (isset($_POST['register'])) {
             ));
 
 
-
-            if ($result) {
+            if ($result) {  // User successfully registered
                 $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
-                $result = $statement->execute(array('email' => $email));
+                $statement->execute(array('email' => $email));
                 $userId = $statement->fetch();
                 $_SESSION['userId'] = $userId;   // Sets User Id
-                echo "<label>$email</label></br>";
-                echo "Registered sucessfully!<br>";
                 $showFormular = false;
-                //header("Location: index.php");
-            } else {
-                echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
+                header("Location: index.php");  // Go to index
+                exit;                           // Prevents loading old page
+            } else {    // No success
+                echo 'Something went wrong<br>';
             }
         }
     }
 }
-if ($showFormular == true) {
-    include_once("template/registerForm.php");
+if ($showFormular == true) {   // Prevents apearing, despite just registered
+    include_once("./template/registerForm.php");
 }
-include_once("template/footer.php");
+include_once("./template/footer.php");
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
