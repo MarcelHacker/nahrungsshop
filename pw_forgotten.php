@@ -75,10 +75,14 @@ if (isset($_POST['forgotten'])) {   // User loging in?
         $result = $statement->execute(array(
             'password' => $hash, 'userid' => $userid
         ));
-
-        sleep(0.5);                    // waits 0,5 seconds
-        header("Location: index.php"); // Got to home
-        exit;                          // Prevents loading page
+        if (!$result) {
+            echo "Error updating password<br>";
+            die();
+        } else {
+            sleep(0.5);                    // waits 0,5 seconds
+            header("Location: index.php"); // Got to home
+            exit;                          // Prevents loading page
+        }
     } else {
         echo "Excuse me, somthing went wrong<br>";
     }
