@@ -1,5 +1,5 @@
 <?php
-define('DB_DATABASE', 'brainfooddb');
+define('DB_DATABASE', 'brainfooddb'); // defines for databased
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_HOST', '127.0.0.1');
@@ -7,7 +7,7 @@ define('DB_CHARSET', 'utf8');
 
 function getDB()  // Database connection
 {
-  static $db;
+  static $db;   // database
   if ($db instanceof PDO) {
     return $db;
   }

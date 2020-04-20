@@ -1,8 +1,8 @@
 <?php
 
-function getCurrentUser(int $userId)
+function getCurrentUser(int $userId)    // Get current user with user id
 {
-    $db = getDB();
+    $db = getDB();  // Database connection
     if (!$db) {
         die();
     } else {
@@ -13,21 +13,21 @@ function getCurrentUser(int $userId)
     return $user;
 }
 
-function getUserWithEmail(string $email)
+function getUserWithEmail(string $email)    // Get user data with email
 {
-    $db = getDB();
+    $db = getDB();  // Database connection
     if (!$db) {
         die();
     } else {
 
         $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
         $statement->execute(array('email' => $email));
-        $user = $statement->fetch();    // Alle User mit der Email
+        $user = $statement->fetch();    // All from user with email
     }
     return $user;
 }
 
 function isLoggedIn(): bool     // Checking if user is logged in
 {
-    return isset($_SESSION['userId']);
+    return isset($_SESSION['userId']); // session user id variable
 }

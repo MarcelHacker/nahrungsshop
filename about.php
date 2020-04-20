@@ -67,37 +67,37 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 <?php
   }
 }
-include_once("template/aboutCard.php");
+include_once("./template/aboutCard.php"); // About picture
 
-if (isset($_POST['contact'])) {
+if (isset($_POST['contact'])) { // For contact formular
   $email = $_POST['email'];
   $name = $_POST['name'];
   $subj = $_POST['subject'];
   $mesg = $_POST['message'];
 
-  $db = getDB();
+  $db = getDB();  // database connection
   if (!$db) {
     echo "Error database connection <br>";
     die();
-  } else {
+  } else {  // generate database entry
     $sql = "insert into contact (email,name,subject,message) values('$email','$name','$subj','$mesg')";
     $statement = $db->prepare($sql);
     $result = $statement->execute(array('email' => $email, 'name' => $name, 'subject' => $subj, 'message' => $mesg));
 
-    if (!$result == false) {
+    if ($result) {   // Message sent
       echo "<font> Message sent successfully </font><br>";
       $showContactFormular = false;
-    } else {
+    } else {        // Error
       echo "<font> Error contact message </font><br>";
     }
   }
 }
-if ($showContactFormular == true) {
+if ($showContactFormular == true) {  // Hides contact if sent
   include_once("./template/contactForm.php");
 }
 ?>
 <div class="sm">
-  <?= include_once("template/footer.php"); ?>
+  <?= include_once("./template/footer.php"); ?>
 </div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

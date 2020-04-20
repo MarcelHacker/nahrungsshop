@@ -66,11 +66,11 @@ if (isset($_POST['forgotten'])) {   // User loging in?
     if (!$error) { // Now we can change user password
         $showForgottenPage = false;
 
-        $db = getDB();
+        $db = getDB(); // database connection
         if (!$db) {
             echo "Error database connection<br>";
             die();
-        } else {
+        } else {   // generate database entry
             $sql = "UPDATE users SET password = :password
                 WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -93,7 +93,7 @@ if (isset($_POST['forgotten'])) {   // User loging in?
         echo "Excuse me, somthing went wrong<br>";
     }
 }
-if ($showForgottenPage == true) {
+if ($showForgottenPage == true) {   // Hides formular
     include_once("./template/passwordForgotten.php");
 }
 ?>

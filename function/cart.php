@@ -13,6 +13,7 @@ function addProductToCart(int $userId, int $productId)  // Add product to cart
   ]);
   return $result;
 }
+
 function deleteProductFromCart(int $userId, int $productId)  // Delete product from cart
 {
   $sql = "DELETE FROM cart
@@ -37,7 +38,7 @@ function countProductsInCart(int $userId)  // Count products in cart
   return $cartItems;
 }
 
-function getCartItemsForUserId(int $userId): array // 
+function getCartItemsForUserId(int $userId): array // Products in cart from user
 {
   $sql = "SELECT *
           FROM cart
@@ -54,7 +55,7 @@ function getCartItemsForUserId(int $userId): array //
   return $found;
 }
 
-function getCartSumForUserId(int $userId): int
+function getCartSumForUserId(int $userId): int // Total price of products in cart
 {
   $sql = "SELECT SUM(price * quantity)
           FROM cart

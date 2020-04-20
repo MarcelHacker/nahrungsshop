@@ -89,7 +89,7 @@
                 </p>
 
                 <p>
-                    <a href="#!">Help</a>
+                    <a href="#">Help</a>
                 </p>
 
             </div>

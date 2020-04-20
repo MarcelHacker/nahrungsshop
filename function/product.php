@@ -1,5 +1,5 @@
 <?php
-//id,title,description,price,cat_id,source
+
 function getAllProducts() // For all products in database
 {
   $sql = "SELECT id,title,description,price,cat_id,source
@@ -29,7 +29,7 @@ function getProducts($sql)  // For specific product in database
   return $products;
 }
 
-function getProductCategorie($productId)
+function getProductCategorie($productId)  // Get product categorie
 {
   $sql = "SELECT *
   FROM products
@@ -47,7 +47,7 @@ function getProductCategorie($productId)
   return $productCategorie;
 }
 
-function getProductWithTitle(string $title)
+function getProductWithTitle(string $title) // For website search
 {
   $db = getDB();
   if (!$db) {

@@ -14,6 +14,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     } else {
         $countCartItems = countProductsInCart($userId);
 ?>
+        <!-- Navigation for Brain Food -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -42,6 +43,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
                 </li>
             </ul>
         </nav>
+        <!-- Navigation for Brain Food -->
 <?php
         $cartItems = getCartItemsForUserId($userId); // All items in cart
         $cartSum = getCartSumForUserId($userId);     // Total price
@@ -57,7 +59,7 @@ if (isset($_GET["plus"])) {     // Insrease quanity of a product in cart
         if (!$result) {
             echo "Error add product<br>";
         }
-        header("Location: cart.php");
+        header("Location: cart.php");   // Relaods the cart
     } else {
         echo "No product selected<br>";
     }
@@ -70,12 +72,12 @@ if (isset($_GET["del"])) {      // Completely deletes a product from cart
         if (!$result) {
             echo "Error delete product<br>";
         }
-        header("Location: cart.php");
+        header("Location: cart.php");  // Reloads the cart
     } else {
         echo "No product selected<br>";
     }
 }
-include_once("template/footer.php"); // Site footer
+include_once("./template/footer.php"); // Site footer
 ?>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>
