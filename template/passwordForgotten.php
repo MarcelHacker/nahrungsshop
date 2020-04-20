@@ -22,7 +22,6 @@
             </form>
             <div class="dropdown">
                 <a class="dropdown-item" href="register.php">New around here? Sign up</a>
-                <a class="dropdown-item" href="pw_forgotten.php">Forgot password?</a>
             </div>
         </div>
     </div>

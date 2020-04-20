@@ -5,7 +5,7 @@ include_once("./template/header.php");
 if (isLoggedIn())   // User already logged in
 {
     header("Location: index.php");
-    die();
+    exit;
 } else {
 ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
