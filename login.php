@@ -31,7 +31,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     $userId = $_SESSION['userId'];  // Check is user id is registered
     $user = getCurrentUser($userId);
     if (!$user) {
-        echo "Error User Id";   // No user with this id registered
+        echo "Error User Id<br>";   // No user with this id registered
         die();
     }
     $countCartItems = countProductsInCart($userId); // Amount of cart items from user
@@ -74,30 +74,33 @@ if (isset($_POST['login'])) {   // User loging in?
     $password = $_POST['password'];
 
     $user = getUserWithEmail($email);   // Check if Email already registered
+    echo $user['lastname'];
+    echo $user['id'] . "<br>";
 
     $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
+    echo $hash;
 
     if (!$user) {   // No user with this email?
-        echo "<label>Kein User mit der Email registriert </label><br>";
+        echo "<label>No user with this email registered </label><br>";
         $error = true;
     }
 
     if (strlen($password) == 0) { // Password typed in?
-        echo "<label>Pasword eingeben!</label><br>";
+        echo "<label>Type in an password</label><br>";
         $error = true;
     }
 
-    if (!$hash == $user['password']) { // Check is passoword matches
-        echo "<label>Falsches Password! </label><br>";
+    if (!password_verify($password, $user['password'])) { // Check is password matches
+        echo "<label>Wrong password </label><br>";
         $error = true;
     }
 
     if (!$error) { // Now we can log in user
-        $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
         $showFormular = false;
+        $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
         sleep(0.5);                    // waits 0,5 seconds
-        header("Location: index.php"); // Got to home
-        exit;                          // Prevents loading page
+        //header("Location: index.php");    // Got to home
+        exit;           // Prevents loading page
     } else {
         echo "Email or password is wrong<br>";
     }

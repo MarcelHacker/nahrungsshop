@@ -57,31 +57,37 @@ if (isset($_POST['forgotten'])) {   // User loging in?
         $error = true;
     }
 
-    if (!$birthdate == $user['birthday']) { // Security check
+    if (!$birthdate == $user['birthdate']) { // Security check
+        echo "Error birthdate do not match<br>";
         die();                              // No message 
         $error = true;
     }
 
     if (!$error) { // Now we can change user password
         $showForgottenPage = false;
-        $user['id'] = $_SESSION['userId'];  // Sets user id in session variable
 
-        $sql = "UPDATE users SET = password = :password
-                WHERE id = :userid";
-        $statement = $db->prepare($sql);
-
-        $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
-
-        $result = $statement->execute(array(
-            'password' => $hash, 'userid' => $user['id']
-        ));
-        if (!$result) {
-            echo "Error updating password<br>";
+        $db = getDB();
+        if (!$db) {
+            echo "Error database connection<br>";
             die();
         } else {
-            sleep(0.5);                    // waits 0,5 seconds
-            header("Location: index.php"); // Got to home
-            exit;                          // Prevents loading page
+            $sql = "UPDATE users SET password = :password
+                WHERE id = :userid";
+            $statement = $db->prepare($sql);
+
+            $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
+
+            $result = $statement->execute(array('password' => $hash, 'userid' => $user['id']));
+
+            if (!$result) {
+                echo "Error updating password<br>";
+                die();
+            } else {
+                $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
+                sleep(0.5);                    // waits 0,5 seconds
+                header("Location: index.php"); // Got to home
+                exit;                          // Prevents loading page
+            }
         }
     } else {
         echo "Excuse me, somthing went wrong<br>";
