@@ -2,7 +2,7 @@
 session_start();
 include_once("./template/header.php");
 
-if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
+if (!isLoggedIn()) // user logged in?
 {
 ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,13 +28,13 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   </nav>
   <?php
 } else {
-  $userId = $_SESSION['userId'];
+  $userId = $_SESSION['userId'];  // Get user id
   $user = getCurrentUser($userId);
-  if (!$user) {
+  if (!$user) { // No user with this id?
     echo "Error User Id <br>";
     die();
   } else {
-    $countCartItems = countProductsInCart($userId);
+    $countCartItems = countProductsInCart($userId); // Count cart items
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <ul class="nav nav-tabs">
@@ -68,24 +68,25 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   }
 }
 
-if (isset($_POST["search"])) {
+if (isset($_POST["search"])) {  // For site search query
   $search = $_POST["search_term"];
 
   $sql = "SELECT * FROM products
           WHERE title like '$search'";
-  $products = getProducts($sql);
+  $products = getProducts($sql);  // Get searched product with title
 
-  if (!$products) {
+  if (!$products) { // No products found?
     echo "No products found<br>";
-  } else {
+  } else {          // Some products found?
     echo "Following products were found:<br>";
   ?>
     <header>
       <section class="container px-lg-5" id="search_products">
         <div class="row mx-lg-n5" style="width: 30rem;">
-          <?php foreach ($products as $product) :
-            $productCategorie = getProductCategorie($product['id']);
-            foreach ($productCategorie as $categorie) : ?>
+          <?php foreach ($products as $product) :           // Loop for searched products
+            $productCategorie = getProductCategorie($product['id']);  // For product categorie
+            foreach ($productCategorie as $categorie) :     // Loop for categories
+          ?>
               <div class="col py-3 px-lg-5">
                 <?php include("./template/card.php") ?>
               </div>
