@@ -40,9 +40,7 @@ if (isset($_POST['forgotten'])) {   // User loging in?
     $password = $_POST['password'];
     $passwordConfirm = $_POST['passwordconfirm'];
 
-    $user = getUserWithEmail($email);   // Check if Email already registered
-
-    $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
+    $user = getUserWithEmail($email);   // Check if Email already registered  
 
     if (!$user) {   // No user with this email?
         echo "<label>No user with this email registered</label><br>";
@@ -67,9 +65,16 @@ if (isset($_POST['forgotten'])) {   // User loging in?
     if (!$error) { // Now we can change user password
         $showForgottenPage = false;
         $user['id'] = $_SESSION['userId'];  // Sets user id in session variable
-        
 
+        $sql = "UPDATE users SET = password = :password
+                WHERE id = :userid";
+        $statement = $db->prepare($sql);
 
+        $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password
+
+        $result = $statement->execute(array(
+            'password' => $hash, 'userid' => $userid
+        ));
 
         sleep(0.5);                    // waits 0,5 seconds
         header("Location: index.php"); // Got to home
