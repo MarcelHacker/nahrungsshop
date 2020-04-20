@@ -1,20 +1,18 @@
 <?php
 session_start();
-include_once("template/header.php");
-$userId = $_SESSION['userId'];
-$showCheckout = true;
+include_once("./template/header.php");
+$userId = $_SESSION['userId'];      // Get user id
 
-if (!isLoggedIn()) {
-    header("Location: login.php");
-    exit;
+if (!isLoggedIn()) {    // Is the user logged in?
+    header("Location: login.php");  // Got to login
+    exit;               // Prevents load this page
 } else {
     $user = getCurrentUser($userId);
-    if (!$user) {
+    if (!$user) {   // Check if user with this id exists
         echo "Error user Id <br>";
         die();
-        exit;
     } else {
-        $countCartItems = countProductsInCart($userId);
+        $countCartItems = countProductsInCart($userId); // Count cart items from user
 ?>
 
         <body>
@@ -39,7 +37,7 @@ if (!isLoggedIn()) {
                 </form>
                 </div>
             </nav>
-            <?php
+            <?php   // Check cart from user
             $found = getCartItemsForUserId($user['id']); // Get all items in cart
             if (!$found) {              // No items found?
             ?>
@@ -52,14 +50,15 @@ if (!isLoggedIn()) {
             }
         }
     }
-    $db = getDB();
+    $db = getDB();  // database connection
     if (!$db) {
         echo "Error database connection<br>";
         die();
     }
-    $user = getCurrentUser($userId);
+    $user = getCurrentUser($userId);    // Gets user data
+    $showCheckout = true;
 
-    if (isset($_POST["order"])) {
+    if (isset($_POST["order"])) {   // Make a product order
         $error = false;
         $firstname = $_POST["firstname"];
         $lastname = $_POST["lastname"];
@@ -71,17 +70,17 @@ if (!isLoggedIn()) {
         $postcode = $_POST["postcode"];
 
         // Validate Data
-        if ($email != $user['email']) {     // Need to update email?
+        if ($email != $user['email']) {      // Need to update email?
             $existingUser = getUserWithEmail($email);
-            if ($existingUser) {    // An other user allready has the same email
+            if ($existingUser) {             // An other user allready has the same email
                 echo 'Email address allready used<br>';
-            } else {                // Email update possible
+            } else {                        // Email update possible
                 $sql = "UPDATE users SET email = :email
             WHERE id = :userid";
                 $statement = $db->prepare($sql);
 
                 $result = $statement->execute(array('email' => $email, 'userid' => $existingUser['id']));
-                if (!$result) {
+                if (!$result) { // Error?
                     echo "Error update Email address<br>";
                     $error = true;
                 }
@@ -93,7 +92,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('firstname' => $firstname, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update firstname<br>";
                 $error = true;
             } else {
@@ -106,7 +105,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('lastname' => $lastname, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update lastname<br>";
                 $error = true;
             } else {
@@ -119,7 +118,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('address' => $address, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update address<br>";
                 $error = true;
             } else {
@@ -132,7 +131,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('housenumber' => $housenumber, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update housenumber<br>";
                 $error = true;
             } else {
@@ -145,7 +144,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('country' => $country, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update country<br>";
                 $error = true;
             } else {
@@ -158,7 +157,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('city' => $city, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update city<br>";
                 $error = true;
             } else {
@@ -171,7 +170,7 @@ if (!isLoggedIn()) {
             $statement = $db->prepare($sql);
 
             $result = $statement->execute(array('postcode' => $postcode, 'userid' => $user['id']));
-            if (!$result) {
+            if (!$result) { // Error?
                 echo "Error update postcode<br>";
                 $error = true;
             } else {
@@ -182,9 +181,8 @@ if (!isLoggedIn()) {
         //No error, we can set an order
         if (!$error) {
 
-            // Items in cart
             $orderNumber = rand(1, 999999999);  // rand() get random integer between min and max
-
+            // Items in cart
             $sameOrders = "SELECT * orders      
                         WHERE order_no = :ord_no";  // Check for same order numbers
             $stmt = $db->prepare($sameOrders);
@@ -193,7 +191,7 @@ if (!isLoggedIn()) {
             if ($orderWithSameNumber) {     // Are there same order numbers?
                 while ($orderWithSameNumber['order_no'] == $orderNumber) {
                     $orderNumber = $orderNumber + 1;    // Increment for another number
-                } // Now we have a unused ordernumber
+                }                           // Now we have a unused ordernumber
             }
             // Get items from cart in order
             $sql = "INSERT INTO orders (order_no,user_id,product_id,quantity) 
@@ -205,7 +203,7 @@ if (!isLoggedIn()) {
                     'order_no' => $orderNumber, 'user_id' => $orders['user_id'],
                     'product_id' => $orders['product_id'], 'quantity' => $orders['quantity']
                 ));
-                if ($result) {          // Check for errors and get order number
+                if ($result) {              // Check for errors and get order number
                     echo "Product: " . $orders["product_id"] . " ordered<br>";
                 } else {
                     echo "Error product Id: " . $orders["product_id"] . "from user Id: " . $orders["user_id"] . "<br>";
@@ -233,7 +231,7 @@ if (!isLoggedIn()) {
                 if (!$clearCart) {  // Error cart clearing?
                     echo "Error cart clearing<br>";
                 }
-                $showCheckout = false;
+                $showCheckout = false;  // Hide Checkout formular
             } else {
                 ?>
                 <div class="alert alert-danger" role="alert">
@@ -244,12 +242,10 @@ if (!isLoggedIn()) {
             }
         }
     }
-
-    if ($showCheckout == true) {
-        include_once("template/checkoutPage.php");
+    if ($showCheckout == true) {    // Hide Formular?
+        include_once("./template/checkoutPage.php");
     }
     ?>
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

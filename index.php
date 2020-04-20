@@ -1,9 +1,9 @@
 <?php
-session_start();
-error_reporting(-1);
+session_start();      // For session variable
+error_reporting(-1);  // Error messages
 ini_set('display_errors', 'On');
 
-include_once("./template/header.php");
+include_once("./template/header.php");  // Include header
 
 if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 {
@@ -31,9 +31,9 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   </nav>
   <?php
 } else {
-  $userId = $_SESSION['userId'];
+  $userId = $_SESSION['userId'];  // Gets user id from session variable
   $user = getCurrentUser($userId);
-  if (!$user) {                   // Falsche User Id ?
+  if (!$user) {                   // Wrong User Id ?
     echo "Error User id <br>";
     die();
   } else {

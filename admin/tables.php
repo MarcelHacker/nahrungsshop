@@ -4,6 +4,7 @@ include_once("../function/database.php");
 include_once("../function/product.php");
 include_once("../function/user.php");
 include_once("../function/cart.php");
+
 if (isloggedin() == 0) {
     header("Location: ../admin.php");
     exit;
