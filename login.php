@@ -95,9 +95,9 @@ if (isset($_POST['login'])) {   // User loging in?
     if (!$error) { // Now we can log in user
         $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
         $showFormular = false;
-        sleep(0.5);   // waits 0,5 seconds
+        sleep(0.5);                    // waits 0,5 seconds
         header("Location: index.php"); // Got to home
-        exit;   // Prevents loading page
+        exit;                          // Prevents loading page
     } else {
         echo "Email or password is wrong<br>";
     }
