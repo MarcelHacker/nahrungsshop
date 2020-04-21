@@ -210,9 +210,7 @@ if (!isLoggedIn()) {    // Is the user logged in?
                     'order_no' => $orderNumber, 'user_id' => $orders['user_id'],
                     'product_id' => $orders['product_id'], 'quantity' => $orders['quantity']
                 ));
-                if ($result) {              // Check for errors and get order number
-                    echo "Product: " . $orders["product_id"] . " ordered<br>";
-                } else {
+                if (!$result) {              // Check for errors and get order number
                     echo "Error product Id: " . $orders["product_id"] . "from user Id: " . $orders["user_id"] . "<br>";
                 }
             }
