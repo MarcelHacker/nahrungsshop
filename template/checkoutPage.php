@@ -16,6 +16,7 @@
                         <div>
                             <h6 class="my-0"><?= $cartItem["title"] ?></h6>
                             <small class="text-muted"><?= $cartItem["description"] ?></small>
+                            <small class="text-muted"> x <?= $cartItem["quantity"] ?></small>
                         </div>
                         <span class="text-muted"><?= $cartItem["price"] ?> €</span>
                     </li>

@@ -25,7 +25,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" href="index.php">Home</a>
+                    <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="products.php">Products</a>
@@ -66,7 +66,6 @@ if (isset($_GET["plus"])) {     // Insrease quanity of a product in cart
         if (!$result) {
             echo "Error add product<br>";
         }
-        header("Location: cart.php");   // Relaods the cart
     } else {
         echo "No product selected<br>";
     }
@@ -79,7 +78,6 @@ if (isset($_GET["del"])) {      // Completely deletes a product from cart
         if (!$result) {
             echo "Error delete product<br>";
         }
-        header("Location: cart.php");  // Reloads the cart
     } else {
         echo "No product selected<br>";
     }
