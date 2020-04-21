@@ -8,6 +8,7 @@
  */
 session_start();        // For session variable
 include_once("../../function/database.php");    // For functions
+include_once("../../function/user.php");
 
 if (!isloggedin()) {                    //User not logged in?
     header("Location: ../../admin.php");    // Go to admin login
