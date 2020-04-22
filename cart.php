@@ -14,7 +14,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     header("Location: login.php");
     exit;
 } else {
-    $userId = $_SESSION['userId'];
+    $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
     $user = getCurrentUser($userId);    // User vorhanden?
     if (!$user) {                     // Falsche User Id ?
         echo "Error User Id <br>";
