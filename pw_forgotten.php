@@ -77,7 +77,7 @@ if (isset($_POST['forgotten'])) {   // User loging in?
         if (!$db) {
             echo "Error database connection<br>";
             die();
-        } else {   // generate database entry
+        } else {        // generate database entry
             $sql = "UPDATE users SET password = :password
                 WHERE id = :userid";
             $statement = $db->prepare($sql);
@@ -105,7 +105,7 @@ if ($showForgottenPage == true) {   // Hides formular
 }
 ?>
 <div class="fixed-bottom">
-    <?= include_once("template/footer.php"); ?>
+    <?= include_once("./template/footer.php"); ?>
 </div>
 <script src="assets/js/bootstrap.min.js"></script>
 </body>

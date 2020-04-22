@@ -108,7 +108,7 @@ if (!isloggedin()) {                    //User not logged in?
 
             //Check if product title is already used
             if (!$error) {
-                $product = getProductWithTitle($title);
+                $product = getProductWithTitle($title);  // Gives back product array
                 if ($product) { // Product with same title?
                     echo 'Product already exists<br>';
                     $error = true;

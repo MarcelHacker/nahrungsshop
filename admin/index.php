@@ -83,7 +83,7 @@ if (!isloggedin()) {                    //User not logged in?
         </thead>
         <tbody>
             <?php
-            $db = getDB();
+            $db = getDB();  // databse connection
             if (!$db) {
                 die();
             } else {
@@ -91,7 +91,7 @@ if (!isloggedin()) {                    //User not logged in?
                 $stmt = $db->prepare($sql);
                 $result = $stmt->execute();
 
-                while ($row = $stmt->fetch()) {
+                while ($row = $stmt->fetch()) {     // Loop for all users
             ?>
                     <tr>
                         <th scope="row"><?php echo $row["id"] ?></th>

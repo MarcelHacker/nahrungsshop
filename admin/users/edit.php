@@ -55,11 +55,11 @@ if (!isloggedin()) {                    //User not logged in?
 
     <body>
         <?php
-        if (isset($_GET["del"])) {
+        if (isset($_GET["del"])) {  // delete a user
             if (!empty($_GET["del"])) {
                 $userId = $_GET["del"];
 
-                $db = getDB();
+                $db = getDB();  // database connection
                 if (!$db) {
                     echo "Error database connection<br>";
                     die();
@@ -76,7 +76,7 @@ if (!isloggedin()) {                    //User not logged in?
             }
         }
 
-        if (isset($_GET["add"])) {
+        if (isset($_GET["add"])) {  // create new user
             $showFormular = true;
             if (isset($_POST['add'])) {
                 $error = false;
@@ -135,9 +135,9 @@ if (!isloggedin()) {                    //User not logged in?
 
                 //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
                 if (!$error) {
-                    $user = getUserWithEmail($email);
+                    $user = getUserWithEmail($email); // returns user array
 
-                    if ($user) {
+                    if ($user) {    // user with same email?
                         echo 'Email address already used<br>';
                         $error = true;
                     }
@@ -145,7 +145,7 @@ if (!isloggedin()) {                    //User not logged in?
 
                 //Keine Fehler, wir können den Nutzer registrieren
                 if (!$error) {
-                    $db = getDB();
+                    $db = getDB();  // database connection
                     if (!$db) {
                         echo "Error database connection<br>";
                         die();
@@ -154,7 +154,7 @@ if (!isloggedin()) {                    //User not logged in?
                         $statement = $db->prepare("INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
             birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)");
 
-                        $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
+                        $hash = password_hash($password, PASSWORD_BCRYPT);  // encrypt password 
 
                         $result = $statement->execute(array(
                             'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
@@ -165,7 +165,7 @@ if (!isloggedin()) {                    //User not logged in?
                         $statement = $db->prepare("SELECT id FROM users WHERE email = :email");
                         $result = $statement->execute(array('email' => $email));
                         $userId = $statement->fetch();
-                        if ($userId) {
+                        if ($userId) {  // User created?
                             echo "User created sucessfully!<br>";
                             $showFormular = false;
                         }
@@ -231,16 +231,16 @@ if (!isloggedin()) {                    //User not logged in?
                 <?php
             }
         }
-        if (isset($_GET["id"])) {
+        if (isset($_GET["id"])) {   // edit user with user id
             $showUserForm = true;
             if (!empty($_GET["id"])) {
                 $userid = $_GET['id'];
-                $db = getDB();
+                $db = getDB();      // database connection
                 if (!$db) {
                     echo "Error database connection<br>";
                     die();
                 } else {
-                    if (isset($_POST["edit"])) {
+                    if (isset($_POST["edit"])) {    // edit formular submit
                         $firstname = $_POST["firstname"];
                         $lastname = $_POST["lastname"];
                         $email = $_POST["email"];
@@ -266,7 +266,7 @@ if (!isloggedin()) {                    //User not logged in?
 
                         if ($result) {
                             echo "<p>User successfully updated</p>";
-                            $showUserForm = false;
+                            $showUserForm = false;  // Hides user formular
                         } else {
                             echo "<p>User edit error</p>";
                         }
@@ -335,7 +335,7 @@ if (!isloggedin()) {                    //User not logged in?
             } else {
                 //edit.php?id
                 ?>
-                <p>Kein Benutzer wurde angefragt</p>
+                <p>No user asked</p>
         <?php
             }
         }

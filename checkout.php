@@ -61,7 +61,7 @@ if (!isLoggedIn()) {    // Is the user logged in?
     if (!$db) {
         echo "Error database connection<br>";
         die();
-    }
+    }   // int userId because function expects
     $user = getCurrentUser($userId);    // Gets user data
     $showCheckout = true;
 

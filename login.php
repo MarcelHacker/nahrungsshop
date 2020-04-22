@@ -36,7 +36,7 @@ if (!isLoggedIn()) // User not logged in?
 <?php
 } else {
     $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
-    $user = getCurrentUser($userId);
+    $user = getCurrentUser($userId);      // int because function expects
     if (!$user) {
         echo "Error User Id<br>";   // No user with this id registered
         die();
@@ -108,7 +108,7 @@ if (isset($_POST['login'])) {   // User loging in?
     }
 }
 if ($showFormular == true) {
-    include_once("template/loginForm.php");
+    include_once("./template/loginForm.php");
 }
 ?>
 <div class="fixed-bottom">

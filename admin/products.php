@@ -88,7 +88,7 @@ if (!isloggedin()) {                    //User not logged in?
                 $stmt = $db->prepare($sql);
                 $result = $stmt->execute();
 
-                while ($row = $stmt->fetch()) {
+                while ($row = $stmt->fetch()) {     // Loop for all products
             ?>
                     <tr>
                         <th scope="row"><?php echo $row["id"] ?></th>

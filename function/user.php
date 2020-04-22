@@ -3,7 +3,7 @@
 /**
  * Php file for all functions for users
  * 
- * Used for the website
+ * Used for the website and adminconfig
  * 
  */
 

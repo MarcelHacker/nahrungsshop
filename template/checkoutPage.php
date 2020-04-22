@@ -8,8 +8,8 @@
             <ul class="list-group mb-3">
 
                 <?php
-                $cartSum = getCartSumForUserId($userId);
-                $cartItems = getCartItemsForUserId($userId);
+                $cartSum = getCartSumForUserId($userId);        // total price of the cart items
+                $cartItems = getCartItemsForUserId($userId);    // Get all items in cart from user
                 foreach ($cartItems as $cartItem) :
                 ?>
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -23,7 +23,7 @@
                 <?php endforeach; ?>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (EURO)</span>
-                    <strong><?= number_format($cartSum, 2, ",", " ") ?> €</strong>
+                    <strong><?= number_format($cartSum, 2, ",", " ") ?> €</strong><!-- Formats total price-->
                 </li>
             </ul>
         </div>

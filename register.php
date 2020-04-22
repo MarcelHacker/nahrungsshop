@@ -36,7 +36,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     <?php
 } else {
     $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
-    $user = getCurrentUser($userId);
+    $user = getCurrentUser($userId);    // int because function expects
     if (!$user) {                   // No user with this id?
         echo "Error User id <br>";
         die();
@@ -172,6 +172,7 @@ if (isset($_POST['register'])) {    // Registration for a new user
                 $userId = $statement->fetch();
                 $_SESSION['userId'] = $userId;   // Sets User Id
                 $showFormular = false;
+                sleep(0.5);                    // waits 0,5 seconds 
                 header("Location: index.php");  // Go to index
                 exit;                           // Prevents loading old page
             } else {    // No success
