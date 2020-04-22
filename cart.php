@@ -60,8 +60,8 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 
 if (isset($_GET["plus"])) {     // Insrease quanity of a product in cart
     if (!empty($_GET["plus"])) {
-        $userId = $_SESSION["userId"];  // Gets user id
-        $productId = $_GET["plus"];     // Gets product id
+        $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
+        $productId = (int) $_GET["plus"];     // Gets product id
         $result = addProductToCart($userId, $productId);
         if (!$result) {
             echo "Error add product<br>";

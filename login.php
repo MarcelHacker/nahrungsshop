@@ -35,7 +35,7 @@ if (!isLoggedIn()) // User not logged in?
     </nav>
 <?php
 } else {
-    $userId = $_SESSION['userId'];  // Check is user id is registered
+    $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
     $user = getCurrentUser($userId);
     if (!$user) {
         echo "Error User Id<br>";   // No user with this id registered

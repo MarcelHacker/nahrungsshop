@@ -35,10 +35,10 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
     </nav>
     <?php
 } else {
-    $userId = $_SESSION['userId'];
+    $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
     $user = getCurrentUser($userId);
-    if (!$user) {
-        echo "Error User Id<br>";
+    if (!$user) {                   // No user with this id?
+        echo "Error User id <br>";
         die();
     } else {
         $countCartItems = countProductsInCart($userId);
@@ -75,6 +75,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 <?php
     }
 }
+
 $showFormular = true;
 
 if (isset($_POST['register'])) {    // Registration for a new user

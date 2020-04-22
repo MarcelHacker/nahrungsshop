@@ -8,7 +8,7 @@
  */
 session_start();        // For session variable  
 include_once("./template/header.php");      // For functions
-$userId = $_SESSION['userId'];          // Get user id
+$userId = (int) $_SESSION['userId'];  // Gets user id from session variable
 
 if (!isLoggedIn()) {    // Is the user logged in?
     header("Location: login.php");  // Got to login

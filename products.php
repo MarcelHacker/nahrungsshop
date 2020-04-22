@@ -35,7 +35,7 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
   </nav>
   <?php
 } else {
-  $userId = $_SESSION['userId'];
+  $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
   $user = getCurrentUser($userId);
   if (!$user) {
     echo "Error user Id <br>";
