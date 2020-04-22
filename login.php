@@ -80,9 +80,9 @@ if (isset($_POST['login'])) {   // User loging in?
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user = getUserWithEmail($email);   // Check if Email already registered
+    $userWithEmail = getUserWithEmail($email);   // Check if Email already registered
 
-    if (!$user) {           // No user with this email?
+    if (!$userWithEmail) {           // No user with this email?
         echo "<label>No user with this email registered </label><br>";
         $error = true;
     }
@@ -92,17 +92,17 @@ if (isset($_POST['login'])) {   // User loging in?
         $error = true;
     }
 
-    if (!password_verify($password, $user['password'])) { // Check is password matches
+    if (!password_verify($password, $userWithEmail['password'])) { // Check is password matches
         echo "<label>Password do not match</label><br>";
         $error = true;
     }
 
     if (!$error) { // Now we can log in user
         $showFormular = false;
-        $_SESSION['userId'] = $user['id'];  // Sets user id in session variable
+        $_SESSION['userId'] = $userWithEmail['id'];  // Sets user id in session variable
         sleep(0.5);                    // waits 0,5 seconds
         header("Location: index.php");    // Got to home
-        exit;           // Prevents loading page
+        exit;                   // Prevents loading page
     } else {
         echo "Email or password is wrong<br>";
     }
