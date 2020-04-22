@@ -162,7 +162,7 @@ if (isset($_POST['register'])) {    // Registration for a new user
 
             $result = $statement->execute(array(
                 'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
-                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate, 'created' => date()
+                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate, 'created' => getdate()
             ));
 
 
