@@ -54,14 +54,14 @@ if (!isLoggedIn()) //wenn nicht eingeloggt User.php nicht anzeigen
 <?php
         $cartItems = getCartItemsForUserId($userId); // All items in cart
         $cartSum = getCartSumForUserId($userId);     // Total price
-        include_once("template/cartPage.php");       // Cenerates cart page
+        include_once("./template/cartPage.php");       // Cenerates cart page
     }
 }
 
 if (isset($_GET["plus"])) {     // Insrease quanity of a product in cart
     if (!empty($_GET["plus"])) {
-        $userId = (int) $_SESSION['userId'];  // Gets user id from session variable
-        $productId = (int) $_GET["plus"];     // Gets product id
+        $userId = $_SESSION['userId'];  // Gets user id from session variable
+        $productId = $_GET["plus"];     // Gets product id
         $result = addProductToCart($userId, $productId);
         if (!$result) {
             echo "Error add product<br>";

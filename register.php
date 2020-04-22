@@ -155,14 +155,14 @@ if (isset($_POST['register'])) {    // Registration for a new user
             die();
         } else {
             $sql = "INSERT INTO users (firstname,lastname,email,address,housenumber,city,country,password,postcode,
-            birthdate) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate)";
+            birthdate, created) VALUES (:firstname,:lastname,:email,:address,:housenumber,:city,:country,:password,:postcode,:birthdate, :created)";
             $statement = $db->prepare($sql);
 
             $hash = password_hash($password, PASSWORD_BCRYPT);  // Verschlüsselt das Password
 
             $result = $statement->execute(array(
                 'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'address' => $address,
-                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate
+                'housenumber' => $housenumber, 'city' => $city, 'country' => $country, 'password' => $hash, 'postcode' => $postcode, 'birthdate' => $birthdate, 'created' => date()
             ));
 
 
